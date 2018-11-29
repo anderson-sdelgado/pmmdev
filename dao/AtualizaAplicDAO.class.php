@@ -69,6 +69,7 @@ class AtualizaAplicDAO extends Conn {
 
             $select = " SELECT "
                     . " VERSAO_NOVA"
+                    . " , VERSAO_ATUAL"
                     . " FROM "
                     . " PMM_ATUALIZACAO "
                     . " WHERE "
@@ -81,52 +82,69 @@ class AtualizaAplicDAO extends Conn {
 
             foreach ($result as $item) {
                 $vn = $item['VERSAO_NOVA'];
+                $vab = $item['VERSAO_ATUAL'];
             }
 
-            if ($va != $vn) {
-                $retorno = 'S';
+            if ($va != $vab) {
+
+                $sql = "UPDATE PMM_ATUALIZACAO "
+                        . " SET "
+                        . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                        . " , VERSAO_NOVA = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                        . " , DTHR_ULT_ATUAL = SYSDATE "
+                        . " WHERE "
+                        . " EQUIP_ID = " . $equip;
+
+                $this->Create = $this->Conn->prepare($sql);
+                $this->Create->execute();
+                
             } else {
 
-                $select = " SELECT "
-                        . " PA.VERSAO_ATUAL"
-                        . ", CASE "
-                        . " WHEN NVL(ACM.EQUIP_NRO, 0) = 0 "
-                        . " THEN 0 "
-                        . " ELSE 1 "
-                        . " END AS VERIF_CHECKLIST "
-                        . " FROM "
-                        . " PMM_ATUALIZACAO PA "
-                        . " , (SELECT EQUIP_NRO FROM ATUALIZA_CHECKLIST_MOBILE WHERE DT_MOBILE IS NULL) ACM "
-                        . " WHERE "
-                        . " PA.EQUIP_ID = " . $equip
-                        . " AND " 
-                        . " PA.EQUIP_ID = ACM.EQUIP_NRO(+) ";
-
-                $this->Read = $this->Conn->prepare($select);
-                $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                $this->Read->execute();
-                $result = $this->Read->fetchAll();
-
-                $vab = '';
-                foreach ($result as $item) {
-                    $vab = $item['VERSAO_ATUAL'];
-                    $vcl = $item['VERIF_CHECKLIST'];
-                }
-
-                if (strcmp($va, $vab) <> 0) {
-
-                    $sql = "UPDATE PMM_ATUALIZACAO "
-                            . " SET "
-                            . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
-                            . " , DTHR_ULT_ATUAL = SYSDATE "
-                            . " WHERE "
-                            . " EQUIP_ID = " . $equip;
-
-                    $this->Create = $this->Conn->prepare($sql);
-                    $this->Create->execute();
+                if ($va != $vn) {
+                    $retorno = 'S';
                 } else {
-                    if($vcl == 1){
-                        $retorno = 'N_AC';
+
+                    $select = " SELECT "
+                            . " PA.VERSAO_ATUAL"
+                            . ", CASE "
+                            . " WHEN NVL(ACM.EQUIP_NRO, 0) = 0 "
+                            . " THEN 0 "
+                            . " ELSE 1 "
+                            . " END AS VERIF_CHECKLIST "
+                            . " FROM "
+                            . " PMM_ATUALIZACAO PA "
+                            . " , (SELECT EQUIP_NRO FROM ATUALIZA_CHECKLIST_MOBILE WHERE DT_MOBILE IS NULL) ACM "
+                            . " WHERE "
+                            . " PA.EQUIP_ID = " . $equip
+                            . " AND "
+                            . " PA.EQUIP_ID = ACM.EQUIP_NRO(+) ";
+
+                    $this->Read = $this->Conn->prepare($select);
+                    $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+                    $this->Read->execute();
+                    $result = $this->Read->fetchAll();
+
+                    $vab = '';
+                    foreach ($result as $item) {
+                        $vab = $item['VERSAO_ATUAL'];
+                        $vcl = $item['VERIF_CHECKLIST'];
+                    }
+
+                    if (strcmp($va, $vab) <> 0) {
+
+                        $sql = "UPDATE PMM_ATUALIZACAO "
+                                . " SET "
+                                . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                                . " , DTHR_ULT_ATUAL = SYSDATE "
+                                . " WHERE "
+                                . " EQUIP_ID = " . $equip;
+
+                        $this->Create = $this->Conn->prepare($sql);
+                        $this->Create->execute();
+                    } else {
+                        if ($vcl == 1) {
+                            $retorno = 'N_AC';
+                        }
                     }
                 }
             }
