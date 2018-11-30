@@ -101,7 +101,9 @@ class AtualizaAplicDAO extends Conn {
             } else {
 
                 if ($va != $vn) {
+                    
                     $retorno = 'S';
+                    
                 } else {
 
                     $select = " SELECT "
@@ -125,6 +127,7 @@ class AtualizaAplicDAO extends Conn {
                     $result = $this->Read->fetchAll();
 
                     $vab = '';
+                    
                     foreach ($result as $item) {
                         $vab = $item['VERSAO_ATUAL'];
                         $vcl = $item['VERIF_CHECKLIST'];
@@ -142,9 +145,13 @@ class AtualizaAplicDAO extends Conn {
                         $this->Create = $this->Conn->prepare($sql);
                         $this->Create->execute();
                     } else {
+                        
                         if ($vcl == 1) {
+                            
                             $retorno = 'N_AC';
+                            
                         }
+                        
                     }
                 }
             }

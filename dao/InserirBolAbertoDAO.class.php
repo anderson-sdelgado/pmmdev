@@ -141,7 +141,7 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , " . $apont->osAponta
                                     . " , " . $apont->atividadeAponta
                                     . " , " . $apont->paradaAponta
-                                    . " , (TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI') " . $cdt . " )"
+                                    . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
                                     . " , " . $apont->transbordoAponta
                                     . " )";
