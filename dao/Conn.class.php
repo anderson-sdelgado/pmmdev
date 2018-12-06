@@ -21,7 +21,7 @@ class Conn {
 
             $BD = 3;
 
-            if (self::$Connect == null):
+            if (self::$Connect == null) {
                 if ($BD == 1) {
                     $tns = "  (DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
@@ -67,8 +67,7 @@ class Conn {
                 }
 
                 self::$Connect = new PDO("oci:dbname=" . $tns . ';charset=utf8', 'INTERFACE', 'FGBNY946');
-
-            endif;
+            }
         } catch (PDOException $e) {
             PHPErro($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
             die;
