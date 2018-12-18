@@ -1,8 +1,10 @@
 <?php
 
 require('./dao/InserirBolFechadoDAO.class.php');
+require('./dao/InserirDadosDAO.class.php');
 
 $inserirBolFechadoDAO = new InserirBolFechadoDAO();
+$inserirDadosDAO = new InserirDadosDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
@@ -10,6 +12,7 @@ if (isset($info)):
     //$dados = '{"boletim":[{"ativPrincBoletim":270,"codEquipBoletim":370,"codMotoBoletim":11,"codTurnoBoletim":3,"dataHoraBoletim":"23/08/2017 14:56","hodometroFinalBoletim":3.0,"hodometroInicialBoletim":7.0,"idBoletim":1,"idExtBoletim":33,"implemento1Boletim":2,"implemento2Boletim":0,"implemento3Boletim":0,"osBoletim":98282,"rendimentoBoletim":0.0,"statusBoletim":1,"transbordoBoletim":0}]}_{"item":[]}|{"rendimento":[{"idBolRend":1,"idExtBolRend":33,"idRend":1,"nroOSRend":98282,"valorRend":1.0}]}';
     
     $dados = $info['dado'];
+    $inserirDadosDAO->salvarDados($dados, "inserirbolfechadodt");
     $pos1 = strpos($dados, "_") + 1;
     $pos2 = strpos($dados, "|") + 1;
     $pos3 = strpos($dados, "#") + 1;

@@ -7,7 +7,9 @@ $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $retorno = $verEquipDAO->dados($info['dado']);
+    
+    $retorno = $verifEquipDAO->dados($info['dado']);
+    //$retorno = $info['dado'];
 
 endif;
 

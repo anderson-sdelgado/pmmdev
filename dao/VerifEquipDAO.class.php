@@ -22,6 +22,8 @@ class VerifEquipDAO extends Conn {
 
     public function dados($valor) {
 
+        $this->Conn = parent::getConn();
+        
         $select = " SELECT "
                 . " E.EQUIP_ID AS \"idEquip\" "
                 . " , E.NRO_EQUIP AS \"codEquip\" "
@@ -43,8 +45,7 @@ class VerifEquipDAO extends Conn {
                 . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
                 . " AND E.EQUIP_ID = R.EQUIP_ID(+) "
                 . " AND E.EQUIP_ID = PBH.EQUIP_ID(+) ";
-                    
-        $this->Conn = parent::getConn();
+        
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -52,6 +53,7 @@ class VerifEquipDAO extends Conn {
 
         $dados = array("dados"=>$r1);
         $res1 = json_encode($dados);
+        
         
         $select = " SELECT "
                     . " ROWNUM AS \"idEquipAtiv\" "
@@ -71,8 +73,6 @@ class VerifEquipDAO extends Conn {
                 . " AA.DESAT = 0 "
                 . " ORDER BY ROWNUM ASC "
                 ;
-        
-        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -101,7 +101,6 @@ class VerifEquipDAO extends Conn {
                     . " AND " 
                     . " AA.DESAT = 0 ";
         
-        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
