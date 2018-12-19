@@ -137,7 +137,7 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , NRO_EQUIP_TRANSB "
                                     . " ) "
                                     . " VALUES ("
-                                    . " " . $apont->idExtBolAponta
+                                    . " " . $idBol
                                     . " , " . $apont->osAponta
                                     . " , " . $apont->atividadeAponta
                                     . " , " . $apont->paradaAponta

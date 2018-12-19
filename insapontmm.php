@@ -1,14 +1,17 @@
 <?php
 
 require('./dao/InsApontMMDAO.class.php');
+require('./dao/InserirDadosDAO.class.php');
 
 $insApontMMDAO = new InsApontMMDAO();
+$inserirDadosDAO = new InserirDadosDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 $retorno = '';
 
 if (isset($info)):
 
     $dados = $info['dado'];
+    $inserirDadosDAO->salvarDados($dados, "insapontmm");
     $pos1 = strpos($dados, "|") + 1;
     $pos2 = strpos($dados, "?") + 1;
     $amm = substr($dados, 0, ($pos1 - 1));
