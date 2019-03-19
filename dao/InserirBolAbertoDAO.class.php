@@ -226,10 +226,15 @@ class InserirBolAbertoDAO extends Conn {
                             $this->Read->execute();
                             $res5 = $this->Read->fetchAll();
 
+                            $idApont = 1;
                             foreach ($res5 as $item5) {
                                 $idApont = $item5['ID'];
                             }
 
+                            if($idApont == 1){
+                                $idApont = $apont->idExtBolAponta;
+                            }
+                            
                             foreach ($dadosImplemento as $imp) {
 
                                 if ($apont->idAponta == $imp->idApontImplemento) {
@@ -557,7 +562,7 @@ class InserirBolAbertoDAO extends Conn {
                             foreach ($res12 as $item12) {
                                 $idApont = $item12['ID'];
                             }
-
+                            
                             foreach ($dadosImplemento as $imp) {
 
                                 if ($apont->idAponta == $imp->idApontImplemento) {

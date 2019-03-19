@@ -26,18 +26,18 @@ class InserirDadosDAO extends Conn {
                 . " DTHR "
                 . " , APLICATIVO "
                 . " , PAGINA "
-                . " , DTHR_TRANS "
                 . " , DADOS "
                 . " ) "
                 . " VALUES ("
                 . " SYSDATE "
                 . " , 'PMM' "
-                . " , '" . $pagina . "'"
-                . " , SYSDATE "
-                . " , '" . $dados . "'"
+                . " , ?"
+                . " , ?"
                 . " )";
 
         $this->Create = $this->Conn->prepare($sql);
+        $this->Create->bindParam(1, $pagina, PDO::PARAM_STR, 30);
+        $this->Create->bindParam(2, $dados, PDO::PARAM_STR, 32000);
         $this->Create->execute();
     }
 

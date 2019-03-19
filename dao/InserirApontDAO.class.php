@@ -179,7 +179,7 @@ class InserirApontDAO extends Conn {
                                     . " AND "
                                     . " POS_EQUIP = " . $imp->posImplemento
                                     . " AND "
-                                    . " DTHR_CEL = TO_DATE('" . $imp->dthrAponta . "','DD/MM/YYYY HH24:MI') "
+                                    . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
                                     ;
 
                             $this->Read = $this->Conn->prepare($select);
