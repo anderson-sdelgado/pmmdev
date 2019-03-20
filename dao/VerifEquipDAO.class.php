@@ -70,7 +70,7 @@ class VerifEquipDAO extends Conn {
                 . " AND "
                 . " VA.ATIVAGR_CD = AA.ATIVAGR_CD "
                 . " AND "
-                . " AA.DESAT = 0 "
+                . " AA.DESAT = 0 " 
                 . " ORDER BY ROWNUM ASC "
                 ;
         $this->Read = $this->Conn->prepare($select);

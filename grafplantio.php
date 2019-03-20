@@ -4,8 +4,6 @@ require('./dao/GrafPlantioDAO.class.php');
 
 $grafPlantioDAO = new GrafPlantioDAO();
 
-$dados = array("dados"=>$grafPlantioDAO->dados());
+$retorno = $grafPlantioDAO->dados();
 
-$json_str = json_encode($dados);
-
-echo $json_str;
+echo $retorno;
