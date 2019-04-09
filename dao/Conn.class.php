@@ -19,7 +19,7 @@ class Conn {
     private static function Conectar() {
         try {
 
-            $BD = 1;
+            $BD = 3;
 
             if (self::$Connect == null) {
                 if ($BD == 1) {

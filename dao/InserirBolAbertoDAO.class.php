@@ -61,6 +61,7 @@ class InserirBolAbertoDAO extends Conn {
                         . " , DTHR_INICIAL_CEL "
                         . " , DTHR_TRANS_INICIAL "
                         . " , STATUS "
+                        . " , STATUS_CONEXAO "
                         . " ) "
                         . " VALUES ("
                         . " " . $bol->codMotoBoletim
@@ -72,6 +73,7 @@ class InserirBolAbertoDAO extends Conn {
                         . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                         . " , SYSDATE "
                         . " , 1 "
+                        . " , " . $bol->statusConBoletim
                         . " )";
 
                 $this->Create = $this->Conn->prepare($sql);
@@ -135,6 +137,9 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
                                     . " , NRO_EQUIP_TRANSB "
+                                    . " , LATITUDE "
+                                    . " , LONGITUDE "
+                                    . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBol
@@ -144,6 +149,9 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
                                     . " , " . $apont->transbordoAponta
+                                    . " , " . $apont->latitudeAponta
+                                    . " , " . $apont->longitudeAponta
+                                    . " , " . $apont->statusConAponta
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
@@ -231,10 +239,10 @@ class InserirBolAbertoDAO extends Conn {
                                 $idApont = $item5['ID'];
                             }
 
-                            if($idApont == 1){
+                            if ($idApont == 1) {
                                 $idApont = $apont->idExtBolAponta;
                             }
-                            
+
                             foreach ($dadosImplemento as $imp) {
 
                                 if ($apont->idAponta == $imp->idApontImplemento) {
@@ -468,6 +476,9 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
                                     . " , NRO_EQUIP_TRANSB "
+                                    . " , LATITUDE "
+                                    . " , LONGITUDE "
+                                    . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBol
@@ -477,6 +488,9 @@ class InserirBolAbertoDAO extends Conn {
                                     . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
                                     . " , " . $apont->transbordoAponta
+                                    . " , " . $apont->latitudeAponta
+                                    . " , " . $apont->longitudeAponta
+                                    . " , " . $apont->statusConAponta
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
@@ -562,7 +576,7 @@ class InserirBolAbertoDAO extends Conn {
                             foreach ($res12 as $item12) {
                                 $idApont = $item12['ID'];
                             }
-                            
+
                             foreach ($dadosImplemento as $imp) {
 
                                 if ($apont->idAponta == $imp->idApontImplemento) {

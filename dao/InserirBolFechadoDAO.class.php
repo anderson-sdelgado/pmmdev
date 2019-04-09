@@ -68,6 +68,7 @@ class InserirBolFechadoDAO extends Conn {
                         . " , DTHR_FINAL_CEL "
                         . " , DTHR_TRANS_FINAL "
                         . " , STATUS "
+                        . " , STATUS_CONEXAO "
                         . " ) "
                         . " VALUES ("
                         . " " . $bol->codMotoBoletim
@@ -82,6 +83,7 @@ class InserirBolFechadoDAO extends Conn {
                         . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                         . " , SYSDATE "
                         . " , 2 "
+                        . " , " . $bol->statusConBoletim
                         . " )";
 
                 $this->Create = $this->Conn->prepare($sql);
@@ -145,6 +147,9 @@ class InserirBolFechadoDAO extends Conn {
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
                                     . " , NRO_EQUIP_TRANSB "
+                                    . " , LATITUDE "
+                                    . " , LONGITUDE "
+                                    . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBoletim
@@ -154,6 +159,9 @@ class InserirBolFechadoDAO extends Conn {
                                     . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
                                     . " , " . $apont->transbordoAponta
+                                    . " , " . $apont->latitudeAponta
+                                    . " , " . $apont->longitudeAponta
+                                    . " , " . $apont->statusConAponta
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
@@ -554,6 +562,9 @@ class InserirBolFechadoDAO extends Conn {
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
                                     . " , NRO_EQUIP_TRANSB "
+                                    . " , LATITUDE "
+                                    . " , LONGITUDE "
+                                    . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBol
@@ -563,6 +574,9 @@ class InserirBolFechadoDAO extends Conn {
                                     . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
                                     . " , " . $apont->transbordoAponta
+                                    . " , " . $apont->latitudeAponta
+                                    . " , " . $apont->longitudeAponta
+                                    . " , " . $apont->statusConAponta
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
