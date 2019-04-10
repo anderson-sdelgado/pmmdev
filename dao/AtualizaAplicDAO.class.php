@@ -27,6 +27,8 @@ class AtualizaAplicDAO extends Conn {
 
             $equip = $d->idEquipAtualizacao;
             $va = $d->versaoAtual;
+            $cl = $d->idCheckList;
+            
         }
 
         $retorno = 'N_NAC';
@@ -97,13 +99,11 @@ class AtualizaAplicDAO extends Conn {
 
                 $this->Create = $this->Conn->prepare($sql);
                 $this->Create->execute();
-                
             } else {
 
                 if ($va != $vn) {
-                    
+
                     $retorno = 'S';
-                    
                 } else {
 
                     $select = " SELECT "
@@ -127,7 +127,7 @@ class AtualizaAplicDAO extends Conn {
                     $result = $this->Read->fetchAll();
 
                     $vab = '';
-                    
+
                     foreach ($result as $item) {
                         $vab = $item['VERSAO_ATUAL'];
                         $vcl = $item['VERIF_CHECKLIST'];
@@ -144,15 +144,38 @@ class AtualizaAplicDAO extends Conn {
 
                         $this->Create = $this->Conn->prepare($sql);
                         $this->Create->execute();
-                    } else {
                         
+                    } 
+                    else {
+
                         if ($vcl == 1) {
-                            
+
                             $retorno = 'N_AC';
-                            
                         }
-                        
                     }
+
+                    $select = " SELECT "
+                            . " NVL(C.PLMANPREV_ID, 0) AS IDCHECKLIST "
+                            . " FROM "
+                            . " USINAS.V_SIMOVA_EQUIP E "
+                            . " , USINAS.V_EQUIP_PLANO_CHECK C "
+                            . " WHERE  "
+                            . " E.NRO_EQUIP = " . $equip
+                            . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) ";
+
+                    $this->Read = $this->Conn->prepare($select);
+                    $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+                    $this->Read->execute();
+                    $result = $this->Read->fetchAll();
+
+                    foreach ($result as $item) {
+                        $cla = $item['IDCHECKLIST'];
+                    }
+                    
+                    if($cl != $cla){
+                        $retorno = 'N_AC';
+                    }
+                    
                 }
             }
         }

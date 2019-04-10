@@ -7,21 +7,21 @@
  */
 require_once 'Conn.class.php';
 /**
- * Description of VerEquip
+ * Description of AtualCheckListDAO
  *
  * @author anderson
  */
-class VerifEquipDAO extends Conn {
+class AtualCheckListDAO extends Conn {
     //put your code here
-
+    
     /** @var PDOStatement */
     private $Read;
 
     /** @var PDO */
     private $Conn;
-
-    public function dados($valor) {
-
+    
+    public function dados($equip) {
+        
         $this->Conn = parent::getConn();
         
         $select = " SELECT "
@@ -41,7 +41,7 @@ class VerifEquipDAO extends Conn {
                 . " , (SELECT EQUIP_ID, HOD_HOR_FINAL FROM INTERFACE.PMM_BOLETIM PB WHERE PB.ID IN "
                 . " (SELECT MAX(PB2.ID) FROM PMM_BOLETIM PB2 GROUP BY PB2.EQUIP_ID)) PBH "
                 . " WHERE  "
-                . " E.NRO_EQUIP = " . $valor
+                . " E.NRO_EQUIP = " . $equip
                 . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
                 . " AND E.EQUIP_ID = R.EQUIP_ID(+) "
                 . " AND E.EQUIP_ID = PBH.EQUIP_ID(+) ";
@@ -54,6 +54,7 @@ class VerifEquipDAO extends Conn {
         $dados = array("dados"=>$r1);
         $res1 = json_encode($dados);
         
+        
         $select = " SELECT "
                     . " ROWNUM AS \"idEquipAtiv\" "
                     . " , VE.NRO_EQUIP AS \"codEquip\" "
@@ -63,7 +64,7 @@ class VerifEquipDAO extends Conn {
                     . " , V_SIMOVA_MODELO_ATIVAGR VA "
                     . " , V_SIMOVA_ATIVAGR_NEW AA "
                 . " WHERE "
-                . " VE.NRO_EQUIP = " . $valor . ""
+                . " VE.NRO_EQUIP = " . $equip
                 . " AND "
                 . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID "
                 . " AND "
@@ -90,7 +91,7 @@ class VerifEquipDAO extends Conn {
                     . " , V_SIMOVA_ATIVAGR_NEW AA " 
                     . " , USINAS.R_ATIVAGR_MOTPARADA MOT " 
                     . " WHERE " 
-                    . " VE.NRO_EQUIP = " . $valor . ""
+                    . " VE.NRO_EQUIP = " . $equip
                     . " AND " 
                     . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID " 
                     . " AND " 
@@ -108,8 +109,24 @@ class VerifEquipDAO extends Conn {
         $dados = array("dados"=>$r3);
         $res3 = json_encode($dados);
         
-        return $res1 . "#" . $res2 . "|" . $res3;
+        $select = " SELECT "
+                        . " ITMANPREV_ID AS \"idItemChecklist\" "
+                        . " , PLMANPREV_ID AS \"idChecklist\" "
+                        . " , SEQ AS \"seqItemChecklist\" "
+                        . " , CARACTER(PROC_OPER) AS \"descrItemChecklist\" "
+                    . " FROM "
+                        . " V_ITEM_PLANO_CHECK ";
+        
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $r4 = $this->Read->fetchAll();
+        
+        $dados = array("dados"=>$r4);
+        $res4 = json_encode($dados);
+        
+        return $res1 . "_" . $res2 . "|" . $res3 . "#" . $res4;
         
     }
-
+    
 }
