@@ -56,8 +56,8 @@ class VerifEquipDAO extends Conn {
         
         $select = " SELECT "
                     . " ROWNUM AS \"idEquipAtiv\" "
-                    . " , VE.NRO_EQUIP AS \"codEquip\" "
-                    . " , VA.ATIVAGR_CD AS \"codAtiv\" "
+                    . " , VE.EQUIP_ID AS \"idEquip\" "
+                    . " , AA.ATIVAGR_ID AS \"idAtiv\" "
                 . " FROM "
                     . " V_SIMOVA_EQUIP VE "
                     . " , V_SIMOVA_MODELO_ATIVAGR VA "
@@ -108,7 +108,26 @@ class VerifEquipDAO extends Conn {
         $dados = array("dados"=>$r3);
         $res3 = json_encode($dados);
         
-        return $res1 . "#" . $res2 . "|" . $res3;
+        $select = " SELECT " 
+                    . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
+                    . " , VEP.POS_PNEU AS \"posPneu\" "
+                    . " FROM " 
+                    . " VMB_EQUIP_PNEU VEP"
+                    . " , EQUIP E"
+                    . " WHERE"
+                    . " E.NRO_EQUIP = " . $valor
+                    . " AND "
+                    . " VEP.EQUIP_ID = E.EQUIP_ID ";
+        
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $r4 = $this->Read->fetchAll();
+        
+        $dados = array("dados"=>$r4);
+        $res4 = json_encode($dados);
+        
+        return $res1 . "#" . $res2 . "|" . $res3 . "?" . $res4;
         
     }
 

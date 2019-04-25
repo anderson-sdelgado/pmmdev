@@ -52,7 +52,7 @@ class ApontarCheckListDAO extends Conn {
                 $select = " SELECT "
                         . " NRO_TURNO "
                         . " FROM "
-                        . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW "
+                        . " USINAS.TURNO_TRAB "
                         . " WHERE TURNOTRAB_ID = " . $d->turnoCab;
 
                 $this->Read = $this->Conn->prepare($select);

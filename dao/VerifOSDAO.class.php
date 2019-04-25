@@ -31,8 +31,6 @@ class VerifOSDAO extends Conn {
                     . " USINAS.V_PMM_OS "
                 . " WHERE "
                     . " NRO_OS = " . $valor
-//                    . " AND DT_INIC_PROGR <= SYSDATE " 
-//                    . " AND DT_FIM_PROGR >= SYSDATE - 1"
                     . " " ;
         
         $this->Conn = parent::getConn();
@@ -46,7 +44,7 @@ class VerifOSDAO extends Conn {
         
         $select = " SELECT "
                 . " NRO_OS AS \"nroOS\" "
-                . " , ATIVAGR_CD AS \"codAtiv\" "
+                . " , ATIVAGR_ID AS \"idAtiv\" "
                 . " FROM "
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
