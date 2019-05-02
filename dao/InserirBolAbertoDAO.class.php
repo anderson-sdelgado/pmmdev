@@ -21,7 +21,7 @@ class InserirBolAbertoDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosApontaAplicFert) {
+    public function salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento) {
 
         $this->Conn = parent::getConn();
 
@@ -377,45 +377,6 @@ class InserirBolAbertoDAO extends Conn {
                     }
                 }
 
-                foreach ($dadosApontaAplicFert as $apontaAplicFert) {
-
-                    if ($bol->idBoletim == $apontaAplicFert->idBolApontaAplicFert) {
-
-                        if ($apontaAplicFert->paradaApontaAplicFert == 0) {
-                            $apontaAplicFert->paradaApontaAplicFert = "null";
-                        }
-
-                        $sql = "INSERT INTO PMM_FERT_APLICACAO ("
-                                . " BOLETIM_ID "
-                                . " , EQUIP_ID "
-                                . " , OS_NRO "
-                                . " , ATIVAGR_ID "
-                                . " , MOTPARADA_ID "
-                                . " , DTHR "
-                                . " , DTHR_TRANS "
-                                . " , PRESSAO "
-                                . " , VELOCIDADE "
-                                . " , BOCAL "
-                                . " , RAIO "
-                                . " ) "
-                                . " VALUES ("
-                                . " " . $idBol
-                                . " , " . $apontaAplicFert->equipApontaAplicFert
-                                . " , " . $apontaAplicFert->osApontaAplicFert
-                                . " , " . $apontaAplicFert->ativApontaAplicFert
-                                . " , " . $apontaAplicFert->paradaApontaAplicFert
-                                . " , TO_DATE('" . $apontaAplicFert->dthrApontaAplicFert . "','DD/MM/YYYY HH24:MI') "
-                                . " , SYSDATE "
-                                . " , " . $apontaAplicFert->pressaoApontaAplicFert
-                                . " , " . $apontaAplicFert->velocApontaAplicFert
-                                . " , " . $apontaAplicFert->bocalApontaAplicFert
-                                . " , " . $apontaAplicFert->raioApontaAplicFert
-                                . " )";
-
-                        $this->Create = $this->Conn->prepare($sql);
-                        $this->Create->execute();
-                    }
-                }
             } else {
 
                 $select = " SELECT "

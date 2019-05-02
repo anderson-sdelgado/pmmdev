@@ -112,7 +112,7 @@ class VerifEquipDAO extends Conn {
                     . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
                     . " , VEP.POS_PNEU AS \"posPneu\" "
                     . " FROM " 
-                    . " VMB_EQUIP_PNEU VEP"
+                    . " VMB_EQUIP_PNEU VEP "
                     . " , EQUIP E"
                     . " WHERE"
                     . " E.NRO_EQUIP = " . $valor
@@ -127,7 +127,8 @@ class VerifEquipDAO extends Conn {
         $dados = array("dados"=>$r4);
         $res4 = json_encode($dados);
         
-        return $res1 . "#" . $res2 . "|" . $res3 . "?" . $res4;
+        return $res1 . "#" . $res2 . "|" . $res3 . "_" . $res4;
+//        return $res1 . "#" . $res2 . "|" . $res3;
         
     }
 

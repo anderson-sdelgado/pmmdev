@@ -28,10 +28,11 @@ class AtualizaAplicDAO extends Conn {
             $equip = $d->idEquipAtualizacao;
             $va = $d->versaoAtual;
             $cl = $d->idCheckList;
-            
+            $cla = $d->idCheckList;
         }
 
         $retorno = 'N_NAC';
+        
 
         $select = "SELECT "
                 . " COUNT(*) AS QTDE "
@@ -149,7 +150,6 @@ class AtualizaAplicDAO extends Conn {
                     else {
 
                         if ($vcl == 1) {
-
                             $retorno = 'N_AC';
                         }
                     }

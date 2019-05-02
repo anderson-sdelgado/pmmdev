@@ -16,22 +16,18 @@ if (isset($info)):
     $inserirDadosDAO->salvarDados($dados, "inserirbolabertodt");
     $pos1 = strpos($dados, "_") + 1;
     $pos2 = strpos($dados, "|") + 1;
-    $pos3 = strpos($dados, "?") + 1;
     $b = substr($dados, 0, ($pos1 - 1));
     $amm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-    $i = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-    $af = substr($dados, $pos3);
+    $i = substr($dados, $pos2);
   
     $jsonObjBoletim = json_decode($b);
     $jsonObjAponta = json_decode($amm);
     $jsonObjImplemento = json_decode($i);
-    $jsonObjApontaAplicFert = json_decode($af);
     $dadosBoletim = $jsonObjBoletim->boletim;
     $dadosAponta = $jsonObjAponta->aponta;
     $dadosImplemento = $jsonObjImplemento->implemento;
-    $dadosApontaAplicFert = $jsonObjApontaAplicFert->apontaaplicfert;
     
-    $retorno = $inserirBolAbertoDAO->salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosApontaAplicFert);
+    $retorno = $inserirBolAbertoDAO->salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento);
 
     echo $retorno;
 
