@@ -1,9 +1,9 @@
 <?php
 
-require('./dao/ApontarCheckListDAO.class.php');
+require('./dao/ApontarCheckList2DAO.class.php');
 require('./dao/InserirDadosDAO.class.php');
 
-$apontarCheckListDAO = new ApontarCheckListDAO();
+$apontarCheckListDAO = new ApontarCheckList2DAO();
 $inserirDadosDAO = new InserirDadosDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 

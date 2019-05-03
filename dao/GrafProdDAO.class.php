@@ -95,12 +95,12 @@ class GrafProdDAO extends Conn {
             "prodFrenteRealMes" => $realMes,
             "prodFrenteMetaAno" => $planAno,
             "prodFrenteRealAno" => $realAno,
-            "mediaPlantMetaDia" => ($planDia / $qtdeDiaEqp),
-            "mediaPlantRealDia" => ($realDia / $qtdeDiaEqp),
-            "mediaPlantMetaMes" => ($planMes / $qtdeMesEqp),
-            "mediaPlantRealMes" => ($realMes / $qtdeMesEqp),
-            "mediaPlantMetaAno" => ($planAno / $qtdeAnoEqp),
-            "mediaPlantRealAno" => ($realAno / $qtdeAnoEqp)
+            "mediaPlantMetaDia" => round($planDia / $qtdeDiaEqp),
+            "mediaPlantRealDia" => round($realDia / $qtdeDiaEqp),
+            "mediaPlantMetaMes" => round($planMes / $qtdeMesEqp),
+            "mediaPlantRealMes" => round($realMes / $qtdeMesEqp),
+            "mediaPlantMetaAno" => round($planAno / $qtdeAnoEqp),
+            "mediaPlantRealAno" => round($realAno / $qtdeAnoEqp)
         );
 
         $infor1 = array("dados" => array($dados));

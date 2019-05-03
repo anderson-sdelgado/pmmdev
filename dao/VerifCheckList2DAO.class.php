@@ -11,7 +11,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class AtualCheckListDAO extends Conn {
+class VerifCheckList2DAO extends Conn {
     //put your code here
     
     /** @var PDOStatement */
@@ -53,62 +53,7 @@ class AtualCheckListDAO extends Conn {
 
         $dados = array("dados"=>$r1);
         $res1 = json_encode($dados);
-        
-        
-        $select = " SELECT "
-                    . " ROWNUM AS \"idEquipAtiv\" "
-                    . " , VE.NRO_EQUIP AS \"codEquip\" "
-                    . " , VA.ATIVAGR_CD AS \"codAtiv\" "
-                . " FROM "
-                    . " V_SIMOVA_EQUIP VE "
-                    . " , V_SIMOVA_MODELO_ATIVAGR VA "
-                    . " , V_SIMOVA_ATIVAGR_NEW AA "
-                . " WHERE "
-                . " VE.NRO_EQUIP = " . $equip
-                . " AND "
-                . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID "
-                . " AND "
-                . " VA.ATIVAGR_CD = AA.ATIVAGR_CD "
-                . " AND "
-                . " AA.DESAT = 0 " 
-                . " ORDER BY ROWNUM ASC "
-                ;
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $r2 = $this->Read->fetchAll();
-        
-        $dados = array("dados"=>$r2);
-        $res2 = json_encode($dados);
 
-        $select = " SELECT " 
-                    . " ROWNUM AS \"idRAtivParada\" "
-                    . " , AA.ATIVAGR_ID AS \"idAtiv\" "
-                    . " , MOT.MOTPARADA_ID AS \"idParada\" "
-                    . " FROM " 
-                    . " V_SIMOVA_EQUIP VE " 
-                    . " , V_SIMOVA_MODELO_ATIVAGR VA " 
-                    . " , V_SIMOVA_ATIVAGR_NEW AA " 
-                    . " , USINAS.R_ATIVAGR_MOTPARADA MOT " 
-                    . " WHERE " 
-                    . " VE.NRO_EQUIP = " . $equip
-                    . " AND " 
-                    . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID " 
-                    . " AND " 
-                    . " VA.ATIVAGR_CD = AA.ATIVAGR_CD " 
-                    . " AND " 
-                    . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID " 
-                    . " AND " 
-                    . " AA.DESAT = 0 ";
-        
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $r3 = $this->Read->fetchAll();
-        
-        $dados = array("dados"=>$r3);
-        $res3 = json_encode($dados);
-        
         $select = " SELECT "
                         . " ITMANPREV_ID AS \"idItemChecklist\" "
                         . " , PLMANPREV_ID AS \"idChecklist\" "
@@ -120,12 +65,12 @@ class AtualCheckListDAO extends Conn {
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
-        $r4 = $this->Read->fetchAll();
+        $r2 = $this->Read->fetchAll();
         
-        $dados = array("dados"=>$r4);
-        $res4 = json_encode($dados);
+        $dados = array("dados"=>$r2);
+        $res2 = json_encode($dados);
         
-        return $res1 . "_" . $res2 . "|" . $res3 . "#" . $res4;
+        return $res1 . "_" . $res2;
         
     }
     

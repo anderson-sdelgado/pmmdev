@@ -1,9 +1,9 @@
 <?php
 
-require('./dao/InserirBolFechadoDAO.class.php');
+require('./dao/InserirBolFechado2DAO.class.php');
 require('./dao/InserirDadosDAO.class.php');
 
-$inserirBolFechadoDAO = new InserirBolFechadoDAO();
+$inserirBolFechadoDAO = new InserirBolFechado2DAO();
 $inserirDadosDAO = new InserirDadosDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
@@ -18,31 +18,27 @@ if (isset($info)):
     $pos3 = strpos($dados, "#") + 1;
     $pos4 = strpos($dados, "?") + 1;
     $pos5 = strpos($dados, "@") + 1;
-    $c = substr($dados, 0, ($pos1 - 1));
-    $amm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-    $i = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-    $r = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-    $af = substr($dados, $pos4, (($pos5 - 1) - $pos4));
-    $rm = substr($dados, $pos5);
+    $bolmm = substr($dados, 0, ($pos1 - 1));
+    $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+    $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+    $rend = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+    $bolpneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
+    $itempneu = substr($dados, $pos5);
     
-    $jsonObjBoletim = json_decode($c);
-    $jsonObjAponta = json_decode($amm);
-    $jsonObjImplemento = json_decode($i);
-    $jsonObjRendimento = json_decode($r);
-    $jsonObjApontaAplicFert = json_decode($af);
-    $jsonObjRecolMang = json_decode($rm);
+    $jsonObjBoletim = json_decode($bolmm);
+    $jsonObjAponta = json_decode($apontmm);
+    $jsonObjImplemento = json_decode($impl);
+    $jsonObjRendimento = json_decode($rend);
+    $jsonObjBolPneu = json_decode($bolpneu);
+    $jsonObjItemPneu = json_decode($itempneu);
     $dadosBoletim = $jsonObjBoletim->boletim;
     $dadosAponta = $jsonObjAponta->aponta;
     $dadosImplemento = $jsonObjImplemento->implemento;
     $dadosRendimento = $jsonObjRendimento->rendimento;
-    $dadosApontaAplicFert = $jsonObjApontaAplicFert->apontaaplicfert;
-    $dadosRecolMang = $jsonObjRecolMang->recolmang;
+    $dadosBolPneu = $jsonObjBolPneu->bolpneu;
+    $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-    //$insBolFechadoMMDAO->salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosApontaAplicFert, $dadosRecolMang);
-
-    //echo 'GRAVOU-BOLFECHADO';
-   
-    echo $inserirBolFechadoDAO->salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosApontaAplicFert, $dadosRecolMang);
+    echo $inserirBolFechadoDAO->salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu);
 
 endif;
 

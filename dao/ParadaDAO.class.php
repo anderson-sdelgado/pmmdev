@@ -27,6 +27,7 @@ class ParadaDAO extends Conn {
                     . " , CD AS \"codParada\" "
                     . " , CARACTER(DESCR) AS \"descrParada\" "
                     . " , DECODE(CD, 66, 1, 0) AS \"flagCalibragem\" "
+                    . " , DECODE(MOTPARADA_ID, 180, 1, 0) AS \"flagCheckList\" "
                 . " FROM "
                     . " USINAS.MOTIVO_PARADA "
                 . " ORDER BY "

@@ -11,7 +11,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class VerifOSDAO extends Conn {
+class VerifOS2DAO extends Conn {
     //put your code here
     
     /** @var PDOStatement */

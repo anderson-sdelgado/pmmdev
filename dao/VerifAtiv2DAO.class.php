@@ -11,7 +11,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class AtualAtividadeDAO extends Conn {
+class VerifAtiv2DAO extends Conn {
     //put your code here
     
     /** @var PDOStatement */

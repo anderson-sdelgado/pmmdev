@@ -11,7 +11,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class AtualAtivParadaDAO extends Conn {
+class VerifAtivParada2DAO extends Conn {
     
     /** @var PDOStatement */
     private $Read;

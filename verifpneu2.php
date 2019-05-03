@@ -1,8 +1,8 @@
 <?php
 
-require('./dao/VerifPneuDAO.class.php');
+require('./dao/VerifPneu2DAO.class.php');
 
-$verifPneuDAO = new VerifPneuDAO();
+$verifPneuDAO = new VerifPneu2DAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):

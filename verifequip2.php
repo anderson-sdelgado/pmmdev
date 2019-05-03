@@ -1,8 +1,8 @@
 <?php
 
-require('./dao/VerifEquipDAO.class.php');
+require('./dao/VerifEquip2DAO.class.php');
 
-$verifEquipDAO = new VerifEquipDAO();
+$verifEquipDAO = new VerifEquip2DAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):

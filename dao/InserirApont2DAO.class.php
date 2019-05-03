@@ -12,7 +12,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class InserirApontDAO extends Conn {
+class InserirApont2DAO extends Conn {
     //put your code here
 
     /** @var PDO */
@@ -233,10 +233,10 @@ class InserirApontDAO extends Conn {
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                         $this->Read->execute();
-                        $res4 = $this->Read->fetchAll();
+                        $res5 = $this->Read->fetchAll();
 
-                        foreach ($res4 as $item4) {
-                            $v = $item4['QTDE'];
+                        foreach ($res5 as $item5) {
+                            $v = $item5['QTDE'];
                         }
 
                         if ($v == 0) {
@@ -278,10 +278,10 @@ class InserirApontDAO extends Conn {
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res4 = $this->Read->fetchAll();
+                                    $res6 = $this->Read->fetchAll();
 
-                                    foreach ($res4 as $item4) {
-                                        $idBolPneu = $item4['IDBOLPNEU'];
+                                    foreach ($res6 as $item6) {
+                                        $idBolPneu = $item6['IDBOLPNEU'];
                                     }
 
                                     $select = " SELECT "
@@ -297,10 +297,10 @@ class InserirApontDAO extends Conn {
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res4 = $this->Read->fetchAll();
+                                    $res7 = $this->Read->fetchAll();
 
-                                    foreach ($res4 as $item4) {
-                                        $v = $item4['QTDE'];
+                                    foreach ($res7 as $item7) {
+                                        $v = $item7['QTDE'];
                                     }
 
                                     if ($v == 0) {
@@ -332,6 +332,7 @@ class InserirApontDAO extends Conn {
                         }
                     }
                 }
+                
             } else {
 
                 $select = " SELECT "
@@ -346,10 +347,10 @@ class InserirApontDAO extends Conn {
                 $this->Read = $this->Conn->prepare($select);
                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                 $this->Read->execute();
-                $res5 = $this->Read->fetchAll();
+                $res8 = $this->Read->fetchAll();
 
-                foreach ($res5 as $item5) {
-                    $idApont = $item5['ID'];
+                foreach ($res8 as $item8) {
+                    $idApont = $item8['ID'];
                 }
 
                 foreach ($dadosImplemento as $imp) {
@@ -374,10 +375,10 @@ class InserirApontDAO extends Conn {
                             $this->Read = $this->Conn->prepare($select);
                             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                             $this->Read->execute();
-                            $res6 = $this->Read->fetchAll();
+                            $res9 = $this->Read->fetchAll();
 
-                            foreach ($res6 as $item6) {
-                                $v = $item6['QTDE'];
+                            foreach ($res9 as $item9) {
+                                $v = $item9['QTDE'];
                             }
 
                             if ($v == 0) {
@@ -423,10 +424,10 @@ class InserirApontDAO extends Conn {
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                         $this->Read->execute();
-                        $res4 = $this->Read->fetchAll();
+                        $res10 = $this->Read->fetchAll();
 
-                        foreach ($res4 as $item4) {
-                            $v = $item4['QTDE'];
+                        foreach ($res10 as $item10) {
+                            $v = $item10['QTDE'];
                         }
 
                         if ($v == 0) {
@@ -468,10 +469,10 @@ class InserirApontDAO extends Conn {
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res4 = $this->Read->fetchAll();
+                                    $res11 = $this->Read->fetchAll();
 
-                                    foreach ($res4 as $item4) {
-                                        $idBolPneu = $item4['IDBOLPNEU'];
+                                    foreach ($res11 as $item11) {
+                                        $idBolPneu = $item11['IDBOLPNEU'];
                                     }
 
                                     $select = " SELECT "
@@ -487,10 +488,10 @@ class InserirApontDAO extends Conn {
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res4 = $this->Read->fetchAll();
+                                    $res12 = $this->Read->fetchAll();
 
-                                    foreach ($res4 as $item4) {
-                                        $v = $item4['QTDE'];
+                                    foreach ($res12 as $item12) {
+                                        $v = $item12['QTDE'];
                                     }
 
                                     if ($v == 0) {
