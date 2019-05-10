@@ -227,8 +227,7 @@ class InserirApont2DAO extends Conn {
                                 . " AND "
                                 . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                 . " AND "
-                                . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                        ;
+                                . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -291,8 +290,9 @@ class InserirApont2DAO extends Conn {
                                             . " WHERE "
                                             . " BOLETIM_PNEU_ID = " . $idBolPneu
                                             . " AND "
-                                            . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                    ;
+                                            . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                            . " AND "
+                                            . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -320,7 +320,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , " . $itemPneu->nroPneuItemMedPneu
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
-                                                . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
 
@@ -463,8 +463,7 @@ class InserirApont2DAO extends Conn {
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
-                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                                    ;
+                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -482,8 +481,9 @@ class InserirApont2DAO extends Conn {
                                             . " WHERE "
                                             . " BOLETIM_PNEU_ID = " . $idBolPneu
                                             . " AND "
-                                            . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                    ;
+                                            . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                            . " AND "
+                                            . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -511,7 +511,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , " . $itemPneu->nroPneuItemMedPneu
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
-                                                . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
 

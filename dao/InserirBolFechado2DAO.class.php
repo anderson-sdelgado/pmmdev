@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 require_once 'Conn.class.php';
+
 /**
  * Description of InsBolFechadoMMDAO
  *
@@ -103,7 +104,7 @@ class InserirBolFechado2DAO extends Conn {
                 $res2 = $this->Read->fetchAll();
 
                 foreach ($res2 as $item2) {
-                    $idBoletim = $item2['ID'];
+                    $idBol = $item2['ID'];
                 }
 
                 foreach ($dadosAponta as $apont) {
@@ -117,7 +118,7 @@ class InserirBolFechado2DAO extends Conn {
                                 . " WHERE "
                                 . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                 . " AND "
-                                . " BOLETIM_ID = " . $idBoletim . " ";
+                                . " BOLETIM_ID = " . $idBol . " ";
 
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -151,7 +152,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
-                                    . " " . $idBoletim
+                                    . " " . $idBol
                                     . " , " . $apont->osAponta
                                     . " , " . $apont->atividadeAponta
                                     . " , " . $apont->paradaAponta
@@ -174,7 +175,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " FROM PMM_APONTAMENTO_LOGTRAC A1"
                                     . " , EQUIP E1"
                                     . " , PMM_BOLETIM B1 "
-                                    . " WHERE B1.ID = " . $idBoletim
+                                    . " WHERE B1.ID = " . $idBol
                                     . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
                                     . " AND E1.EQUIP_ID = B1.EQUIP_ID), 0)";
 
@@ -216,7 +217,7 @@ class InserirBolFechado2DAO extends Conn {
                                             . " , EQUIP E "
                                             . " , MOTIVO_PARADA P "
                                             . " WHERE "
-                                            . " B.ID = " . $idBoletim
+                                            . " B.ID = " . $idBol
                                             . " AND "
                                             . " B.ID = A.BOLETIM_ID "
                                             . " AND "
@@ -236,7 +237,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " WHERE "
                                     . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " AND "
-                                    . " BOLETIM_ID = " . $idBoletim . " ";
+                                    . " BOLETIM_ID = " . $idBol . " ";
 
                             $this->Read = $this->Conn->prepare($select);
                             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -376,8 +377,9 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " WHERE "
                                                         . " BOLETIM_PNEU_ID = " . $idBolPneu
                                                         . " AND "
-                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                                ;
+                                                        . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                                        . " AND "
+                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -405,7 +407,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                            . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
 
@@ -426,7 +428,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " WHERE "
                                     . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                                     . " AND "
-                                    . " BOLETIM_ID = " . $idBoletim . " ";
+                                    . " BOLETIM_ID = " . $idBol . " ";
 
                             $this->Read = $this->Conn->prepare($select);
                             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -566,8 +568,9 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " WHERE "
                                                         . " BOLETIM_PNEU_ID = " . $idBolPneu
                                                         . " AND "
-                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                                ;
+                                                        . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                                        . " AND "
+                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -595,7 +598,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                            . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
 
@@ -624,7 +627,7 @@ class InserirBolFechado2DAO extends Conn {
                                 . " AND "
                                 . " DTHR_CEL = TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
                                 . " AND "
-                                . " BOLETIM_ID = " . $idBoletim;
+                                . " BOLETIM_ID = " . $idBol;
 
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -645,7 +648,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " , DTHR_TRANS "
                                     . " ) "
                                     . " VALUES ("
-                                    . " " . $idBoletim
+                                    . " " . $idBol
                                     . " , " . $rend->nroOSRendimento
                                     . " , " . $rend->valorRendimento
                                     . " , TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
@@ -963,8 +966,9 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " WHERE "
                                                         . " BOLETIM_PNEU_ID = " . $idBolPneu
                                                         . " AND "
-                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                                ;
+                                                        . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                                        . " AND "
+                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -992,7 +996,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                            . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
 
@@ -1153,8 +1157,9 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " WHERE "
                                                         . " BOLETIM_PNEU_ID = " . $idBolPneu
                                                         . " AND "
-                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                                                ;
+                                                        . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
+                                                        . " AND "
+                                                        . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -1182,7 +1187,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , TO_DATE('" . $itemPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                                                            . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
 

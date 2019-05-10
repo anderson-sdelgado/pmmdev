@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 require_once 'Conn.class.php';
-
+require_once 'AjusteDataHoraDAO.class.php';
 /**
  * Description of ApontaCheckList
  *
@@ -23,6 +23,8 @@ class ApontarCheckList2DAO extends Conn {
 
     public function salvarDados($dadosCab, $dadosItem) {
 
+        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
+        
         foreach ($dadosCab as $d) {
 
             $turno = 'null';
@@ -34,7 +36,7 @@ class ApontarCheckList2DAO extends Conn {
                     . " FROM "
                     . " BOLETIM_CHECK "
                     . " WHERE "
-                    . " DT = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                    . " DT = " . $ajusteDataHoraDAO->dataHoraNroEquip($d->equipCab, $d->dtCab)
                     . " AND "
                     . " EQUIP_NRO = " . $d->equipCab . " ";
 
@@ -73,7 +75,7 @@ class ApontarCheckList2DAO extends Conn {
                         . " VALUES ( "
                         . " " . $d->equipCab . " "
                         . " , " . $d->funcCab . ""
-                        . " , TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                        . " , " . $ajusteDataHoraDAO->dataHoraNroEquip($d->equipCab, $d->dtCab)
                         . " , " . $turno . ")";
 
                 $this->Create = $this->Conn->prepare($sql);
@@ -94,7 +96,7 @@ class ApontarCheckList2DAO extends Conn {
                         . " FROM "
                         . " BOLETIM_CHECK "
                         . " WHERE "
-                        . " DT = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                        . " DT = " . $ajusteDataHoraDAO->dataHoraNroEquip($d->equipCab, $d->dtCab)
                         . " AND "
                         . " EQUIP_NRO = " . $d->equipCab . " ";
 
@@ -187,7 +189,7 @@ class ApontarCheckList2DAO extends Conn {
                         . " FROM "
                         . " BOLETIM_CHECK "
                         . " WHERE "
-                        . " DT = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                        . " DT = " . $ajusteDataHoraDAO->dataHoraNroEquip($d->equipCab, $d->dtCab)
                         . " AND "
                         . " EQUIP_NRO = " . $d->equipCab . " ";
 

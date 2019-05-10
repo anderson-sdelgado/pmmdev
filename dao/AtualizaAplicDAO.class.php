@@ -23,6 +23,8 @@ class AtualizaAplicDAO extends Conn {
 
     public function pesqInfo($dados) {
 
+        $this->Conn = parent::getConn();
+        
         foreach ($dados as $d) {
 
             $equip = $d->idEquipAtualizacao;
@@ -33,7 +35,6 @@ class AtualizaAplicDAO extends Conn {
 
         $retorno = 'N_NAC';
         
-
         $select = "SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
@@ -41,7 +42,6 @@ class AtualizaAplicDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -68,6 +68,7 @@ class AtualizaAplicDAO extends Conn {
 
             $this->Create = $this->Conn->prepare($sql);
             $this->Create->execute();
+            
         } else {
 
             $select = " SELECT "
