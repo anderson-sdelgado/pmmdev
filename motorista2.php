@@ -1,8 +1,8 @@
 <?php
 
-require('./dao/MotoristaDAO.class.php');
+require('./dao/Motorista2DAO.class.php');
 
-$motoristaDAO = new MotoristaDAO();
+$motoristaDAO = new Motorista2DAO();
 
 //cria o array associativo
 $dados = array("dados"=>$motoristaDAO->dados());

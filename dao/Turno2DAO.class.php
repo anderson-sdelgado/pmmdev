@@ -7,11 +7,11 @@
  */
 require_once 'Conn.class.php';
 /**
- * Description of ParadaDAO
+ * Description of TurnoDAO
  *
  * @author anderson
  */
-class ParadaDAO extends Conn {
+class Turno2DAO extends Conn {
     //put your code here
 
     /** @var PDOStatement */
@@ -23,16 +23,12 @@ class ParadaDAO extends Conn {
     public function dados() {
 
         $select = " SELECT "
-                    . " MOTPARADA_ID AS \"idParada\" "
-                    . " , CD AS \"codParada\" "
-                    . " , CARACTER(DESCR) AS \"descrParada\" "
-                    . " , DECODE(CD, 66, 1, 0) AS \"flagCalibragem\" "
-                    . " , DECODE(MOTPARADA_ID, 180, 1, 0) AS \"flagCheckList\" "
+                . " TURNOTRAB_ID AS \"idTurno\" "
+                . " , TPTUREQUIP_CD AS \"codTurno\" "
+                . " , NRO_TURNO AS \"nroTurno\" "
+                . " , 'TURNO ' || NRO_TURNO || ': ' || HR_INI || ' - ' || HR_FIM AS \"descTurno\" "
                 . " FROM "
-                    . " USINAS.MOTIVO_PARADA "
-                . " ORDER BY "
-                    . " MOTPARADA_ID "
-                . " ASC ";
+                . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

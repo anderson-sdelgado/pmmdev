@@ -1,11 +1,11 @@
 <?php
 
-require('./dao/ItemChecklistDAO.class.php');
+require('./dao/Turno2DAO.class.php');
 
-$itemChecklistDAO = new ItemChecklistDAO();
+$turnoDAO = new Turno2DAO();
 
 //cria o array associativo
-$dados = array("dados"=>$itemChecklistDAO->dados());
+$dados = array("dados"=>$turnoDAO->dados());
 
 //converte o conteúdo do array associativo para uma string JSON
 $json_str = json_encode($dados);

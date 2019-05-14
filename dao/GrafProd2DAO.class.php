@@ -12,7 +12,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class GrafProdDAO extends Conn {
+class GrafProd2DAO extends Conn {
     //put your code here
 
     /** @var PDOStatement */

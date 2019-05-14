@@ -7,13 +7,13 @@
  */
 require_once 'Conn.class.php';
 /**
- * Description of OSDAO
+ * Description of ParadaDAO
  *
  * @author anderson
  */
-class OSDAO extends Conn {
+class Parada2DAO extends Conn {
     //put your code here
-    
+
     /** @var PDOStatement */
     private $Read;
 
@@ -22,17 +22,18 @@ class OSDAO extends Conn {
 
     public function dados() {
 
-        $select = " SELECT DISTINCT "
-                    . " NRO_OS AS \"nroOS\" "
-                    . " , NVL(PROPRAGR_CD, 0)  AS \"codProprOS\" "
-                    . " , NVL(CARACTER(PROPRAGR_DESCR), 'ESTRUTURAL') AS \"descrProprOS\" "
-                    . " , NVL(AREA_PROGR, 0) AS \"areaProgrOS\" "
+        $select = " SELECT "
+                    . " MOTPARADA_ID AS \"idParada\" "
+                    . " , CD AS \"codParada\" "
+                    . " , CARACTER(DESCR) AS \"descrParada\" "
+                    . " , DECODE(CD, 66, 1, 0) AS \"flagCalibragem\" "
+                    . " , DECODE(MOTPARADA_ID, 180, 1, 0) AS \"flagCheckList\" "
                 . " FROM "
-                    . " USINAS.V_PMM_OS "
-                . " WHERE "
-                    . " DT_INIC_PROGR <= SYSDATE " 
-                    . " AND DT_FIM_PROGR >= SYSDATE " ;
-        
+                    . " USINAS.MOTIVO_PARADA "
+                . " ORDER BY "
+                    . " MOTPARADA_ID "
+                . " ASC ";
+
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -41,5 +42,5 @@ class OSDAO extends Conn {
 
         return $result;
     }
-    
+
 }

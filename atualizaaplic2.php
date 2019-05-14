@@ -1,8 +1,8 @@
 <?php
 
-require('./dao/AtualizaAplicDAO.class.php');
+require('./dao/AtualizaAplic2DAO.class.php');
 
-$atualizaAplicDAO = new AtualizaAplicDAO();
+$atualizaAplicDAO = new AtualizaAplic2DAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):

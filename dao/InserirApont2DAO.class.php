@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 require_once 'Conn.class.php';
-
+require_once 'AjusteDataHoraDAO.class.php';
 /**
  * Description of InsApontamentoMMDAO
  *
@@ -22,6 +22,8 @@ class InserirApont2DAO extends Conn {
 
         $this->Conn = parent::getConn();
 
+        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
+        
         foreach ($dadosAponta as $apont) {
 
             $select = " SELECT "
@@ -57,6 +59,7 @@ class InserirApont2DAO extends Conn {
                         . " , OS_NRO "
                         . " , ATIVAGR_ID "
                         . " , MOTPARADA_ID "
+                        . " , DTHR "
                         . " , DTHR_CEL "
                         . " , DTHR_TRANS "
                         . " , NRO_EQUIP_TRANSB "
@@ -69,6 +72,7 @@ class InserirApont2DAO extends Conn {
                         . " , " . $apont->osAponta
                         . " , " . $apont->atividadeAponta
                         . " , " . $apont->paradaAponta
+                        . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($apont->idExtBolAponta, $apont->dthrAponta)
                         . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                         . " , SYSDATE "
                         . " , " . $apont->transbordoAponta
@@ -196,6 +200,7 @@ class InserirApont2DAO extends Conn {
                                         . " APONTAMENTO_ID "
                                         . " , NRO_EQUIP "
                                         . " , POS_EQUIP "
+                                        . " , DTHR "
                                         . " , DTHR_CEL "
                                         . " , DTHR_TRANS "
                                         . " ) "
@@ -203,6 +208,7 @@ class InserirApont2DAO extends Conn {
                                         . " " . $idApont
                                         . " , " . $imp->codEquipImplemento
                                         . " , " . $imp->posImplemento
+                                        . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
                                         . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
                                         . " , SYSDATE "
                                         . " )";
@@ -244,6 +250,7 @@ class InserirApont2DAO extends Conn {
                                     . " APONTAMENTO_ID "
                                     . " , FUNC_ID "
                                     . " , EQUIP_ID "
+                                    . " , DTHR "
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
                                     . " ) "
@@ -251,6 +258,7 @@ class InserirApont2DAO extends Conn {
                                     . " " . $idApont
                                     . " , " . $bolPneu->funcBolPneu
                                     . " , " . $bolPneu->equipBolPneu
+                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
                                     . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                     . " , SYSDATE "
                                     . " )";
@@ -271,8 +279,7 @@ class InserirApont2DAO extends Conn {
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
-                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                                    ;
+                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -311,6 +318,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , NRO_PNEU "
                                                 . " , PRESSAO_ENC "
                                                 . " , PRESSAO_COL "
+                                                . " , DTHR "
                                                 . " , DTHR_CEL "
                                                 . " , DTHR_TRANS "
                                                 . " ) "
@@ -320,6 +328,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , " . $itemPneu->nroPneuItemMedPneu
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
+                                                . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
                                                 . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
@@ -387,6 +396,7 @@ class InserirApont2DAO extends Conn {
                                         . " APONTAMENTO_ID "
                                         . " , NRO_EQUIP "
                                         . " , POS_EQUIP "
+                                        . " , DTHR "
                                         . " , DTHR_CEL "
                                         . " , DTHR_TRANS "
                                         . " ) "
@@ -394,6 +404,7 @@ class InserirApont2DAO extends Conn {
                                         . " " . $idApont
                                         . " , " . $imp->codEquipImplemento
                                         . " , " . $imp->posImplemento
+                                        . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
                                         . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
                                         . " , SYSDATE "
                                         . " )";
@@ -443,6 +454,7 @@ class InserirApont2DAO extends Conn {
                                     . " " . $idApont
                                     . " , " . $bolPneu->funcBolPneu
                                     . " , " . $bolPneu->equipBolPneu
+                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
                                     . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                     . " , SYSDATE "
                                     . " )";
@@ -502,6 +514,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , NRO_PNEU "
                                                 . " , PRESSAO_ENC "
                                                 . " , PRESSAO_COL "
+                                                . " , DTHR "
                                                 . " , DTHR_CEL "
                                                 . " , DTHR_TRANS "
                                                 . " ) "
@@ -511,6 +524,7 @@ class InserirApont2DAO extends Conn {
                                                 . " , " . $itemPneu->nroPneuItemMedPneu
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
+                                                . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
                                                 . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";

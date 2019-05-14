@@ -1,8 +1,8 @@
 <?php
 
-require('./dao/AtividadeDAO.class.php');
+require('./dao/Atividade2DAO.class.php');
 
-$atividadeDAO = new AtividadeDAO();
+$atividadeDAO = new Atividade2DAO();
 
 //cria o array associativo
 $dados = array("dados"=>$atividadeDAO->dados());

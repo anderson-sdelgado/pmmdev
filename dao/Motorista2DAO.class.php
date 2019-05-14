@@ -11,7 +11,7 @@ require_once 'Conn.class.php';
  *
  * @author anderson
  */
-class MotoristaDAO extends Conn {
+class Motorista2DAO extends Conn {
     //put your code here
     
     //put your code here
