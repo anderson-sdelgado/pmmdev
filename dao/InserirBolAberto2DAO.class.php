@@ -312,7 +312,7 @@ class InserirBolAberto2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -332,7 +332,7 @@ class InserirBolAberto2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -359,7 +359,7 @@ class InserirBolAberto2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -517,7 +517,7 @@ class InserirBolAberto2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -537,7 +537,7 @@ class InserirBolAberto2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -564,7 +564,7 @@ class InserirBolAberto2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -860,7 +860,7 @@ class InserirBolAberto2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -880,7 +880,7 @@ class InserirBolAberto2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -1065,7 +1065,7 @@ class InserirBolAberto2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -1085,7 +1085,7 @@ class InserirBolAberto2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -1112,7 +1112,7 @@ class InserirBolAberto2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "

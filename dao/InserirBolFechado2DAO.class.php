@@ -319,7 +319,7 @@ class InserirBolFechado2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -339,7 +339,7 @@ class InserirBolFechado2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -366,7 +366,7 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -516,7 +516,7 @@ class InserirBolFechado2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -536,7 +536,7 @@ class InserirBolFechado2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -563,7 +563,7 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -692,6 +692,7 @@ class InserirBolFechado2DAO extends Conn {
                         . " SET "
                         . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
                         . " , STATUS = " . $bol->statusBoletim
+                        . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
                         . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                         . " , DTHR_TRANS_FINAL = SYSDATE "
                         . " WHERE "
@@ -924,7 +925,7 @@ class InserirBolFechado2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -944,7 +945,7 @@ class InserirBolFechado2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -971,7 +972,7 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -1121,7 +1122,7 @@ class InserirBolFechado2DAO extends Conn {
                                             . " FROM "
                                             . " PMM_BOLETIM_PNEU "
                                             . " WHERE "
-                                            . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                            . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
@@ -1141,7 +1142,7 @@ class InserirBolFechado2DAO extends Conn {
 
                                         $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
                                                 . " APONTAMENTO_ID "
-                                                . " , FUNC_ID "
+                                                . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
                                                 . " , DTHR "
                                                 . " , DTHR_CEL "
@@ -1168,7 +1169,7 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -1277,7 +1278,7 @@ class InserirBolFechado2DAO extends Conn {
                                     . " " . $idBol
                                     . " , " . $rend->nroOSRendimento
                                     . " , " . $rend->valorRendimento
-                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $apont->dthrAponta)
+                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $rend->dthrRendimento)
                                     . " , TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
                                     . " , SYSDATE "
                                     . " )";

@@ -34,7 +34,7 @@ class AjusteDataHoraDAO extends Conn {
                 . " WHERE "
                     . " BP.ID = " . $idBolPneu
                     . " AND "
-                    . " AP.ID = BP.APONTAMENTO_ID = "
+                    . " AP.ID = BP.APONTAMENTO_ID "
                     . " AND "
                     . " B.ID = AP.BOLETIM_ID "
                     . " AND "
