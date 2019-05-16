@@ -34,17 +34,29 @@ class VerifEquip2DAO extends Conn {
                 . " , CASE WHEN E.CLASSOPER_CD = 211 AND R.TP_EQUIP IS NULL THEN 4  "
                 . " ELSE NVL(R.TP_EQUIP, 0) END AS \"tipoEquipFert\" "
                 . " , NVL(PBH.HOD_HOR_FINAL, 0) AS \"horimetroEquip\" "
+                . " , NVL(PBFH.HOD_HOR_FINAL, 0) AS \"medicaoEquipFert\" "
                 . " FROM "
                 . " USINAS.V_SIMOVA_EQUIP E "
                 . " , USINAS.V_EQUIP_PLANO_CHECK C "
                 . " , USINAS.ROLAO R "
-                . " , (SELECT EQUIP_ID, HOD_HOR_FINAL FROM INTERFACE.PMM_BOLETIM PB WHERE PB.ID IN "
-                . " (SELECT MAX(PB2.ID) FROM PMM_BOLETIM PB2 GROUP BY PB2.EQUIP_ID)) PBH "
+                . " , (SELECT PB.EQUIP_ID, PB.HOD_HOR_FINAL "
+                        . " FROM INTERFACE.PMM_BOLETIM PB "
+                        . " WHERE PB.ID IN "
+                            . " (SELECT MAX(PB2.ID) "
+                            . " FROM PMM_BOLETIM PB2"
+                            . " GROUP BY PB2.EQUIP_ID)) PBH "
+                . " , (SELECT PBF.EQUIP_ID, PBF.HOD_HOR_FINAL "
+                        . " FROM INTERFACE.PMM_BOLETIM_FERT PBF "
+                        . " WHERE PBF.ID IN "
+                            . " (SELECT MAX(PBF2.ID) "
+                            . " FROM PMM_BOLETIM_FERT PBF2 "
+                            . " GROUP BY PBF2.EQUIP_ID)) PBFH "
                 . " WHERE  "
                 . " E.NRO_EQUIP = " . $valor
                 . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
                 . " AND E.EQUIP_ID = R.EQUIP_ID(+) "
-                . " AND E.EQUIP_ID = PBH.EQUIP_ID(+) ";
+                . " AND E.EQUIP_ID = PBH.EQUIP_ID(+) "
+                . " AND E.EQUIP_ID = PBFH.EQUIP_ID(+) ";
         
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
