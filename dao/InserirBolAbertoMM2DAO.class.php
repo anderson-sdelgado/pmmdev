@@ -310,7 +310,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
                                             . " FROM "
-                                            . " PMM_BOLETIM_PNEU "
+                                            . " PMP_BOLETIM "
                                             . " WHERE "
                                             . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
@@ -330,7 +330,7 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                     if ($v == 0) {
 
-                                        $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
+                                        $sql = "INSERT INTO PMP_BOLETIM ("
                                                 . " APONTAMENTO_ID "
                                                 . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
@@ -357,7 +357,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " ID AS IDBOLPNEU "
                                                         . " FROM "
-                                                        . " PMM_BOLETIM_PNEU "
+                                                        . " PMP_BOLETIM "
                                                         . " WHERE "
                                                         . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
@@ -378,9 +378,9 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " COUNT(*) AS QTDE "
                                                         . " FROM "
-                                                        . " PMM_ITEM_MED_PNEU "
+                                                        . " PMP_ITEM_MED "
                                                         . " WHERE "
-                                                        . " BOLETIM_PNEU_ID = " . $idBolPneu
+                                                        . " BOLETIM_ID = " . $idBolPneu
                                                         . " AND "
                                                         . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                         . " AND "
@@ -397,8 +397,8 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                                 if ($v == 0) {
 
-                                                    $sql = "INSERT INTO PMM_ITEM_MED_PNEU ("
-                                                            . " BOLETIM_PNEU_ID "
+                                                    $sql = "INSERT INTO PMP_ITEM_MED ("
+                                                            . " BOLETIM_ID "
                                                             . " , POSPNCONF_ID "
                                                             . " , NRO_PNEU "
                                                             . " , PRESSAO_ENC "
@@ -515,7 +515,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
                                             . " FROM "
-                                            . " PMM_BOLETIM_PNEU "
+                                            . " PMP_BOLETIM "
                                             . " WHERE "
                                             . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
@@ -535,7 +535,7 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                     if ($v == 0) {
 
-                                        $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
+                                        $sql = "INSERT INTO PMP_BOLETIM ("
                                                 . " APONTAMENTO_ID "
                                                 . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
@@ -562,7 +562,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " ID AS IDBOLPNEU "
                                                         . " FROM "
-                                                        . " PMM_BOLETIM_PNEU "
+                                                        . " PMP_BOLETIM "
                                                         . " WHERE "
                                                         . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
@@ -583,9 +583,9 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " COUNT(*) AS QTDE "
                                                         . " FROM "
-                                                        . " PMM_ITEM_MED_PNEU "
+                                                        . " PMP_ITEM_MED "
                                                         . " WHERE "
-                                                        . " BOLETIM_PNEU_ID = " . $idBolPneu
+                                                        . " BOLETIM_ID = " . $idBolPneu
                                                         . " AND "
                                                         . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                         . " AND "
@@ -602,8 +602,8 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                                 if ($v == 0) {
 
-                                                    $sql = "INSERT INTO PMM_ITEM_MED_PNEU ("
-                                                            . " BOLETIM_PNEU_ID "
+                                                    $sql = "INSERT INTO PMP_ITEM_MED ("
+                                                            . " BOLETIM_ID "
                                                             . " , POSPNCONF_ID "
                                                             . " , NRO_PNEU "
                                                             . " , PRESSAO_ENC "
@@ -858,7 +858,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
                                             . " FROM "
-                                            . " PMM_BOLETIM_PNEU "
+                                            . " PMP_BOLETIM "
                                             . " WHERE "
                                             . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
@@ -878,7 +878,7 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                     if ($v == 0) {
 
-                                        $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
+                                        $sql = "INSERT INTO PMP_BOLETIM ("
                                                 . " APONTAMENTO_ID "
                                                 . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
@@ -905,7 +905,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " ID AS IDBOLPNEU "
                                                         . " FROM "
-                                                        . " PMM_BOLETIM_PNEU "
+                                                        . " PMP_BOLETIM "
                                                         . " WHERE "
                                                         . " FUNC_ID = " . $bolPneu->funcBolPneu
                                                         . " AND "
@@ -926,9 +926,9 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " COUNT(*) AS QTDE "
                                                         . " FROM "
-                                                        . " PMM_ITEM_MED_PNEU "
+                                                        . " PMP_ITEM_MED "
                                                         . " WHERE "
-                                                        . " BOLETIM_PNEU_ID = " . $idBolPneu
+                                                        . " BOLETIM_ID = " . $idBolPneu
                                                         . " AND "
                                                         . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                         . " AND "
@@ -945,8 +945,8 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                                 if ($v == 0) {
 
-                                                    $sql = "INSERT INTO PMM_ITEM_MED_PNEU ("
-                                                            . " BOLETIM_PNEU_ID "
+                                                    $sql = "INSERT INTO PMP_ITEM_MED ("
+                                                            . " BOLETIM_ID "
                                                             . " , POSPNCONF_ID "
                                                             . " , NRO_PNEU "
                                                             . " , PRESSAO_ENC "
@@ -1063,7 +1063,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
                                             . " FROM "
-                                            . " PMM_BOLETIM_PNEU "
+                                            . " PMP_BOLETIM "
                                             . " WHERE "
                                             . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                             . " AND "
@@ -1083,7 +1083,7 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                     if ($v == 0) {
 
-                                        $sql = "INSERT INTO PMM_BOLETIM_PNEU ("
+                                        $sql = "INSERT INTO PMP_BOLETIM ("
                                                 . " APONTAMENTO_ID "
                                                 . " , FUNC_MATRIC "
                                                 . " , EQUIP_ID "
@@ -1110,7 +1110,7 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " ID AS IDBOLPNEU "
                                                         . " FROM "
-                                                        . " PMM_BOLETIM_PNEU "
+                                                        . " PMP_BOLETIM "
                                                         . " WHERE "
                                                         . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                                                         . " AND "
@@ -1131,9 +1131,9 @@ class InserirBolAbertoMM2DAO extends Conn {
                                                 $select = " SELECT "
                                                         . " COUNT(*) AS QTDE "
                                                         . " FROM "
-                                                        . " PMM_ITEM_MED_PNEU "
+                                                        . " PMP_ITEM_MED "
                                                         . " WHERE "
-                                                        . " BOLETIM_PNEU_ID = " . $idBolPneu
+                                                        . " BOLETIM_ID = " . $idBolPneu
                                                         . " AND "
                                                         . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                         . " AND "
@@ -1150,8 +1150,8 @@ class InserirBolAbertoMM2DAO extends Conn {
 
                                                 if ($v == 0) {
 
-                                                    $sql = "INSERT INTO PMM_ITEM_MED_PNEU ("
-                                                            . " BOLETIM_PNEU_ID "
+                                                    $sql = "INSERT INTO PMP_ITEM_MED ("
+                                                            . " BOLETIM_ID "
                                                             . " , POSPNCONF_ID "
                                                             . " , NRO_PNEU "
                                                             . " , PRESSAO_ENC "
