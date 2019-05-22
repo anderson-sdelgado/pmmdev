@@ -7,12 +7,13 @@
  */
 require_once 'Conn.class.php';
 require_once 'AjusteDataHoraDAO.class.php';
+
 /**
- * Description of InsBolFechadoMMDAO
+ * Description of InsBolAbertoMMDAO
  *
  * @author anderson
  */
-class InserirBolFechado2DAO extends Conn {
+class InserirBolAbertoFert2DAO extends Conn {
     //put your code here
 
     /** @var PDOStatement */
@@ -21,22 +22,22 @@ class InserirBolFechado2DAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function salvarDados($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu) {
+    public function salvarDados($dadosBoletim, $dadosAponta, $dadosBolPneu, $dadosItemPneu) {
 
         $this->Conn = parent::getConn();
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-        
+
         foreach ($dadosBoletim as $bol) {
 
             $select = " SELECT "
                     . " COUNT(*) AS QTDE "
                     . " FROM "
-                    . " PMM_BOLETIM "
+                    . " PMM_BOLETIM_FERT "
                     . " WHERE "
-                    . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                    . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI') "
                     . " AND "
-                    . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                    . " EQUIP_ID = " . $bol->codEquipBolFert . " ";
 
             $this->Read = $this->Conn->prepare($select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -49,47 +50,37 @@ class InserirBolFechado2DAO extends Conn {
 
             if ($v == 0) {
 
-                if ($bol->hodometroInicialBoletim > 9999999) {
-                    $bol->hodometroInicialBoletim = 0;
+                if ($bol->hodometroInicialBolFert > 9999999) {
+                    $bol->hodometroInicialBolFert = 0;
                 }
 
-                if ($bol->hodometroFinalBoletim > 9999999) {
-                    $bol->hodometroFinalBoletim = 0;
-                }
-
-                $sql = "INSERT INTO PMM_BOLETIM ("
+                $sql = "INSERT INTO PMM_BOLETIM_FERT ("
                         . " FUNC_MATRIC "
                         . " , EQUIP_ID "
+                        . " , EQUIP_BOMBA_ID "
                         . " , TURNO_ID "
                         . " , HOD_HOR_INICIAL "
-                        . " , HOD_HOR_FINAL "
                         . " , OS_NRO "
                         . " , ATIVAGR_PRINC_ID "
                         . " , DTHR_INICIAL "
                         . " , DTHR_INICIAL_CEL "
                         . " , DTHR_TRANS_INICIAL "
-                        . " , DTHR_FINAL "
-                        . " , DTHR_FINAL_CEL "
-                        . " , DTHR_TRANS_FINAL "
                         . " , STATUS "
                         . " , STATUS_CONEXAO "
                         . " ) "
                         . " VALUES ("
-                        . " " . $bol->codMotoBoletim
-                        . " , " . $bol->codEquipBoletim
-                        . " , " . $bol->codTurnoBoletim
-                        . " , " . $bol->hodometroInicialBoletim
-                        . " , " . $bol->hodometroFinalBoletim
-                        . " , " . $bol->osBoletim
-                        . " , " . $bol->ativPrincBoletim
-                        . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
-                        . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                        . " " . $bol->codMotoBolFert
+                        . " , " . $bol->codEquipBolFert
+                        . " , " . $bol->codEquipBombaBolFert
+                        . " , " . $bol->codTurnoBolFert
+                        . " , " . $bol->hodometroInicialBolFert
+                        . " , " . $bol->osBolFert
+                        . " , " . $bol->ativPrincBolFert
+                        . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicioBolFert)
+                        . " , TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI') "
                         . " , SYSDATE "
-                        . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrFimBoletim)
-                        . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
-                        . " , SYSDATE "
-                        . " , 2 "
-                        . " , " . $bol->statusConBoletim
+                        . " , 1 "
+                        . " , " . $bol->statusConBolFert
                         . " )";
 
                 $this->Create = $this->Conn->prepare($sql);
@@ -98,11 +89,11 @@ class InserirBolFechado2DAO extends Conn {
                 $select = " SELECT "
                         . " ID AS ID "
                         . " FROM "
-                        . " PMM_BOLETIM "
+                        . " PMM_BOLETIM_FERT "
                         . " WHERE "
-                        . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                        . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI') "
                         . " AND "
-                        . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                        . " EQUIP_ID = " . $bol->codEquipBolFert . " ";
 
                 $this->Read = $this->Conn->prepare($select);
                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -115,14 +106,14 @@ class InserirBolFechado2DAO extends Conn {
 
                 foreach ($dadosAponta as $apont) {
 
-                    if ($bol->idBoletim == $apont->idBolAponta) {
+                    if ($bol->idBolFert == $apont->idBolApontaFert) {
 
                         $select = " SELECT "
                                 . " COUNT(*) AS QTDE "
                                 . " FROM "
                                 . " PMM_APONTAMENTO "
                                 . " WHERE "
-                                . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                 . " AND "
                                 . " BOLETIM_ID = " . $idBol . " ";
 
@@ -135,17 +126,28 @@ class InserirBolFechado2DAO extends Conn {
                             $v = $item3['QTDE'];
                         }
 
-                        if ($apont->transbordoAponta == 0) {
-                            $apont->transbordoAponta = "null";
-                        }
-
-                        if ($apont->paradaAponta == 0) {
-                            $apont->paradaAponta = "null";
-                        }
-
                         if ($v == 0) {
 
-                            $sql = "INSERT INTO PMM_APONTAMENTO ("
+                            $raio = "null";
+
+                            if ($apont->paradaApontaFert == 0) {
+                                $apont->paradaApontaFert = "null";
+                                $raio = 45;
+                            }
+
+                            if ($apont->bocalApontaFert == 0) {
+                                $apont->bocalApontaFert = "null";
+                            }
+
+                            if ($apont->pressaoApontaFert == 0) {
+                                $apont->pressaoApontaFert = "null";
+                            }
+
+                            if ($apont->velocApontaFert == 0) {
+                                $apont->velocApontaFert = "null";
+                            }
+
+                            $sql = "INSERT INTO PMM_APONTAMENTO_FERT ("
                                     . " BOLETIM_ID "
                                     . " , OS_NRO "
                                     . " , ATIVAGR_ID "
@@ -153,97 +155,40 @@ class InserirBolFechado2DAO extends Conn {
                                     . " , DTHR "
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
-                                    . " , NRO_EQUIP_TRANSB "
+                                    . " , BOCALBOMBA_ID "
+                                    . " , PRESSAO "
+                                    . " , VELOCIDADE "
+                                    . " , RAIO "
                                     . " , LATITUDE "
                                     . " , LONGITUDE "
                                     . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBol
-                                    . " , " . $apont->osAponta
-                                    . " , " . $apont->atividadeAponta
-                                    . " , " . $apont->paradaAponta
-                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $apont->dthrAponta)
-                                    . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " , " . $apont->osApontaFert
+                                    . " , " . $apont->ativApontaFert
+                                    . " , " . $apont->paradaApontaFert
+                                    . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontaFert)
+                                    . " , TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
-                                    . " , " . $apont->transbordoAponta
-                                    . " , " . $apont->latitudeAponta
-                                    . " , " . $apont->longitudeAponta
-                                    . " , " . $apont->statusConAponta
+                                    . " , " . $apont->bocalApontaFert
+                                    . " , " . $apont->pressaoApontaFert
+                                    . " , " . $apont->velocApontaFert
+                                    . " , " . $raio
+                                    . " , " . $apont->latitudeApontaFert
+                                    . " , " . $apont->longitudeApontaFert
+                                    . " , " . $apont->statusConApontaFert
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
                             $this->Create->execute();
 
-                            $sql = "UPDATE PMM_APONTAMENTO_LOGTRAC "
-                                    . " SET DTAFIM = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
-                                    . " WHERE ID = "
-                                    . " NVL(( "
-                                    . " SELECT MAX(A1.ID) "
-                                    . " FROM PMM_APONTAMENTO_LOGTRAC A1"
-                                    . " , EQUIP E1"
-                                    . " , PMM_BOLETIM B1 "
-                                    . " WHERE B1.ID = " . $idBol
-                                    . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
-                                    . " AND E1.EQUIP_ID = B1.EQUIP_ID), 0)";
-
-                            $this->Create = $this->Conn->prepare($sql);
-                            $this->Create->execute();
-
-                            if ($apont->paradaAponta != "null") {
-
-                                $select = " SELECT "
-                                        . " COUNT(A.ID) AS QTDE "
-                                        . " FROM "
-                                        . " PMM_APONTAMENTO_LOGTRAC A "
-                                        . " WHERE "
-                                        . " A.ID = (SELECT MAX(A1.ID) FROM PMM_APONTAMENTO A1 WHERE A1.MOTPARADA_ID IS NOT NULL)";
-
-                                $this->Read = $this->Conn->prepare($select);
-                                $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                $this->Read->execute();
-                                $res4 = $this->Read->fetchAll();
-
-                                foreach ($res4 as $item4) {
-                                    $v = $item4['QTDE'];
-                                }
-
-                                if ($v == 0) {
-
-                                    $sql = "INSERT INTO PMM_APONTAMENTO_LOGTRAC "
-                                            . " (ID, CDGEQUIPAMENTO, DTAINICIO, CDGMOTIVOPARADA, CDGOM, CDGFUNCIONARIO) "
-                                            . " SELECT "
-                                            . " A.ID "
-                                            . " , E.NRO_EQUIP AS CDGEQUIPAMENTO "
-                                            . " , A.DTHR AS DTAINICIO "
-                                            . " , P.CD AS CDGMOTIVOPARADA "
-                                            . " , A.OS_NRO AS CDGOM "
-                                            . ", B.FUNC_MATRIC AS CDGFUNCIONARIO "
-                                            . " FROM "
-                                            . " PMM_BOLETIM B "
-                                            . " , PMM_APONTAMENTO A "
-                                            . " , EQUIP E "
-                                            . " , MOTIVO_PARADA P "
-                                            . " WHERE "
-                                            . " B.ID = " . $idBol
-                                            . " AND "
-                                            . " B.ID = A.BOLETIM_ID "
-                                            . " AND "
-                                            . " B.EQUIP_ID = E.EQUIP_ID "
-                                            . " AND A.MOTPARADA_ID = P.MOTPARADA_ID "
-                                            . " AND A.ID = (SELECT MAX(A1.ID) FROM PMM_APONTAMENTO A1 WHERE A1.MOTPARADA_ID IS NOT NULL)";
-
-                                    $this->Create = $this->Conn->prepare($sql);
-                                    $this->Create->execute();
-                                }
-                            }
-
                             $select = " SELECT "
                                     . " ID AS ID "
                                     . " FROM "
-                                    . " PMM_APONTAMENTO "
+                                    . " PMM_APONTAMENTO_FERT "
                                     . " WHERE "
-                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                     . " AND "
                                     . " BOLETIM_ID = " . $idBol . " ";
 
@@ -256,63 +201,9 @@ class InserirBolFechado2DAO extends Conn {
                                 $idApont = $item5['ID'];
                             }
 
-                            foreach ($dadosImplemento as $imp) {
-
-                                if ($apont->idAponta == $imp->idApontImplemento) {
-
-                                    if ($imp->codEquipImplemento != 0) {
-
-                                        $select = " SELECT "
-                                                . " COUNT(*) AS QTDE "
-                                                . " FROM "
-                                                . " PMM_IMPLEMENTO "
-                                                . " WHERE "
-                                                . " APONTAMENTO_ID = " . $idApont
-                                                . " AND "
-                                                . " NRO_EQUIP = " . $imp->codEquipImplemento
-                                                . " AND "
-                                                . " POS_EQUIP = " . $imp->posImplemento
-                                                . " AND "
-                                                . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') ";
-
-                                        $this->Read = $this->Conn->prepare($select);
-                                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                        $this->Read->execute();
-                                        $res6 = $this->Read->fetchAll();
-
-                                        foreach ($res6 as $item6) {
-                                            $v = $item6['QTDE'];
-                                        }
-
-                                        if ($v == 0) {
-
-                                            $sql = "INSERT INTO PMM_IMPLEMENTO ("
-                                                    . " APONTAMENTO_ID "
-                                                    . " , NRO_EQUIP "
-                                                    . " , POS_EQUIP "
-                                                    . " , DTHR "
-                                                    . " , DTHR_CEL "
-                                                    . " , DTHR_TRANS "
-                                                    . " ) "
-                                                    . " VALUES ("
-                                                    . " " . $idApont
-                                                    . " , " . $imp->codEquipImplemento
-                                                    . " , " . $imp->posImplemento
-                                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
-                                                    . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
-                                                    . " , SYSDATE "
-                                                    . " )";
-
-                                            $this->Create = $this->Conn->prepare($sql);
-                                            $this->Create->execute();
-                                        }
-                                    }
-                                }
-                            }
-
                             foreach ($dadosBolPneu as $bolPneu) {
 
-                                if ($apont->idAponta == $bolPneu->idApontBolPneu) {
+                                if ($apont->idApontaFert == $bolPneu->idApontBolPneu) {
 
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
@@ -349,7 +240,7 @@ class InserirBolFechado2DAO extends Conn {
                                                 . " " . $idApont
                                                 . " , " . $bolPneu->funcBolPneu
                                                 . " , " . $bolPneu->equipBolPneu
-                                                . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
+                                                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bolPneu->dthrBolPneu)
                                                 . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
@@ -420,7 +311,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
+                                                            . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
                                                             . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
@@ -438,9 +329,9 @@ class InserirBolFechado2DAO extends Conn {
                             $select = " SELECT "
                                     . " ID AS ID "
                                     . " FROM "
-                                    . " PMM_APONTAMENTO "
+                                    . " PMM_APONTAMENTO_FERT "
                                     . " WHERE "
-                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                     . " AND "
                                     . " BOLETIM_ID = " . $idBol . " ";
 
@@ -451,60 +342,6 @@ class InserirBolFechado2DAO extends Conn {
 
                             foreach ($res10 as $item10) {
                                 $idApont = $item10['ID'];
-                            }
-
-                            foreach ($dadosImplemento as $imp) {
-
-                                if ($apont->idAponta == $imp->idApontImplemento) {
-
-                                    if ($imp->codEquipImplemento != 0) {
-
-                                        $select = " SELECT "
-                                                . " COUNT(*) AS QTDE "
-                                                . " FROM "
-                                                . " PMM_IMPLEMENTO "
-                                                . " WHERE "
-                                                . " APONTAMENTO_ID = " . $idApont
-                                                . " AND "
-                                                . " NRO_EQUIP = " . $imp->codEquipImplemento
-                                                . " AND "
-                                                . " POS_EQUIP = " . $imp->posImplemento
-                                                . " AND "
-                                                . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') ";
-
-                                        $this->Read = $this->Conn->prepare($select);
-                                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                        $this->Read->execute();
-                                        $res11 = $this->Read->fetchAll();
-
-                                        foreach ($res11 as $item11) {
-                                            $v = $item11['QTDE'];
-                                        }
-
-                                        if ($v == 0) {
-
-                                            $sql = "INSERT INTO PMM_IMPLEMENTO ("
-                                                    . " APONTAMENTO_ID "
-                                                    . " , NRO_EQUIP "
-                                                    . " , POS_EQUIP "
-                                                    . " , DTHR "
-                                                    . " , DTHR_CEL "
-                                                    . " , DTHR_TRANS "
-                                                    . " ) "
-                                                    . " VALUES ("
-                                                    . " " . $idApont
-                                                    . " , " . $imp->codEquipImplemento
-                                                    . " , " . $imp->posImplemento
-                                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
-                                                    . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
-                                                    . " , SYSDATE "
-                                                    . " )";
-
-                                            $this->Create = $this->Conn->prepare($sql);
-                                            $this->Create->execute();
-                                        }
-                                    }
-                                }
                             }
 
                             foreach ($dadosBolPneu as $bolPneu) {
@@ -546,7 +383,7 @@ class InserirBolFechado2DAO extends Conn {
                                                 . " " . $idApont
                                                 . " , " . $bolPneu->funcBolPneu
                                                 . " , " . $bolPneu->equipBolPneu
-                                                . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
+                                                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bolPneu->dthrBolPneu)
                                                 . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
@@ -593,7 +430,7 @@ class InserirBolFechado2DAO extends Conn {
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                                 $this->Read->execute();
-                                                $res4 = $this->Read->fetchAll();
+                                                $res14 = $this->Read->fetchAll();
 
                                                 foreach ($res14 as $item14) {
                                                     $v = $item14['QTDE'];
@@ -617,7 +454,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , " . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
+                                                            . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
                                                             . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
@@ -633,125 +470,70 @@ class InserirBolFechado2DAO extends Conn {
                         }
                     }
                 }
-
-                foreach ($dadosRendimento as $rend) {
-
-                    if ($bol->idBoletim == $rend->idBolRendimento) {
-
-                        $select = " SELECT "
-                                . " COUNT(*) AS QTDE "
-                                . " FROM "
-                                . " PMM_RENDIMENTO "
-                                . " WHERE "
-                                . " OS_NRO = " . $rend->nroOSRendimento
-                                . " AND "
-                                . " DTHR_CEL = TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
-                                . " AND "
-                                . " BOLETIM_ID = " . $idBol;
-
-                        $this->Read = $this->Conn->prepare($select);
-                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                        $this->Read->execute();
-                        $res15 = $this->Read->fetchAll();
-
-                        foreach ($res15 as $item15) {
-                            $v = $item15['QTDE'];
-                        }
-
-                        if ($v == 0) {
-
-                            $sql = "INSERT INTO PMM_RENDIMENTO ("
-                                    . " BOLETIM_ID "
-                                    . " , OS_NRO "
-                                    . " , VL "
-                                    . " , DTHR "
-                                    . " , DTHR_CEL "
-                                    . " , DTHR_TRANS "
-                                    . " ) "
-                                    . " VALUES ("
-                                    . " " . $idBol
-                                    . " , " . $rend->nroOSRendimento
-                                    . " , " . $rend->valorRendimento
-                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $apont->dthrAponta)
-                                    . " , TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
-                                    . " , SYSDATE "
-                                    . " )";
-
-                            $this->Create = $this->Conn->prepare($sql);
-                            $this->Create->execute();
-                        }
-                    }
-                }
             } else {
-
-                if ($bol->hodometroFinalBoletim > 9999999) {
-                    $bol->hodometroFinalBoletim = 0;
-                }
-
-                $sql = "UPDATE PMM_BOLETIM "
-                        . " SET "
-                        . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
-                        . " , STATUS = " . $bol->statusBoletim
-                        . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
-                        . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
-                        . " , DTHR_TRANS_FINAL = SYSDATE "
-                        . " WHERE "
-                        . " ID = " . $bol->idExtBoletim;
-
-                $this->Create = $this->Conn->prepare($sql);
-                $this->Create->execute();
 
                 $select = " SELECT "
                         . " ID AS ID "
                         . " FROM "
-                        . " PMM_BOLETIM "
+                        . " PMM_BOLETIM_FERT "
                         . " WHERE "
-                        . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                        . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI') "
                         . " AND "
-                        . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                        . " EQUIP_ID = " . $bol->codEquipBolFert . " ";
 
                 $this->Read = $this->Conn->prepare($select);
                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                 $this->Read->execute();
-                $res16 = $this->Read->fetchAll();
+                $res15 = $this->Read->fetchAll();
 
-                foreach ($res16 as $item16) {
-                    $idBol = $item16['ID'];
+                foreach ($res15 as $item15) {
+                    $idBol = $item15['ID'];
                 }
 
                 foreach ($dadosAponta as $apont) {
 
-                    if ($bol->idBoletim == $apont->idBolAponta) {
+                    if ($bol->idBolFert == $apont->idBolApontaFert) {
 
                         $select = " SELECT "
                                 . " COUNT(*) AS QTDE "
                                 . " FROM "
-                                . " PMM_APONTAMENTO "
+                                . " PMM_APONTAMENTO_FERT "
                                 . " WHERE "
-                                . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                 . " AND "
                                 . " BOLETIM_ID = " . $idBol . " ";
 
                         $this->Read = $this->Conn->prepare($select);
                         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                         $this->Read->execute();
-                        $res17 = $this->Read->fetchAll();
+                        $res16 = $this->Read->fetchAll();
 
-                        foreach ($res17 as $item17) {
-                            $v = $item17['QTDE'];
-                        }
-
-                        if ($apont->transbordoAponta == 0) {
-                            $apont->transbordoAponta = "null";
-                        }
-
-                        if ($apont->paradaAponta == 0) {
-                            $apont->paradaAponta = "null";
+                        foreach ($res16 as $item16) {
+                            $v = $item16['QTDE'];
                         }
 
                         if ($v == 0) {
 
-                            $sql = "INSERT INTO PMM_APONTAMENTO ("
+                            $raio = "null";
+
+                            if ($apont->paradaApontaFert == 0) {
+                                $apont->paradaApontaFert = "null";
+                                $raio = 45;
+                            }
+
+                            if ($apont->bocalApontaFert == 0) {
+                                $apont->bocalApontaFert = "null";
+                            }
+
+                            if ($apont->pressaoApontaFert == 0) {
+                                $apont->pressaoApontaFert = "null";
+                            }
+
+                            if ($apont->velocApontaFert == 0) {
+                                $apont->velocApontaFert = "null";
+                            }
+
+                            $sql = "INSERT INTO PMM_APONTAMENTO_FERT ("
                                     . " BOLETIM_ID "
                                     . " , OS_NRO "
                                     . " , ATIVAGR_ID "
@@ -759,166 +541,55 @@ class InserirBolFechado2DAO extends Conn {
                                     . " , DTHR "
                                     . " , DTHR_CEL "
                                     . " , DTHR_TRANS "
-                                    . " , NRO_EQUIP_TRANSB "
+                                    . " , BOCALBOMBA_ID "
+                                    . " , PRESSAO "
+                                    . " , VELOCIDADE "
+                                    . " , RAIO "
                                     . " , LATITUDE "
                                     . " , LONGITUDE "
                                     . " , STATUS_CONEXAO "
                                     . " ) "
                                     . " VALUES ("
                                     . " " . $idBol
-                                    . " , " . $apont->osAponta
-                                    . " , " . $apont->atividadeAponta
-                                    . " , " . $apont->paradaAponta
-                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $apont->dthrAponta)
-                                    . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " , " . $apont->osApontaFert
+                                    . " , " . $apont->ativApontaFert
+                                    . " , " . $apont->paradaApontaFert
+                                    . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontaFert)
+                                    . " , TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
                                     . " , SYSDATE "
-                                    . " , " . $apont->transbordoAponta
-                                    . " , " . $apont->latitudeAponta
-                                    . " , " . $apont->longitudeAponta
-                                    . " , " . $apont->statusConAponta
+                                    . " , " . $apont->bocalApontaFert
+                                    . " , " . $apont->pressaoApontaFert
+                                    . " , " . $apont->velocApontaFert
+                                    . " , " . $raio
+                                    . " , " . $apont->latitudeApontaFert
+                                    . " , " . $apont->longitudeApontaFert
+                                    . " , " . $apont->statusConApontaFert
                                     . " )";
 
                             $this->Create = $this->Conn->prepare($sql);
                             $this->Create->execute();
 
-                            $sql = "UPDATE PMM_APONTAMENTO_LOGTRAC "
-                                    . " SET DTAFIM = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
-                                    . " WHERE ID = "
-                                    . " NVL(( "
-                                    . " SELECT MAX(A1.ID) "
-                                    . " FROM PMM_APONTAMENTO_LOGTRAC A1"
-                                    . " , EQUIP E1"
-                                    . " , PMM_BOLETIM B1 "
-                                    . " WHERE B1.ID = " . $idBol
-                                    . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
-                                    . " AND E1.EQUIP_ID = B1.EQUIP_ID), 0)";
-
-                            $this->Create = $this->Conn->prepare($sql);
-                            $this->Create->execute();
-
-                            if ($apont->paradaAponta != "null") {
-
-                                $select = " SELECT "
-                                        . " COUNT(A.ID) AS QTDE "
-                                        . " FROM "
-                                        . " PMM_APONTAMENTO_LOGTRAC A "
-                                        . " WHERE "
-                                        . " A.ID = (SELECT MAX(A1.ID) FROM PMM_APONTAMENTO A1 WHERE A1.MOTPARADA_ID IS NOT NULL)";
-
-                                $this->Read = $this->Conn->prepare($select);
-                                $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                $this->Read->execute();
-                                $res18 = $this->Read->fetchAll();
-
-                                foreach ($res18 as $item18) {
-                                    $v = $item18['QTDE'];
-                                }
-
-                                if ($v == 0) {
-
-                                    $sql = "INSERT INTO PMM_APONTAMENTO_LOGTRAC "
-                                            . " (ID, CDGEQUIPAMENTO, DTAINICIO, CDGMOTIVOPARADA, CDGOM, CDGFUNCIONARIO) "
-                                            . " SELECT "
-                                            . " A.ID "
-                                            . " , E.NRO_EQUIP AS CDGEQUIPAMENTO "
-                                            . " , A.DTHR AS DTAINICIO "
-                                            . " , P.CD AS CDGMOTIVOPARADA "
-                                            . " , A.OS_NRO AS CDGOM "
-                                            . ", B.FUNC_MATRIC AS CDGFUNCIONARIO "
-                                            . " FROM "
-                                            . " PMM_BOLETIM B "
-                                            . " , PMM_APONTAMENTO A "
-                                            . " , EQUIP E "
-                                            . " , MOTIVO_PARADA P "
-                                            . " WHERE "
-                                            . " B.ID = " . $idBol
-                                            . " AND "
-                                            . " B.ID = A.BOLETIM_ID "
-                                            . " AND "
-                                            . " B.EQUIP_ID = E.EQUIP_ID "
-                                            . " AND A.MOTPARADA_ID = P.MOTPARADA_ID "
-                                            . " AND A.ID = (SELECT MAX(A1.ID) FROM PMM_APONTAMENTO A1 WHERE A1.MOTPARADA_ID IS NOT NULL)";
-
-                                    $this->Create = $this->Conn->prepare($sql);
-                                    $this->Create->execute();
-                                }
-                            }
-
                             $select = " SELECT "
                                     . " ID AS ID "
                                     . " FROM "
-                                    . " PMM_APONTAMENTO "
+                                    . " PMM_APONTAMENTO_FERT "
                                     . " WHERE "
-                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                     . " AND "
                                     . " BOLETIM_ID = " . $idBol . " ";
 
                             $this->Read = $this->Conn->prepare($select);
                             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                             $this->Read->execute();
-                            $res19 = $this->Read->fetchAll();
+                            $res18 = $this->Read->fetchAll();
 
-                            foreach ($res19 as $item19) {
-                                $idApont = $item19['ID'];
-                            }
-
-                            foreach ($dadosImplemento as $imp) {
-
-                                if ($apont->idAponta == $imp->idApontImplemento) {
-
-                                    if ($imp->codEquipImplemento != 0) {
-
-                                        $select = " SELECT "
-                                                . " COUNT(*) AS QTDE "
-                                                . " FROM "
-                                                . " PMM_IMPLEMENTO "
-                                                . " WHERE "
-                                                . " APONTAMENTO_ID = " . $idApont
-                                                . " AND "
-                                                . " NRO_EQUIP = " . $imp->codEquipImplemento
-                                                . " AND "
-                                                . " POS_EQUIP = " . $imp->posImplemento
-                                                . " AND "
-                                                . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') ";
-
-                                        $this->Read = $this->Conn->prepare($select);
-                                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                        $this->Read->execute();
-                                        $res20 = $this->Read->fetchAll();
-
-                                        foreach ($res20 as $item20) {
-                                            $v = $item20['QTDE'];
-                                        }
-
-                                        if ($v == 0) {
-
-                                            $sql = "INSERT INTO PMM_IMPLEMENTO ("
-                                                    . " APONTAMENTO_ID "
-                                                    . " , NRO_EQUIP "
-                                                    . " , POS_EQUIP "
-                                                    . " , DTHR "
-                                                    . " , DTHR_CEL "
-                                                    . " , DTHR_TRANS "
-                                                    . " ) "
-                                                    . " VALUES ("
-                                                    . " " . $idApont
-                                                    . " , " . $imp->codEquipImplemento
-                                                    . " , " . $imp->posImplemento
-                                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
-                                                    . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
-                                                    . " , SYSDATE "
-                                                    . " )";
-
-                                            $this->Create = $this->Conn->prepare($sql);
-                                            $this->Create->execute();
-                                        }
-                                    }
-                                }
+                            foreach ($res18 as $item18) {
+                                $idApont = $item18['ID'];
                             }
 
                             foreach ($dadosBolPneu as $bolPneu) {
 
-                                if ($apont->idAponta == $bolPneu->idApontBolPneu) {
+                                if ($apont->idApontaFert == $bolPneu->idApontBolPneu) {
 
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
@@ -929,16 +600,15 @@ class InserirBolFechado2DAO extends Conn {
                                             . " AND "
                                             . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                             . " AND "
-                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                                    ;
+                                            . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res21 = $this->Read->fetchAll();
+                                    $res20 = $this->Read->fetchAll();
 
-                                    foreach ($res21 as $item21) {
-                                        $v = $item21['QTDE'];
+                                    foreach ($res20 as $item20) {
+                                        $v = $item20['QTDE'];
                                     }
 
                                     if ($v == 0) {
@@ -955,7 +625,7 @@ class InserirBolFechado2DAO extends Conn {
                                                 . " " . $idApont
                                                 . " , " . $bolPneu->funcBolPneu
                                                 . " , " . $bolPneu->equipBolPneu
-                                                . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
+                                                . " , " . $ajusteDataHoraDAO->dataHoraGMT($imp->dthrImplemento)
                                                 . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
@@ -972,7 +642,7 @@ class InserirBolFechado2DAO extends Conn {
                                                         . " FROM "
                                                         . " PMM_BOLETIM_PNEU "
                                                         . " WHERE "
-                                                        . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
+                                                        . " FUNC_ID = " . $bolPneu->funcBolPneu
                                                         . " AND "
                                                         . " EQUIP_ID = " . $bolPneu->equipBolPneu
                                                         . " AND "
@@ -982,10 +652,10 @@ class InserirBolFechado2DAO extends Conn {
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                                 $this->Read->execute();
-                                                $res22 = $this->Read->fetchAll();
+                                                $res21 = $this->Read->fetchAll();
 
-                                                foreach ($res22 as $item22) {
-                                                    $idBolPneu = $item22['IDBOLPNEU'];
+                                                foreach ($res21 as $item21) {
+                                                    $idBolPneu = $item21['IDBOLPNEU'];
                                                 }
 
                                                 $select = " SELECT "
@@ -1002,10 +672,10 @@ class InserirBolFechado2DAO extends Conn {
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                                 $this->Read->execute();
-                                                $res23 = $this->Read->fetchAll();
+                                                $res22 = $this->Read->fetchAll();
 
-                                                foreach ($res23 as $item23) {
-                                                    $v = $item23['QTDE'];
+                                                foreach ($res22 as $item22) {
+                                                    $v = $item22['QTDE'];
                                                 }
 
                                                 if ($v == 0) {
@@ -1026,7 +696,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
+                                                            . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
                                                             . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
@@ -1044,78 +714,24 @@ class InserirBolFechado2DAO extends Conn {
                             $select = " SELECT "
                                     . " ID AS ID "
                                     . " FROM "
-                                    . " PMM_APONTAMENTO "
+                                    . " PMM_APONTAMENTO_FERT "
                                     . " WHERE "
-                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI') "
                                     . " AND "
                                     . " BOLETIM_ID = " . $idBol . " ";
 
                             $this->Read = $this->Conn->prepare($select);
                             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                             $this->Read->execute();
-                            $res24 = $this->Read->fetchAll();
+                            $res23 = $this->Read->fetchAll();
 
-                            foreach ($res24 as $item24) {
-                                $idApont = $item24['ID'];
-                            }
-
-                            foreach ($dadosImplemento as $imp) {
-
-                                if ($apont->idAponta == $imp->idApontImplemento) {
-
-                                    if ($imp->codEquipImplemento != 0) {
-
-                                        $select = " SELECT "
-                                                . " COUNT(*) AS QTDE "
-                                                . " FROM "
-                                                . " PMM_IMPLEMENTO "
-                                                . " WHERE "
-                                                . " APONTAMENTO_ID = " . $idApont
-                                                . " AND "
-                                                . " NRO_EQUIP = " . $imp->codEquipImplemento
-                                                . " AND "
-                                                . " POS_EQUIP = " . $imp->posImplemento
-                                                . " AND "
-                                                . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') ";
-
-                                        $this->Read = $this->Conn->prepare($select);
-                                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                                        $this->Read->execute();
-                                        $res25 = $this->Read->fetchAll();
-
-                                        foreach ($res25 as $item25) {
-                                            $v = $item25['QTDE'];
-                                        }
-
-                                        if ($v == 0) {
-
-                                            $sql = "INSERT INTO PMM_IMPLEMENTO ("
-                                                    . " APONTAMENTO_ID "
-                                                    . " , NRO_EQUIP "
-                                                    . " , POS_EQUIP "
-                                                    . " , DTHR "
-                                                    . " , DTHR_CEL "
-                                                    . " , DTHR_TRANS "
-                                                    . " ) "
-                                                    . " VALUES ("
-                                                    . " " . $idApont
-                                                    . " , " . $imp->codEquipImplemento
-                                                    . " , " . $imp->posImplemento
-                                                    . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
-                                                    . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
-                                                    . " , SYSDATE "
-                                                    . " )";
-
-                                            $this->Create = $this->Conn->prepare($sql);
-                                            $this->Create->execute();
-                                        }
-                                    }
-                                }
+                            foreach ($res23 as $item23) {
+                                $idApont = $item23['ID'];
                             }
 
                             foreach ($dadosBolPneu as $bolPneu) {
 
-                                if ($apont->idAponta == $bolPneu->idApontBolPneu) {
+                                if ($apont->idApontaFert == $bolPneu->idApontBolPneu) {
 
                                     $select = " SELECT "
                                             . " COUNT(*) AS QTDE "
@@ -1132,10 +748,10 @@ class InserirBolFechado2DAO extends Conn {
                                     $this->Read = $this->Conn->prepare($select);
                                     $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                     $this->Read->execute();
-                                    $res26 = $this->Read->fetchAll();
+                                    $res25 = $this->Read->fetchAll();
 
-                                    foreach ($res26 as $item26) {
-                                        $v = $item26['QTDE'];
+                                    foreach ($res25 as $item25) {
+                                        $v = $item25['QTDE'];
                                     }
 
                                     if ($v == 0) {
@@ -1152,7 +768,7 @@ class InserirBolFechado2DAO extends Conn {
                                                 . " " . $idApont
                                                 . " , " . $bolPneu->funcBolPneu
                                                 . " , " . $bolPneu->equipBolPneu
-                                                . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
+                                                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bolPneu->dthrBolPneu)
                                                 . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                                                 . " , SYSDATE "
                                                 . " )";
@@ -1179,10 +795,10 @@ class InserirBolFechado2DAO extends Conn {
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                                 $this->Read->execute();
-                                                $res27 = $this->Read->fetchAll();
+                                                $res26 = $this->Read->fetchAll();
 
-                                                foreach ($res27 as $item27) {
-                                                    $idBolPneu = $item27['IDBOLPNEU'];
+                                                foreach ($res26 as $item26) {
+                                                    $idBolPneu = $item26['IDBOLPNEU'];
                                                 }
 
                                                 $select = " SELECT "
@@ -1199,10 +815,10 @@ class InserirBolFechado2DAO extends Conn {
                                                 $this->Read = $this->Conn->prepare($select);
                                                 $this->Read->setFetchMode(PDO::FETCH_ASSOC);
                                                 $this->Read->execute();
-                                                $res28 = $this->Read->fetchAll();
+                                                $res12 = $this->Read->fetchAll();
 
-                                                foreach ($res28 as $item28) {
-                                                    $v = $item28['QTDE'];
+                                                foreach ($res12 as $item12) {
+                                                    $v = $item12['QTDE'];
                                                 }
 
                                                 if ($v == 0) {
@@ -1223,7 +839,7 @@ class InserirBolFechado2DAO extends Conn {
                                                             . " , " . $itemPneu->nroPneuItemMedPneu
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
-                                                            . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
+                                                            . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
                                                             . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
                                                             . " , SYSDATE "
                                                             . " )";
@@ -1239,59 +855,10 @@ class InserirBolFechado2DAO extends Conn {
                         }
                     }
                 }
-
-                foreach ($dadosRendimento as $rend) {
-
-                    if ($bol->idBoletim == $rend->idBolRendimento) {
-
-                        $select = " SELECT "
-                                . " COUNT(*) AS QTDE "
-                                . " FROM "
-                                . " PMM_RENDIMENTO "
-                                . " WHERE "
-                                . " OS_NRO = " . $rend->nroOSRendimento
-                                . " AND "
-                                . " DTHR_CEL = TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
-                                . " AND "
-                                . " BOLETIM_ID = " . $idBol;
-
-                        $this->Read = $this->Conn->prepare($select);
-                        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-                        $this->Read->execute();
-                        $res29 = $this->Read->fetchAll();
-
-                        foreach ($res29 as $item29) {
-                            $v = $item29['QTDE'];
-                        }
-
-                        if ($v == 0) {
-
-                            $sql = "INSERT INTO PMM_RENDIMENTO ("
-                                    . " BOLETIM_ID "
-                                    . " , OS_NRO "
-                                    . " , VL "
-                                    . " , DTHR "
-                                    . " , DTHR_CEL "
-                                    . " , DTHR_TRANS "
-                                    . " ) "
-                                    . " VALUES ("
-                                    . " " . $idBol
-                                    . " , " . $rend->nroOSRendimento
-                                    . " , " . $rend->valorRendimento
-                                    . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $rend->dthrRendimento)
-                                    . " , TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
-                                    . " , SYSDATE "
-                                    . " )";
-
-                            $this->Create = $this->Conn->prepare($sql);
-                            $this->Create->execute();
-                        }
-                    }
-                }
             }
         }
 
-        return 'GRAVOU-BOLFECHADO';
+        return "GRAVFERT+id=" . $idBol . "_";
     }
 
 }

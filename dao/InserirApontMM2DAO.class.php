@@ -12,7 +12,7 @@ require_once 'AjusteDataHoraDAO.class.php';
  *
  * @author anderson
  */
-class InserirApont2DAO extends Conn {
+class InserirApontMM2DAO extends Conn {
     //put your code here
 
     /** @var PDO */

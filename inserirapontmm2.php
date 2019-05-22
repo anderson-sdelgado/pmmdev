@@ -1,9 +1,9 @@
 <?php
 
-require('./dao/InserirApont2DAO.class.php');
+require('./dao/InserirApontMM2DAO.class.php');
 require('./dao/InserirDadosDAO.class.php');
 
-$inserirApontDAO = new InserirApont2DAO();
+$inserirApontDAO = new InserirApontMM2DAO();
 $inserirDadosDAO = new InserirDadosDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 $retorno = '';
