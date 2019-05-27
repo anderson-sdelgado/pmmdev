@@ -325,7 +325,7 @@ class InserirApontMM2DAO extends Conn {
                                                 . " VALUES ("
                                                 . " " . $idBolPneu
                                                 . " , " . $itemPneu->posItemMedPneu
-                                                . " , " . $itemPneu->nroPneuItemMedPneu
+                                                . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
                                                 . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)
@@ -521,7 +521,7 @@ class InserirApontMM2DAO extends Conn {
                                                 . " VALUES ("
                                                 . " " . $idBolPneu
                                                 . " , " . $itemPneu->posItemMedPneu
-                                                . " , " . $itemPneu->nroPneuItemMedPneu
+                                                . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                 . " , " . $itemPneu->pressaoEncItemMedPneu
                                                 . " , " . $itemPneu->pressaoColItemMedPneu
                                                 . " , "  . $ajusteDataHoraDAO->dataHoraIdBolPneu($idBolPneu, $itemPneu->dthrItemMedPneu)

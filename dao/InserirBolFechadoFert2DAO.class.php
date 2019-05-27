@@ -321,7 +321,7 @@ class InserirBolFechadoFert2DAO extends Conn {
                                                             . " VALUES ("
                                                             . " " . $idBolPneu
                                                             . " , " . $itemPneu->posItemMedPneu
-                                                            . " , " . $itemPneu->nroPneuItemMedPneu
+                                                            . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
                                                             . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
@@ -464,7 +464,7 @@ class InserirBolFechadoFert2DAO extends Conn {
                                                             . " VALUES ("
                                                             . " " . $idBolPneu
                                                             . " , " . $itemPneu->posItemMedPneu
-                                                            . " , " . $itemPneu->nroPneuItemMedPneu
+                                                            . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
                                                             . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
@@ -775,7 +775,7 @@ class InserirBolFechadoFert2DAO extends Conn {
                                                             . " VALUES ("
                                                             . " " . $idBolPneu
                                                             . " , " . $itemPneu->posItemMedPneu
-                                                            . " , " . $itemPneu->nroPneuItemMedPneu
+                                                            . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
                                                             . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
@@ -918,7 +918,7 @@ class InserirBolFechadoFert2DAO extends Conn {
                                                             . " VALUES ("
                                                             . " " . $idBolPneu
                                                             . " , " . $itemPneu->posItemMedPneu
-                                                            . " , " . $itemPneu->nroPneuItemMedPneu
+                                                            . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
                                                             . " , " . $itemPneu->pressaoEncItemMedPneu
                                                             . " , " . $itemPneu->pressaoColItemMedPneu
                                                             . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemMedPneu)
