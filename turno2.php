@@ -1,14 +1,7 @@
 <?php
 
-require('./dao/Turno2DAO.class.php');
+require('./control/TurnoCTR.class.php');
 
-$turnoDAO = new Turno2DAO();
+$turnoCTR = new TurnoCTR();
 
-//cria o array associativo
-$dados = array("dados"=>$turnoDAO->dados());
-
-//converte o conteúdo do array associativo para uma string JSON
-$json_str = json_encode($dados);
-
-//imprime a string JSON
-echo $json_str;
+echo $turnoCTR->dados();
