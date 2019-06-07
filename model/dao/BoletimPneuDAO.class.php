@@ -16,13 +16,15 @@ class BoletimPneuDAO extends Conn {
 
     //put your code here
 
-    public function verifBoletimPneu($bolPneu) {
+    public function verifBoletimPneu($idApont, $bolPneu) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
                 . " PMP_BOLETIM "
                 . " WHERE "
+                . " APONTAMENTO_ID = " . $idApont
+                . " AND "
                 . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                 . " AND "
                 . " EQUIP_ID = " . $bolPneu->equipBolPneu
@@ -42,7 +44,7 @@ class BoletimPneuDAO extends Conn {
         return $v;
     }
 
-    public function idBoletimPneu($bolPneu) {
+    public function idBoletimPneu($idApont, $bolPneu) {
 
         $select = " SELECT "
                 . " ID AS IDBOLPNEU "

@@ -7,6 +7,7 @@
  */
 require_once './dbutil/Conn.class.php';
 require_once 'AjusteDataHoraDAO.class.php';
+
 /**
  * Description of BoletimMM
  *
@@ -49,6 +50,7 @@ class BoletimMMDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -59,6 +61,46 @@ class BoletimMMDAO extends Conn {
         }
 
         return $id;
+    }
+
+    public function insBoletimMMAberto($bol) {
+
+        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
+
+        if ($bol->hodometroInicialBoletim > 9999999) {
+            $bol->hodometroInicialBoletim = 0;
+        }
+
+        $sql = "INSERT INTO PMM_BOLETIM ("
+                . " FUNC_MATRIC "
+                . " , EQUIP_ID "
+                . " , TURNO_ID "
+                . " , HOD_HOR_INICIAL "
+                . " , OS_NRO "
+                . " , ATIVAGR_PRINC_ID "
+                . " , DTHR_INICIAL "
+                . " , DTHR_INICIAL_CEL "
+                . " , DTHR_TRANS_INICIAL "
+                . " , STATUS "
+                . " , STATUS_CONEXAO "
+                . " ) "
+                . " VALUES ("
+                . " " . $bol->codMotoBoletim
+                . " , " . $bol->codEquipBoletim
+                . " , " . $bol->codTurnoBoletim
+                . " , " . $bol->hodometroInicialBoletim
+                . " , " . $bol->osBoletim
+                . " , " . $bol->ativPrincBoletim
+                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
+                . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
+                . " , SYSDATE "
+                . " , 1 "
+                . " , " . $bol->statusConBoletim
+                . " )";
+
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
     }
 
     public function insBoletimMMFechado($bol) {
@@ -108,6 +150,30 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->statusConBoletim
                 . " )";
 
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+    }
+
+    public function updateBoletimMMFechado($bol) {
+
+        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
+
+        if ($bol->hodometroFinalBoletim > 9999999) {
+            $bol->hodometroFinalBoletim = 0;
+        }
+
+        $sql = "UPDATE PMM_BOLETIM "
+                . " SET "
+                . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
+                . " , STATUS = " . $bol->statusBoletim
+                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
+                . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
+                . " , DTHR_TRANS_FINAL = SYSDATE "
+                . " WHERE "
+                . " ID = " . $bol->idExtBoletim;
+
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

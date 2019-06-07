@@ -7,28 +7,27 @@
  */
 require_once './dbutil/Conn.class.php';
 require_once 'AjusteDataHoraDAO.class.php';
+
 /**
- * Description of ImplementoDAO
+ * Description of RendimentoMM
  *
  * @author anderson
  */
-class ImplementoMMDAO extends Conn {
+class RendimentoMMDAO extends Conn {
 
     //put your code here
-    public function verifImplementoMM($idApont, $imp) {
+    public function verifRendimentoMM($idBol, $rend) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " PMM_IMPLEMENTO "
+                . " PMM_RENDIMENTO "
                 . " WHERE "
-                . " APONTAMENTO_ID = " . $idApont
+                . " OS_NRO = " . $rend->nroOSRendimento
                 . " AND "
-                . " NRO_EQUIP = " . $imp->codEquipImplemento
+                . " DTHR_CEL = TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " POS_EQUIP = " . $imp->posImplemento
-                . " AND "
-                . " DTHR_CEL = TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') ";
+                . " BOLETIM_ID = " . $idBol;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -43,24 +42,24 @@ class ImplementoMMDAO extends Conn {
         return $v;
     }
 
-    public function insImplementoMM($idApont, $imp) {
+    public function insRendimentoMM($idBol, $rend) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
-        $sql = "INSERT INTO PMM_IMPLEMENTO ("
-                . " APONTAMENTO_ID "
-                . " , NRO_EQUIP "
-                . " , POS_EQUIP "
+        $sql = "INSERT INTO PMM_RENDIMENTO ("
+                . " BOLETIM_ID "
+                . " , OS_NRO "
+                . " , VL "
                 . " , DTHR "
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
                 . " ) "
                 . " VALUES ("
-                . " " . $idApont
-                . " , " . $imp->codEquipImplemento
-                . " , " . $imp->posImplemento
-                . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $imp->dthrImplemento)
-                . " , TO_DATE('" . $imp->dthrImplemento . "','DD/MM/YYYY HH24:MI') "
+                . " " . $idBol
+                . " , " . $rend->nroOSRendimento
+                . " , " . $rend->valorRendimento
+                . " , " . $ajusteDataHoraDAO->dataHoraIdBoletim($idBol, $rend->dthrRendimento)
+                . " , TO_DATE('" . $rend->dthrRendimento . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";
 

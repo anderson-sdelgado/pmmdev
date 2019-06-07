@@ -51,6 +51,7 @@ class ApontMMDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -102,6 +103,7 @@ class ApontMMDAO extends Conn {
                 . " , " . $apont->statusConAponta
                 . " )";
 
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
