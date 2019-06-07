@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once './dbutil/Conn.class.php';
-require_once 'AjusteDataHoraDAO.class.php';
+require_once ('./dbutil/Conn.class.php');
+require_once ('./model/dao/AjusteDataHoraDAO.class.php');
 /**
  * Description of CabecChecklist
  *

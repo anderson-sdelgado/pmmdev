@@ -5,27 +5,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./dao/InserirLogDAO.class.php');
-require('./model/dao/BoletimMMDAO.class.php');
-require('./model/dao/ApontMMDAO.class.php');
-require('./model/dao/ImplementoMMDAO.class.php');
-require('./model/dao/RendimentoMMDAO.class.php');
-require('./model/dao/BoletimPneuDAO.class.php');
-require('./model/dao/ItemMedPneuDAO.class.php');
+require_once('./model/dao/InserirLogDAO.class.php');
+require_once('./model/dao/BoletimMMDAO.class.php');
+require_once('./model/dao/ApontMMDAO.class.php');
+require_once('./model/dao/ImplementoMMDAO.class.php');
+require_once('./model/dao/RendimentoMMDAO.class.php');
+require_once('./model/dao/BoletimPneuDAO.class.php');
+require_once('./model/dao/ItemMedPneuDAO.class.php');
 
 /**
  * Description of InserirDadosMM
  *
  * @author anderson
  */
-class InserirDadosMM {
+class InserirDadosMMCTR {
 
     //put your code here
 
     public function salvarDadosBolFechadoMM($info, $pagina) {
 
         $dados = $info['dado'];
-        salvarLog($dados, $pagina);
+        $this->salvarLog($dados, $pagina);
         
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
@@ -61,13 +61,13 @@ class InserirDadosMM {
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMFechado($bol);
                 $idBol = $boletimMMDAO->idBoletimMM($bol);
-                salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-                salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
+                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
             } else {
                 $boletimMMDAO->updateBoletimMMFechado($bol);
                 $idBol = $boletimMMDAO->verifBoletimMM($bol);
-                salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-                salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
+                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
             }
         }
         return 'GRAVOU-BOLFECHADO';
@@ -76,7 +76,7 @@ class InserirDadosMM {
     public function salvarDadosBolAbertoMM($info, $pagina) {
 
         $dados = $info['dado'];
-        salvarLog($dados, $pagina);
+        $this->salvarLog($dados, $pagina);
         
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
@@ -108,10 +108,10 @@ class InserirDadosMM {
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMAberto($bol);
                 $idBol = $boletimMMDAO->idBoletimMM($bol);
-                salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
             } else {
                 $idBol = $boletimMMDAO->idBoletimMM($bol);
-                salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
             }
         }
         return "GRAVOU+id=" . $idBol . "_";
@@ -122,7 +122,7 @@ class InserirDadosMM {
         $apontMMDAO = new ApontMMDAO();
 
         $dados = $info['dado'];
-        salvarLog($dados, $pagina);
+        $this->salvarLog($dados, $pagina);
         
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
@@ -148,12 +148,12 @@ class InserirDadosMM {
             if ($v == 0) {
                 $apontMMDAO->insApontMM($apont->idExtBolAponta, $apont);
                 $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
-                salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             } else {
                 $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
-                salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             }
         }
     }
@@ -166,12 +166,12 @@ class InserirDadosMM {
                 if ($v == 0) {
                     $apontMMDAO->insApontMM($idBolBD, $apont);
                     $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                    salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                    salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+                    $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+                    $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
                 } else {
                     $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                    salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                    salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+                    $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+                    $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
                 }
             }
         }
@@ -199,7 +199,7 @@ class InserirDadosMM {
                 if ($v == 0) {
                     $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu);
                     $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
-                    salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
+                    $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
                 }
             }
         }

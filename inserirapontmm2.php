@@ -1,13 +1,13 @@
 <?php
 
-require('./model/InserirDadosMM.class.php');
+require_once('./control/InserirDadosMMCTR.class.php');
 
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $inserirDadosMM = new InserirDadosMM();
-    echo $inserirDadosMM->salvarDadosBolAbertoMM($info, "inserirapontmm2");
+    $inserirDadosMMCTR = new InserirDadosMMCTR();
+    echo $inserirDadosMMCTR->salvarDadosBolAbertoMM($info, "inserirapontmm2");
     
 endif;
 

@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once './dbutil/Conn.class.php';
-require_once 'AjusteDataHoraDAO.class.php';
 /**
  * Description of ItemCheckList
  *
@@ -27,6 +26,7 @@ class RespCheckListDAO extends Conn {
                 . " AND "
                 . " ITMANPREV_ID = " . $i->idItBDIt;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -40,8 +40,6 @@ class RespCheckListDAO extends Conn {
     }
 
     public function insRespCheckList($idCab, $i) {
-
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
         $grupo = '';
         $questao = '';
@@ -58,6 +56,7 @@ class RespCheckListDAO extends Conn {
                 . " AND "
                 . " VIPC.COMPONENTE_ID = VCC.COMPONENTE_ID ";
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -86,6 +85,7 @@ class RespCheckListDAO extends Conn {
                 . " , " . $i->opIt . " "
                 . " , " . $i->idItBDIt . ")";
 
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         

@@ -11,7 +11,7 @@ require_once ('./dbutil/Conn.class.php');
  *
  * @author anderson
  */
-class RAtivParada extends Conn {
+class RAtivParadaDAO extends Conn {
     //put your code here
     
     /** @var PDOStatement */

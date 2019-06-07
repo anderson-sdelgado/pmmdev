@@ -24,8 +24,8 @@ class REquipAtivDAO extends Conn {
 
         $select = " SELECT "
                     . " ROWNUM AS \"idEquipAtiv\" "
-                    . " , VE.NRO_EQUIP AS \"codEquip\" "
-                    . " , VA.ATIVAGR_CD AS \"codAtiv\" "
+                    . " , VE.EQUIP_ID AS \"idEquip\" "
+                    . " , VA.ATIVAGR_ID AS \"idAtiv\" "
                 . " FROM "
                     . " V_SIMOVA_EQUIP VE "
                     . " , V_SIMOVA_MODELO_ATIVAGR VA "

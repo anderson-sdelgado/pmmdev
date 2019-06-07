@@ -60,6 +60,9 @@ class InserirCheckListCTR {
                 }
             }
         }
+        
+        return 'GRAVOU-CHECKLIST';
+        
     }
 
 }

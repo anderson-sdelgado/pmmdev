@@ -3,12 +3,11 @@
 require('./control/InserirCheckListCTR.class.php');
 
 $inserirCheckListCTR = new InserirCheckListCTR();
+$info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $inserirCheckListCTR->salvarDados($info);
-    echo 'GRAVOU-CHECKLIST';
-
+    echo $inserirCheckListCTR->salvarDados($info);
+    
 endif;
-
 

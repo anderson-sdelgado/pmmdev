@@ -1,6 +1,6 @@
 <?php
 
-require('./dao/AtualizaAplic2DAO.class.php');
+require('./model/dao/AtualizaAplic2DAO.class.php');
 
 $atualizaAplicDAO = new AtualizaAplic2DAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);

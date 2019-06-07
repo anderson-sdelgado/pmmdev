@@ -24,7 +24,7 @@ class ROSAtivDAO extends Conn {
 
         $select = " SELECT "
                 . " NRO_OS AS \"nroOS\" "
-                . " , ATIVAGR_CD AS \"codAtiv\" "
+                . " , ATIVAGR_ID AS \"idAtiv\" "
                 . " FROM "
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
