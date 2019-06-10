@@ -13,7 +13,7 @@ require_once 'AjusteDataHoraDAO.class.php';
  *
  * @author anderson
  */
-class ItemMedPneuDAO {
+class ItemMedPneuDAO extends Conn {
 
     public function verifItemMedPneu($idBolPneu, $itemPneu) {
 
@@ -26,8 +26,10 @@ class ItemMedPneuDAO {
                 . " AND "
                 . " NRO_PNEU LIKE '" . $itemPneu->nroPneuItemMedPneu . "'"
                 . " AND "
-                . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') ";
-
+                . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI')";
+//
+//        echo $select;
+        
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);

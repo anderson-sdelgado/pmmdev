@@ -7,7 +7,6 @@
  */
 require_once './dbutil/Conn.class.php';
 require_once 'AjusteDataHoraDAO.class.php';
-
 /**
  * Description of RendimentoMM
  *

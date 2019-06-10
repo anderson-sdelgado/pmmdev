@@ -1,12 +1,7 @@
 <?php
 
-require('./control/ParadaCTR.class.php');
+require('./control/AtualParadaCTR.class.php');
 
-$paradaDAO = new ParadaDAO();
-$info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+$atualParadaCTR = new AtualParadaCTR();
 
-if (isset($info)):
-
-echo $retorno = $paradaDAO->dados($info);
-
-endif;
+echo $retorno = $atualParadaCTR->dados();

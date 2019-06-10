@@ -30,7 +30,7 @@ class AjusteDataHoraDAO extends Conn {
                     . " , PMM_ATUALIZACAO A "
                     . " , PMM_BOLETIM B "
                     . " , PMM_APONTAMENTO AP "
-                    . " , PMM_BOLETIM_PNEU BP "
+                    . " , PMP_BOLETIM BP "
                 . " WHERE "
                     . " BP.ID = " . $idBolPneu
                     . " AND "

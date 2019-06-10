@@ -26,13 +26,13 @@ class InserirDadosMMCTR {
 
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
-        
+
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
         $pos3 = strpos($dados, "#") + 1;
         $pos4 = strpos($dados, "?") + 1;
         $pos5 = strpos($dados, "@") + 1;
-        
+
         $bolmm = substr($dados, 0, ($pos1 - 1));
         $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
         $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
@@ -46,7 +46,7 @@ class InserirDadosMMCTR {
         $jsonObjRendimento = json_decode($rend);
         $jsonObjBolPneu = json_decode($bolpneu);
         $jsonObjItemPneu = json_decode($itempneu);
-        
+
         $dadosBoletim = $jsonObjBoletim->boletim;
         $dadosAponta = $jsonObjAponta->aponta;
         $dadosImplemento = $jsonObjImplemento->implemento;
@@ -55,20 +55,17 @@ class InserirDadosMMCTR {
         $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
         $boletimMMDAO = new BoletimMMDAO();
-        
+
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMM($bol);
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMFechado($bol);
-                $idBol = $boletimMMDAO->idBoletimMM($bol);
-                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-                $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
             } else {
                 $boletimMMDAO->updateBoletimMMFechado($bol);
-                $idBol = $boletimMMDAO->verifBoletimMM($bol);
-                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-                $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
             }
+            $idBol = $boletimMMDAO->idBoletimMM($bol);
+            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
         }
         return 'GRAVOU-BOLFECHADO';
     }
@@ -77,12 +74,12 @@ class InserirDadosMMCTR {
 
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
-        
+
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
         $pos3 = strpos($dados, "#") + 1;
         $pos4 = strpos($dados, "?") + 1;
-        
+
         $bolmm = substr($dados, 0, ($pos1 - 1));
         $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
         $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
@@ -94,7 +91,7 @@ class InserirDadosMMCTR {
         $jsonObjImplemento = json_decode($impl);
         $jsonObjBolPneu = json_decode($bolpneu);
         $jsonObjItemPneu = json_decode($itempneu);
-        
+
         $dadosBoletim = $jsonObjBoletim->boletim;
         $dadosAponta = $jsonObjAponta->aponta;
         $dadosImplemento = $jsonObjImplemento->implemento;
@@ -102,17 +99,14 @@ class InserirDadosMMCTR {
         $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
         $boletimMMDAO = new BoletimMMDAO();
-        
+
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMM($bol);
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMAberto($bol);
-                $idBol = $boletimMMDAO->idBoletimMM($bol);
-                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-            } else {
-                $idBol = $boletimMMDAO->idBoletimMM($bol);
-                $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
             }
+            $idBol = $boletimMMDAO->idBoletimMM($bol);
+            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
         }
         return "GRAVOU+id=" . $idBol . "_";
     }
@@ -123,7 +117,7 @@ class InserirDadosMMCTR {
 
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
-        
+
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
         $pos3 = strpos($dados, "#") + 1;
@@ -137,7 +131,7 @@ class InserirDadosMMCTR {
         $jsonObjImplemento = json_decode($imp);
         $jsonObjBolPneu = json_decode($bolpneu);
         $jsonObjItemPneu = json_decode($itempneu);
-        
+
         $dadosAponta = $jsonObjAponta->aponta;
         $dadosImplemento = $jsonObjImplemento->implemento;
         $dadosBolPneu = $jsonObjBolPneu->bolpneu;
@@ -147,15 +141,12 @@ class InserirDadosMMCTR {
             $v = $apontMMDAO->verifApontMM($apont->idExtBolAponta, $apont);
             if ($v == 0) {
                 $apontMMDAO->insApontMM($apont->idExtBolAponta, $apont);
-                $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
-                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
-            } else {
-                $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
-                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             }
+            $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
+            $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+            $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
         }
+        return 'GRAVOU-APONTAMM';
     }
 
     private function salvarApont($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
@@ -165,14 +156,10 @@ class InserirDadosMMCTR {
                 $v = $apontMMDAO->verifApontMM($idBolBD, $apont);
                 if ($v == 0) {
                     $apontMMDAO->insApontMM($idBolBD, $apont);
-                    $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                    $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                    $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
-                } else {
-                    $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                    $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                    $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
                 }
+                $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
+                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             }
         }
     }
@@ -198,9 +185,9 @@ class InserirDadosMMCTR {
                 $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu);
                 if ($v == 0) {
                     $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu);
-                    $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
-                    $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
                 }
+                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
+                $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
             }
         }
     }

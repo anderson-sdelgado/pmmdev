@@ -64,7 +64,7 @@ class BoletimPneuDAO extends Conn {
         $result = $this->Read->fetchAll();
 
         foreach ($result as $item) {
-            $id = $item['ID'];
+            $id = $item['IDBOLPNEU'];
         }
 
         return $id;

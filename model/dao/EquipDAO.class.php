@@ -24,7 +24,7 @@ class EquipDAO extends Conn  {
 
         $select = " SELECT "
                 . " E.EQUIP_ID AS \"idEquip\" "
-                . " , E.NRO_EQUIP AS \"codEquip\" "
+                . " , E.NRO_EQUIP AS \"nroEquip\" "
                 . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
                 . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
                 . " , E.TPTUREQUIP_CD AS \"codTurno\" "

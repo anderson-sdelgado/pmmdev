@@ -15,7 +15,6 @@ require_once './model/dao/AjusteDataHoraDAO.class.php';
 class ApontMMDAO extends Conn {
 
     //put your code here
-
     public function verifApontMM($idBol, $apont) {
 
         $select = " SELECT "

@@ -32,13 +32,10 @@ class EquipCTR {
         $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
         $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados($dado));
-        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
-
         $dadosREquipPneu = array("dados" => $rEquipPneuDAO->dados($dado));
         $resREquipPneu = json_encode($dadosREquipPneu);
 
-        return $resEquip . "#" . $resREquipAtivDAO . "|" . $resRAtivParadaDAO . "_" . $resREquipPneu;
+        return $resEquip . "#" . $resREquipAtivDAO . "|" . $resREquipPneu;
         
     }
     
