@@ -10,4 +10,3 @@ if (isset($info)):
     echo $inserirDadosMMCTR->salvarDadosBolFechadoMM($info, "inserirbolfechadomm2");
     
 endif;
-

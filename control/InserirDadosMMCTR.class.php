@@ -182,11 +182,11 @@ class InserirDadosMMCTR {
         $boletimPneuDAO = new BoletimPneuDAO();
         foreach ($dadosBolPneu as $bolPneu) {
             if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu);
+                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu, 1);
                 if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu);
+                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, 1);
                 }
-                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
+                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu, 1);
                 $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
             }
         }

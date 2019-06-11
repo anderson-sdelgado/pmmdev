@@ -58,9 +58,9 @@ class InserirDadosFertCTR {
             } else {
                 $boletimFertDAO->updateBoletimFertFechado($bol);
             }
-            $idBol = $boletimFertDAO->idBoletimMM($bol);
+            $idBol = $boletimFertDAO->idBoletimFert($bol);
             $this->salvarApont($idBol, $bol->idBolFert, $dadosAponta, $dadosBolPneu, $dadosItemPneu);
-            $this->salvarRendimento($idBol, $bol->idBolFert, $dadosRecolhimento);
+            $this->salvarRecolhimento($idBol, $bol->idBolFert, $dadosRecolhimento);
         }
         return 'GRAVOU-BOLFECHADOFERT';
     }
@@ -130,7 +130,7 @@ class InserirDadosFertCTR {
                 $apontFertDAO->insApontFert($apont->idExtBolApontaFert, $apont);
             }
             $idApont = $apontFertDAO->idApontFert($apont->idExtBolApontaFert, $apont);
-            $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarBoletimPneu($idApont, $apont->idApontaFert, $dadosBolPneu, $dadosItemPneu);
         }
         return 'GRAVOU-APONTAFERT';
     }
@@ -153,11 +153,11 @@ class InserirDadosFertCTR {
         $boletimPneuDAO = new BoletimPneuDAO();
         foreach ($dadosBolPneu as $bolPneu) {
             if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu);
+                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu, 2);
                 if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu);
+                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, 2);
                 }
-                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
+                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu, 2);
                 $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
             }
         }

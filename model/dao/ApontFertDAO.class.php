@@ -24,7 +24,7 @@ class ApontFertDAO extends Conn {
                 . " FROM "
                 . " PMM_APONTAMENTO_FERT "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthApontaFert . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
@@ -48,7 +48,7 @@ class ApontFertDAO extends Conn {
                 . " FROM "
                 . " PMM_APONTAMENTO_FERT "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 

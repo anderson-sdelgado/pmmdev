@@ -13,7 +13,7 @@ require_once 'AjusteDataHoraDAO.class.php';
  *
  * @author anderson
  */
-class RecolhimentoFertDAO {
+class RecolhimentoFertDAO extends Conn {
 
     //put your code here
     public function verifRecolhimentoFert($idBol, $recol) {

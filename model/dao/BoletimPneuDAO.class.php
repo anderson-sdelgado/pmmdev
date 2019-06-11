@@ -16,7 +16,7 @@ class BoletimPneuDAO extends Conn {
 
     //put your code here
 
-    public function verifBoletimPneu($idApont, $bolPneu) {
+    public function verifBoletimPneu($idApont, $bolPneu, $tipoAplic) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -28,6 +28,8 @@ class BoletimPneuDAO extends Conn {
                 . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                 . " AND "
                 . " EQUIP_ID = " . $bolPneu->equipBolPneu
+                . " AND "
+                . " TIPO_APLIC = " . $tipoAplic
                 . " AND "
                 . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
@@ -44,16 +46,19 @@ class BoletimPneuDAO extends Conn {
         return $v;
     }
 
-    public function idBoletimPneu($idApont, $bolPneu) {
+    public function idBoletimPneu($idApont, $bolPneu, $tipoAplic) {
 
         $select = " SELECT "
                 . " ID AS IDBOLPNEU "
                 . " FROM "
                 . " PMP_BOLETIM "
-                . " WHERE "
+                . " APONTAMENTO_ID = " . $idApont
+                . " AND "
                 . " FUNC_MATRIC = " . $bolPneu->funcBolPneu
                 . " AND "
                 . " EQUIP_ID = " . $bolPneu->equipBolPneu
+                . " AND "
+                . " TIPO_APLIC = " . $tipoAplic
                 . " AND "
                 . " DTHR_CEL = TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') ";
 
@@ -70,7 +75,7 @@ class BoletimPneuDAO extends Conn {
         return $id;
     }
 
-    public function insBoletimPneu($idApont, $bolPneu) {
+    public function insBoletimPneu($idApont, $bolPneu, $tipoAplic) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -81,6 +86,7 @@ class BoletimPneuDAO extends Conn {
                 . " , DTHR "
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
+                . " , TIPO_APLIC "
                 . " ) "
                 . " VALUES ("
                 . " " . $idApont
@@ -89,6 +95,7 @@ class BoletimPneuDAO extends Conn {
                 . " , " . $ajusteDataHoraDAO->dataHoraIdApont($idApont, $bolPneu->dthrBolPneu)
                 . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
+                . " , " . $tipoAplic
                 . " )";
 
         $this->Conn = parent::getConn();
