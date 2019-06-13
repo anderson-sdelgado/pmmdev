@@ -7,7 +7,6 @@ $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    echo $inserirCheckListCTR->salvarDados($info, 'inserirchecklist2');
+    echo $inserirCheckListCTR->salvarDados($info, 'apontchecklistdt');
     
 endif;
-

@@ -18,51 +18,106 @@ class InserirCheckListCTR {
 
     //put your code here
 
-    public function salvarDados($info) {
+    public function salvarDados($info, $pagina) {
 
         $inserirLogDAO = new InserirLogDAO();
-        $cabecCheckListDAO = new CabecCheckListDAO();
-        $respCheckListDAO = new RespCheckListDAO();
-
+        
         $dados = $info['dado'];
-        $inserirLogDAO->salvarDados($dados, "inserirchecklist2");
+        $inserirLogDAO->salvarDados($dados, $pagina);
+
         $posicao = strpos($dados, "_") + 1;
         $cabec = substr($dados, 0, ($posicao - 1));
         $item = substr($dados, $posicao);
 
         $jsonObjCabec = json_decode($cabec);
         $jsonObjItem = json_decode($item);
+
         $dadosCab = $jsonObjCabec->cabecalho;
         $dadosItem = $jsonObjItem->item;
 
+        if($pagina == 'inserirchecklist2'){
+            $this->salvarBoletim($dadosCab, $dadosItem);
+        }
+        elseif($pagina == 'apontchecklistdt'){
+            $this->salvarBoletimCDC($dadosCab, $dadosItem);
+        }
+        elseif($pagina == 'apontchecklist'){
+            $this->salvarBoletimSDC($dadosCab, $dadosItem);
+        }
+        
+        return 'GRAVOU-CHECKLIST';
+    }
+
+    private function salvarBoletim($dadosCab, $dadosItem) {
+        $cabecCheckListDAO = new CabecCheckListDAO();
         foreach ($dadosCab as $d) {
             $v = $cabecCheckListDAO->verifCabecCheckList($d);
             if ($v == 0) {
                 $cabecCheckListDAO->insCabecCheckList($d);
-                $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
-                foreach ($dadosItem as $i) {
-                    if ($d->idCab == $i->idCabIt) {
-                        $v = $respCheckListDAO->verifRespCheckList($idCabec, $i);
-                        if ($v == 0) {
-                            $respCheckListDAO->insRespCheckList($idCabec, $i);
-                        }
-                    }
-                }
-            } else {
-                $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
-                foreach ($dadosItem as $i) {
-                    if ($d->idCab == $i->idCabIt) {
-                        $v = $respCheckListDAO->verifRespCheckList($idCabec, $i);
-                        if ($v == 0) {
-                            $respCheckListDAO->insRespCheckList($idCabec, $i);
-                        }
-                    }
+            }
+            $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
+            $this->salvarApont($idCabec, $d->idCab, $dadosItem);
+        }
+    }
+    
+    private function salvarApont($idBolBD, $idBolCel, $dadosItem) {
+        $respCheckListDAO = new RespCheckListDAO();
+        foreach ($dadosItem as $i) {
+            if ($idBolCel == $i->idCabIt) {
+                $v = $respCheckListDAO->verifRespCheckList($idBolBD, $i);
+                if ($v == 0) {
+                    $respCheckListDAO->insRespCheckList($idBolBD, $i);
                 }
             }
         }
-        
-        return 'GRAVOU-CHECKLIST';
-        
+    }
+    
+    private function salvarBoletimCDC($dadosCab, $dadosItem) {
+        $cabecCheckListDAO = new CabecCheckListDAO();
+        foreach ($dadosCab as $d) {
+            $v = $cabecCheckListDAO->verifCabecCheckListCDC($d);
+            if ($v == 0) {
+                $cabecCheckListDAO->insCabecCheckListCDC($d);
+            }
+            $idCabec = $cabecCheckListDAO->idCabecCheckListCDC($d);
+            $this->salvarApontCDC($idCabec, $d->idCab, $dadosItem);
+        }
+    }
+    
+    private function salvarApontCDC($idBolBD, $idBolCel, $dadosItem) {
+        $respCheckListDAO = new RespCheckListDAO();
+        foreach ($dadosItem as $i) {
+            if ($idBolCel == $i->idCabIt) {
+                $v = $respCheckListDAO->verifRespCheckListCDC($idBolBD, $i);
+                if ($v == 0) {
+                    $respCheckListDAO->insRespCheckListCDC($idBolBD, $i);
+                }
+            }
+        }
     }
 
+    private function salvarBoletimSDC($dadosCab, $dadosItem) {
+        $cabecCheckListDAO = new CabecCheckListDAO();
+        foreach ($dadosCab as $d) {
+            $v = $cabecCheckListDAO->verifCabecCheckListSDC($d);
+            if ($v == 0) {
+                $cabecCheckListDAO->insCabecCheckListSDC($d);
+            }
+            $idCabec = $cabecCheckListDAO->idCabecCheckListSDC($d);
+            $this->salvarApontSDC($idCabec, $d->idCab, $dadosItem);
+        }
+    }
+    
+    private function salvarApontSDC($idBolBD, $idBolCel, $dadosItem) {
+        $respCheckListDAO = new RespCheckListDAO();
+        foreach ($dadosItem as $i) {
+            if ($idBolCel == $i->idCabIt) {
+                $v = $respCheckListDAO->verifRespCheckListSDC($idBolBD, $i);
+                if ($v == 0) {
+                    $respCheckListDAO->insRespCheckListSDC($idBolBD, $i);
+                }
+            }
+        }
+    }
+    
 }

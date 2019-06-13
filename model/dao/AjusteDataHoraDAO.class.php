@@ -266,7 +266,7 @@ class AjusteDataHoraDAO extends Conn {
             $min = $item['MINUTOS'];
         }
 
-        if ($min < -20) {
+        if ($min < - 20) {
             $dthr = "(TO_DATE('" . $dataHora . "','DD/MM/YYYY HH24:MI') - 1/24)";
         } else {
             $dthr = "TO_DATE('" . $dataHora . "','DD/MM/YYYY HH24:MI')";
