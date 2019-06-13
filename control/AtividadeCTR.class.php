@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/AtividadeDAO.class.php');
+require_once('./model/dao/AtividadeDAO.class.php');
 /**
  * Description of AtividadeCTR
  *

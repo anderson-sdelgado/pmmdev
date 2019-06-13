@@ -12,7 +12,6 @@ require_once('./model/dao/ImplementoMMDAO.class.php');
 require_once('./model/dao/RendimentoMMDAO.class.php');
 require_once('./model/dao/BoletimPneuDAO.class.php');
 require_once('./model/dao/ItemMedPneuDAO.class.php');
-
 /**
  * Description of InserirDadosMM
  *

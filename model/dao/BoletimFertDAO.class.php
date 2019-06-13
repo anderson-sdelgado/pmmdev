@@ -14,8 +14,6 @@ require_once './model/dao/AjusteDataHoraDAO.class.php';
  */
 class BoletimFertDAO extends Conn {
 
-    //put your code here
-
     public function verifBoletimFert($bol) {
 
         $select = " SELECT "

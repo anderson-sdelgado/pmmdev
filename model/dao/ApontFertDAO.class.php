@@ -69,7 +69,7 @@ class ApontFertDAO extends Conn {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
-        $raio = 0;
+        $raio = "null";
 
         if ($apont->paradaApontaFert == 0) {
             $apont->paradaApontaFert = "null";
