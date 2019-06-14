@@ -17,7 +17,7 @@ class BoletimMMDAO extends Conn {
 
     ///////////////////////////////////////////////VERSAO 2/////////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSERIRBOLABERTOMM2, INSERIRBOLFECHADOMM2 E INSERIRAPONTAMM2
-    
+
     public function verifBoletimMM($bol) {
 
         $select = " SELECT "
@@ -94,7 +94,7 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroInicialBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
@@ -143,10 +143,10 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroFinalBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrFimBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFimBoletim)
                 . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
@@ -170,7 +170,7 @@ class BoletimMMDAO extends Conn {
                 . " SET "
                 . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
                 . " , STATUS = " . $bol->statusBoletim
-                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
+                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFimBoletim)
                 . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
                 . " WHERE "
@@ -183,7 +183,7 @@ class BoletimMMDAO extends Conn {
 
     ///////////////////////////////////////////////VERSAO 1 COM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSERIRBOLABERTODT, INSERIRBOLFECHADODT E INSERIRAPONTDT
-    
+
     public function verifBoletimMMCDC($bol) {
 
         $select = " SELECT "
@@ -193,7 +193,7 @@ class BoletimMMDAO extends Conn {
                 . " WHERE "
                 . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
-                . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                . " EQUIP_ID = " . $bol->codEquipBoletim;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -217,7 +217,7 @@ class BoletimMMDAO extends Conn {
                 . " WHERE "
                 . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
-                . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                . " EQUIP_ID = " . $bol->codEquipBoletim;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -260,7 +260,7 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroInicialBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraAntigo($bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
@@ -309,10 +309,10 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroFinalBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraAntigo($bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrFimBoletim)
+                . " , " . $ajusteDataHoraDAO->dataHoraAntigo($bol->dthrFimBoletim)
                 . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
@@ -336,7 +336,7 @@ class BoletimMMDAO extends Conn {
                 . " SET "
                 . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
                 . " , STATUS = " . $bol->statusBoletim
-                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
+                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraAntigo($bol->dthrFimBoletim)
                 . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
                 . " WHERE "
@@ -346,10 +346,10 @@ class BoletimMMDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
-    
+
     ///////////////////////////////////////////////SEM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSBOLABERTOMM, INSBOLFECHADOMM E INSAPONTMM
-    
+
     public function verifBoletimMMSDC($bol) {
 
         $select = " SELECT "
@@ -357,9 +357,9 @@ class BoletimMMDAO extends Conn {
                 . " FROM "
                 . " PMM_BOLETIM "
                 . " WHERE "
-                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_INICIAL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
+                . " EQUIP_ID = " . $bol->codEquipBoletim;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -381,7 +381,7 @@ class BoletimMMDAO extends Conn {
                 . " FROM "
                 . " PMM_BOLETIM "
                 . " WHERE "
-                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_INICIAL = TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
                 . " EQUIP_ID = " . $bol->codEquipBoletim . " ";
 
@@ -400,8 +400,6 @@ class BoletimMMDAO extends Conn {
 
     public function insBoletimMMAbertoSDC($bol) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         if ($bol->hodometroInicialBoletim > 9999999) {
             $bol->hodometroInicialBoletim = 0;
         }
@@ -414,10 +412,8 @@ class BoletimMMDAO extends Conn {
                 . " , OS_NRO "
                 . " , ATIVAGR_PRINC_ID "
                 . " , DTHR_INICIAL "
-                . " , DTHR_INICIAL_CEL "
                 . " , DTHR_TRANS_INICIAL "
                 . " , STATUS "
-                . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->codMotoBoletim
@@ -426,11 +422,9 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroInicialBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
-                . " , " . $bol->statusConBoletim
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -439,8 +433,6 @@ class BoletimMMDAO extends Conn {
     }
 
     public function insBoletimMMFechadoSDC($bol) {
-
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
         if ($bol->hodometroInicialBoletim > 9999999) {
             $bol->hodometroInicialBoletim = 0;
@@ -459,13 +451,10 @@ class BoletimMMDAO extends Conn {
                 . " , OS_NRO "
                 . " , ATIVAGR_PRINC_ID "
                 . " , DTHR_INICIAL "
-                . " , DTHR_INICIAL_CEL "
                 . " , DTHR_TRANS_INICIAL "
                 . " , DTHR_FINAL "
-                . " , DTHR_FINAL_CEL "
                 . " , DTHR_TRANS_FINAL "
                 . " , STATUS "
-                . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->codMotoBoletim
@@ -475,14 +464,11 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroFinalBoletim
                 . " , " . $bol->osBoletim
                 . " , " . $bol->ativPrincBoletim
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrInicioBoletim)
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $ajusteDataHoraDAO->dataHoraIdEquip($bol->codEquipBoletim, $bol->dthrFimBoletim)
                 . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
-                . " , " . $bol->statusConBoletim
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -492,8 +478,6 @@ class BoletimMMDAO extends Conn {
 
     public function altBoletimMMFechadoSDC($idBol, $bol) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         if ($bol->hodometroFinalBoletim > 9999999) {
             $bol->hodometroFinalBoletim = 0;
         }
@@ -502,8 +486,7 @@ class BoletimMMDAO extends Conn {
                 . " SET "
                 . " HOD_HOR_FINAL = " . $bol->hodometroFinalBoletim
                 . " , STATUS = " . $bol->statusBoletim
-                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraIdBoletim($bol->idExtBoletim, $bol->dthrFimBoletim)
-                . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
+                . " , DTHR_FINAL = TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
                 . " WHERE "
                 . " ID = " . $idBol;
@@ -512,5 +495,5 @@ class BoletimMMDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
-    
+
 }

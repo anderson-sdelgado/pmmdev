@@ -20,128 +20,181 @@ require_once('./model/dao/ItemMedPneuDAO.class.php');
  */
 class InserirDadosMMCTR {
 
-    //put your code here
+    public function salvarDadosBolAbertoMM($info, $pagina) {
+
+        $dados = $info['dado'];
+        $this->salvarLog($dados, $pagina);
+
+        if ($pagina == 'inserirbolabertomm2') {
+
+            $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "|") + 1;
+            $pos3 = strpos($dados, "#") + 1;
+            $pos4 = strpos($dados, "?") + 1;
+
+            $bolmm = substr($dados, 0, ($pos1 - 1));
+            $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $bolpneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+            $itempneu = substr($dados, $pos4);
+
+            $jsonObjBoletim = json_decode($bolmm);
+            $jsonObjAponta = json_decode($apontmm);
+            $jsonObjImplemento = json_decode($impl);
+            $jsonObjBolPneu = json_decode($bolpneu);
+            $jsonObjItemPneu = json_decode($itempneu);
+
+            $dadosBoletim = $jsonObjBoletim->boletim;
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+            $dadosBolPneu = $jsonObjBolPneu->bolpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
+
+            $idBol = $this->salvarBolAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+        } else {
+
+            $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "|") + 1;
+            $pos3 = strpos($dados, "?") + 1;
+
+            $b = substr($dados, 0, ($pos1 - 1));
+            $amm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $i = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+
+            $jsonObjBoletim = json_decode($b);
+            $jsonObjAponta = json_decode($amm);
+            $jsonObjImplemento = json_decode($i);
+
+            $dadosBoletim = $jsonObjBoletim->boletim;
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+
+            if ($pagina == 'inserirbolabertodt') {
+                $idBol = $this->salvarBolAbertoCDC($dadosBoletim, $dadosAponta, $dadosImplemento);
+            } elseif ($pagina == 'insbolabertomm') {
+                $idBol = $this->salvarBolAbertoSDC($dadosBoletim, $dadosAponta, $dadosImplemento);
+            }
+        }
+
+        return "GRAVOU+id=" . $idBol . "_";
+    }
+
+    public function salvarDadosApontMM($info, $pagina) {
+
+        $dados = $info['dado'];
+        $this->salvarLog($dados, $pagina);
+
+        if ($pagina == 'inserirapontmm2') {
+
+            $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "|") + 1;
+            $pos3 = strpos($dados, "#") + 1;
+
+            $apontmm = substr($dados, 0, ($pos1 - 1));
+            $imp = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $bolpneu = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $itempneu = substr($dados, $pos3);
+
+            $jsonObjAponta = json_decode($apontmm);
+            $jsonObjImplemento = json_decode($imp);
+            $jsonObjBolPneu = json_decode($bolpneu);
+            $jsonObjItemPneu = json_decode($itempneu);
+
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+            $dadosBolPneu = $jsonObjBolPneu->bolpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
+
+            $idBol = $this->salvarApont($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+        } else {
+
+            $pos1 = strpos($dados, "|") + 1;
+            $pos2 = strpos($dados, "?") + 1;
+            $amm = substr($dados, 0, ($pos1 - 1));
+            $i = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+
+            $jsonObjAponta = json_decode($amm);
+            $jsonObjImplemento = json_decode($i);
+
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+
+            if ($pagina == 'inserirapontdt') {
+                $idBol = $this->salvarApontCDC($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            } elseif ($pagina == 'insapontmm') {
+                $idBol = $this->salvarApontSDC($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            }
+        }
+
+        return 'GRAVOU-APONTAMM';
+    }
 
     public function salvarDadosBolFechadoMM($info, $pagina) {
 
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
 
-        $pos1 = strpos($dados, "_") + 1;
-        $pos2 = strpos($dados, "|") + 1;
-        $pos3 = strpos($dados, "#") + 1;
-        $pos4 = strpos($dados, "?") + 1;
-        $pos5 = strpos($dados, "@") + 1;
-
-        $bolmm = substr($dados, 0, ($pos1 - 1));
-        $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-        $rend = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-        $bolpneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
-        $itempneu = substr($dados, $pos5);
-
-        $jsonObjBoletim = json_decode($bolmm);
-        $jsonObjAponta = json_decode($apontmm);
-        $jsonObjImplemento = json_decode($impl);
-        $jsonObjRendimento = json_decode($rend);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
-
-        $dadosBoletim = $jsonObjBoletim->boletim;
-        $dadosAponta = $jsonObjAponta->aponta;
-        $dadosImplemento = $jsonObjImplemento->implemento;
-        $dadosRendimento = $jsonObjRendimento->rendimento;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
-
         if ($pagina == 'inserirbolfechado2') {
-            $this->salvarBoletim($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu);
-        } elseif ($pagina == 'inserirbolfechadodt') {
-            $this->salvarBoletimCDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu);
-        } elseif ($pagina == 'insbolfechadomm') {
-            $this->salvarBoletimSDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu);
-        }
 
+            $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "|") + 1;
+            $pos3 = strpos($dados, "#") + 1;
+            $pos4 = strpos($dados, "?") + 1;
+            $pos5 = strpos($dados, "@") + 1;
+
+            $bolmm = substr($dados, 0, ($pos1 - 1));
+            $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $rend = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+            $bolpneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
+            $itempneu = substr($dados, $pos5);
+
+            $jsonObjBoletim = json_decode($bolmm);
+            $jsonObjAponta = json_decode($apontmm);
+            $jsonObjImplemento = json_decode($impl);
+            $jsonObjRendimento = json_decode($rend);
+            $jsonObjBolPneu = json_decode($bolpneu);
+            $jsonObjItemPneu = json_decode($itempneu);
+
+            $dadosBoletim = $jsonObjBoletim->boletim;
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+            $dadosRendimento = $jsonObjRendimento->rendimento;
+            $dadosBolPneu = $jsonObjBolPneu->bolpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
+
+            $this->salvarBolFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu);
+        } else {
+
+            $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "|") + 1;
+            $pos3 = strpos($dados, "#") + 1;
+            $pos4 = strpos($dados, "?") + 1;
+            $pos5 = strpos($dados, "@") + 1;
+            
+            $c = substr($dados, 0, ($pos1 - 1));
+            $amm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $i = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $r = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+
+            $jsonObjBoletim = json_decode($c);
+            $jsonObjAponta = json_decode($amm);
+            $jsonObjImplemento = json_decode($i);
+            $jsonObjRendimento = json_decode($r);
+            
+            $dadosBoletim = $jsonObjBoletim->boletim;
+            $dadosAponta = $jsonObjAponta->aponta;
+            $dadosImplemento = $jsonObjImplemento->implemento;
+            $dadosRendimento = $jsonObjRendimento->rendimento;
+
+            if ($pagina == 'inserirbolfechadodt') {
+                $this->salvarBolFechadoCDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento);
+            } elseif ($pagina == 'insbolfechadomm') {
+                $this->salvarBolFechadoSDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento);
+            }
+        }
 
         return 'GRAVOU-BOLFECHADO';
-    }
-
-    public function salvarDadosBolAbertoMM($info, $pagina) {
-
-        $dados = $info['dado'];
-        $this->salvarLog($dados, $pagina);
-
-        $pos1 = strpos($dados, "_") + 1;
-        $pos2 = strpos($dados, "|") + 1;
-        $pos3 = strpos($dados, "#") + 1;
-        $pos4 = strpos($dados, "?") + 1;
-
-        $bolmm = substr($dados, 0, ($pos1 - 1));
-        $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-        $bolpneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-        $itempneu = substr($dados, $pos4);
-
-        $jsonObjBoletim = json_decode($bolmm);
-        $jsonObjAponta = json_decode($apontmm);
-        $jsonObjImplemento = json_decode($impl);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
-
-        $dadosBoletim = $jsonObjBoletim->boletim;
-        $dadosAponta = $jsonObjAponta->aponta;
-        $dadosImplemento = $jsonObjImplemento->implemento;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
-
-        $boletimMMDAO = new BoletimMMDAO();
-        foreach ($dadosBoletim as $bol) {
-            $v = $boletimMMDAO->verifBoletimMM($bol);
-            if ($v == 0) {
-                $boletimMMDAO->insBoletimMMAberto($bol);
-            }
-            $idBol = $boletimMMDAO->idBoletimMM($bol);
-            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-        }
-        return "GRAVOU+id=" . $idBol . "_";
-    }
-
-    public function salvarDadosApontMM($info, $pagina) {
-
-        $apontMMDAO = new ApontMMDAO();
-
-        $dados = $info['dado'];
-        $this->salvarLog($dados, $pagina);
-
-        $pos1 = strpos($dados, "_") + 1;
-        $pos2 = strpos($dados, "|") + 1;
-        $pos3 = strpos($dados, "#") + 1;
-
-        $apontmm = substr($dados, 0, ($pos1 - 1));
-        $imp = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $bolpneu = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-        $itempneu = substr($dados, $pos3);
-
-        $jsonObjAponta = json_decode($apontmm);
-        $jsonObjImplemento = json_decode($imp);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
-
-        $dadosAponta = $jsonObjAponta->aponta;
-        $dadosImplemento = $jsonObjImplemento->implemento;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
-
-        foreach ($dadosAponta as $apont) {
-            $v = $apontMMDAO->verifApontMM($apont->idExtBolAponta, $apont);
-            if ($v == 0) {
-                $apontMMDAO->insApontMM($apont->idExtBolAponta, $apont);
-            }
-            $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
-            $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-            $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
-        }
-        return 'GRAVOU-APONTAMM';
     }
 
     private function salvarLog($dados, $pagina) {
@@ -152,7 +205,20 @@ class InserirDadosMMCTR {
     ///////////////////////////////////////////////VERSAO 2/////////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSERIRBOLABERTOMM2, INSERIRBOLFECHADOMM2 E INSERIRAPONTAMM2
 
-    private function salvarBolAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarBolAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+        $boletimMMDAO = new BoletimMMDAO();
+        foreach ($dadosBoletim as $bol) {
+            $v = $boletimMMDAO->verifBoletimMM($bol);
+            if ($v == 0) {
+                $boletimMMDAO->insBoletimMMAberto($bol);
+            }
+            $idBol = $boletimMMDAO->idBoletimMM($bol);
+            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+        }
+        return $idBol;
+    }
+
+    private function salvarBolFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu) {
         $boletimMMDAO = new BoletimMMDAO();
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMM($bol);
@@ -163,27 +229,24 @@ class InserirDadosMMCTR {
                 $idBol = $boletimMMDAO->idBoletimMM($bol);
                 $boletimMMDAO->altBoletimMMFechado($idBol, $bol);
             }
-            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarApontBol($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
             $this->salvarRendimento($idBol, $bol->idBoletim, $dadosRendimento);
         }
     }
 
-    private function salvarBolFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApont($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
-            if ($idBolCel == $apont->idBolAponta) {
-                $v = $apontMMDAO->verifApontMM($idBolBD, $apont);
-                if ($v == 0) {
-                    $apontMMDAO->insApontMM($idBolBD, $apont);
-                }
-                $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+            $v = $apontMMDAO->verifApontMM($apont->idExtBolAponta, $apont);
+            if ($v == 0) {
+                $apontMMDAO->insApontMM($apont->idExtBolAponta, $apont);
             }
+            $this->salvarImplemento($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
+            $this->salvarBoletimPneu($apont->idExtBolAponta, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
         }
     }
 
-    private function salvarApont($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolAponta) {
@@ -253,7 +316,20 @@ class InserirDadosMMCTR {
     ///////////////////////////////////////////////VERSAO 1 COM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSERIRBOLABERTODT, INSERIRBOLFECHADODT E INSERIRAPONTDT
 
-    private function salvarBolAbertoCDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarBolAbertoCDC($dadosBoletim, $dadosAponta, $dadosImplemento) {
+        $boletimMMDAO = new BoletimMMDAO();
+        foreach ($dadosBoletim as $bol) {
+            $v = $boletimMMDAO->verifBoletimMMCDC($bol);
+            if ($v == 0) {
+                $boletimMMDAO->insBoletimMMAbertoCDC($bol);
+            }
+            $idBol = $boletimMMDAO->idBoletimMMCDC($bol);
+            $this->salvarApontCDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
+        }
+        return $idBol;
+    }
+
+    private function salvarBolFechadoCDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento) {
         $boletimMMDAO = new BoletimMMDAO();
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMMCDC($bol);
@@ -264,27 +340,23 @@ class InserirDadosMMCTR {
                 $idBol = $boletimMMDAO->idBoletimMMCDC($bol);
                 $boletimMMDAO->altBoletimMMFechadoCDC($idBol, $bol);
             }
-            $this->salvarApontCDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarApontBolCDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
             $this->salvarRendimentoCDC($idBol, $bol->idBoletim, $dadosRendimento);
         }
     }
 
-    private function salvarBolFechadoCDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApontCDC($dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
-            if ($idBolCel == $apont->idBolAponta) {
-                $v = $apontMMDAO->verifApontMMCDC($idBolBD, $apont);
-                if ($v == 0) {
-                    $apontMMDAO->insApontMMCDC($idBolBD, $apont);
-                }
-                $idApont = $apontMMDAO->idApontMMCDC($idBolBD, $apont);
-                $this->salvarImplementoCDC($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneuCDC($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+            $v = $apontMMDAO->verifApontMMCDC($apont->idExtBolAponta, $apont);
+            if ($v == 0) {
+                $apontMMDAO->insApontMMCDC($apont->idExtBolAponta, $apont);
             }
+            $this->salvarImplementoCDC($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
         }
     }
 
-    private function salvarApontCDC($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApontBolCDC($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolAponta) {
@@ -294,7 +366,6 @@ class InserirDadosMMCTR {
                 }
                 $idApont = $apontMMDAO->idApontMMCDC($idBolBD, $apont);
                 $this->salvarImplementoCDC($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneuCDC($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             }
         }
     }
@@ -308,32 +379,6 @@ class InserirDadosMMCTR {
                     if ($v == 0) {
                         $implementoMMDAO->insImplementoMMCDC($idApontaBD, $imp);
                     }
-                }
-            }
-        }
-    }
-
-    private function salvarBoletimPneuCDC($idApontBD, $idApontCel, $dadosBolPneu, $dadosItemPneu) {
-        $boletimPneuDAO = new BoletimPneuDAO();
-        foreach ($dadosBolPneu as $bolPneu) {
-            if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneuCDC($idApontBD, $bolPneu, 1);
-                if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneuCDC($idApontBD, $bolPneu, 1);
-                }
-                $idBolPneu = $boletimPneuDAO->idBoletimPneuCDC($idApontBD, $bolPneu, 1);
-                $this->salvarItemMedPneuCDC($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
-            }
-        }
-    }
-
-    private function salvarItemMedPneuCDC($idBolPneuBD, $idBolPneuCel, $dadosItemPneu) {
-        $itemMedPneuDAO = new ItemMedPneuDAO();
-        foreach ($dadosItemPneu as $itemPneu) {
-            if ($idBolPneuCel == $itemPneu->idBolItemMedPneu) {
-                $v = $itemMedPneuDAO->verifItemMedPneuCDC($idBolPneuBD, $itemPneu);
-                if ($v == 0) {
-                    $itemMedPneuDAO->insItemMedPneuCDC($idBolPneuBD, $itemPneu);
                 }
             }
         }
@@ -354,7 +399,20 @@ class InserirDadosMMCTR {
     ///////////////////////////////////////////////SEM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DAS PAGINAS INSBOLABERTOMM, INSBOLFECHADOMM E INSAPONTMM
 
-    private function salvarBolAbertoSDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarBolAbertoSDC($dadosBoletim, $dadosAponta, $dadosImplemento) {
+        $boletimMMDAO = new BoletimMMDAO();
+        foreach ($dadosBoletim as $bol) {
+            $v = $boletimMMDAO->verifBoletimMMSDC($bol);
+            if ($v == 0) {
+                $boletimMMDAO->insBoletimMMAbertoSDC($bol);
+            }
+            $idBol = $boletimMMDAO->idBoletimMMSDC($bol);
+            $this->salvarApontSDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
+        }
+        return $idBol;
+    }
+
+    private function salvarBolFechadoSDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento) {
         $boletimMMDAO = new BoletimMMDAO();
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMMSDC($bol);
@@ -365,27 +423,23 @@ class InserirDadosMMCTR {
                 $idBol = $boletimMMDAO->idBoletimMMSDC($bol);
                 $boletimMMDAO->altBoletimMMFechadoSDC($idBol, $bol);
             }
-            $this->salvarApontSDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
-            $this->salvarRendimentoSDC($idBol, $bol->idBoletim, $dadosRendimento);
+            $this->salvarApontBolSDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
+            $this->salvarRendimentoSDC($idBol, $bol->idBoletim, $dadosRendimento, $bol->dthrFimBoletim);
         }
     }
 
-    private function salvarBolFechadoSDC($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApontSDC($dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
-            if ($idBolCel == $apont->idBolAponta) {
-                $v = $apontMMDAO->verifApontMMSDC($idBolBD, $apont);
-                if ($v == 0) {
-                    $apontMMDAO->insApontMMSDC($idBolBD, $apont);
-                }
-                $idApont = $apontMMDAO->idApontMMSDC($idBolBD, $apont);
-                $this->salvarImplementoSDC($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneuSDC($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+            $v = $apontMMDAO->verifApontMMSDC($apont->idExtBolAponta, $apont);
+            if ($v == 0) {
+                $apontMMDAO->insApontMMSDC($apont->idExtBolAponta, $apont);
             }
+            $this->salvarImplementoSDC($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
         }
     }
 
-    private function salvarApontSDC($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu) {
+    private function salvarApontBolSDC($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolAponta) {
@@ -395,7 +449,6 @@ class InserirDadosMMCTR {
                 }
                 $idApont = $apontMMDAO->idApontMMSDC($idBolBD, $apont);
                 $this->salvarImplementoSDC($idApont, $apont->idAponta, $dadosImplemento);
-                $this->salvarBoletimPneuSDC($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
             }
         }
     }
@@ -414,39 +467,13 @@ class InserirDadosMMCTR {
         }
     }
 
-    private function salvarBoletimPneuSDC($idApontBD, $idApontCel, $dadosBolPneu, $dadosItemPneu) {
-        $boletimPneuDAO = new BoletimPneuDAO();
-        foreach ($dadosBolPneu as $bolPneu) {
-            if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneuSDC($idApontBD, $bolPneu, 1);
-                if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneuSDC($idApontBD, $bolPneu, 1);
-                }
-                $idBolPneu = $boletimPneuDAO->idBoletimPneuSDC($idApontBD, $bolPneu, 1);
-                $this->salvarItemMedPneuSDC($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
-            }
-        }
-    }
-
-    private function salvarItemMedPneuSDC($idBolPneuBD, $idBolPneuCel, $dadosItemPneu) {
-        $itemMedPneuDAO = new ItemMedPneuDAO();
-        foreach ($dadosItemPneu as $itemPneu) {
-            if ($idBolPneuCel == $itemPneu->idBolItemMedPneu) {
-                $v = $itemMedPneuDAO->verifItemMedPneuSDC($idBolPneuBD, $itemPneu);
-                if ($v == 0) {
-                    $itemMedPneuDAO->insItemMedPneuSDC($idBolPneuBD, $itemPneu);
-                }
-            }
-        }
-    }
-
-    private function salvarRendimentoSDC($idBolBD, $idBolCel, $dadosRendimento) {
+    private function salvarRendimentoSDC($idBolBD, $idBolCel, $dadosRendimento, $dthrBoletim) {
         $rendimentoMMDAO = new RendimentoMMDAO();
         foreach ($dadosRendimento as $rend) {
             if ($idBolCel == $rend->idBolRendimento) {
-                $v = $rendimentoMMDAO->verifRendimentoMMSDC($idBolBD, $rend);
+                $v = $rendimentoMMDAO->verifRendimentoMMSDC($idBolBD, $rend, $dthrBoletim);
                 if ($v == 0) {
-                    $rendimentoMMDAO->insRendimentoMMSDC($idBolBD, $rend);
+                    $rendimentoMMDAO->insRendimentoMMSDC($idBolBD, $rend, $dthrBoletim);
                 }
             }
         }

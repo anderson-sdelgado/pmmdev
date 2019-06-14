@@ -32,4 +32,34 @@ class OSCTR {
                 
     }
     
+    public function dadosVersao1($info) {
+
+        $osDAO = new OSDAO();
+
+        $dado = $info['dado'];
+        
+        $dadosOS = array("dados" => $osDAO->dados($dado));
+        $resOS = json_encode($dadosOS);
+        
+        return $resOS;
+                
+    }
+    
+    public function ver($info) {
+
+        $osDAO = new OSDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
+
+        $dado = $info['dado'];
+
+        $dadosOS = array("dados" => $osDAO->dados($dado));
+        $resOS = json_encode($dadosOS);
+
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado));
+        $resROSAtiv = json_encode($dadosROSAtiv);
+        
+        return $resOS . "_" . $resROSAtiv;
+                
+    }
+    
 }

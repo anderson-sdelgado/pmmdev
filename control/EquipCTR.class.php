@@ -21,7 +21,6 @@ class EquipCTR {
 
         $equipDAO = new EquipDAO();
         $rEquipAtivDAO = new REquipAtivDAO();
-        $rAtivParadaDAO = new RAtivParadaDAO();
         $rEquipPneuDAO = new REquipPneuDAO();
 
         $dado = $info['dado'];
@@ -36,6 +35,60 @@ class EquipCTR {
         $resREquipPneu = json_encode($dadosREquipPneu);
 
         return $resEquip . "#" . $resREquipAtivDAO . "|" . $resREquipPneu;
+        
+    }
+    
+    public function dadosVersao1() {
+
+        $equipDAO = new EquipDAO();
+
+        $dadosEquip = array("dados" => $equipDAO->dadosVersao1());
+        $resEquip = json_encode($dadosEquip);
+
+
+        return $resEquip;
+        
+    }
+    
+    public function verif($info) {
+
+        $equipDAO = new EquipDAO();
+        $rEquipAtivDAO = new REquipAtivDAO();
+        $rEquipPneuDAO = new REquipPneuDAO();
+
+        $dado = $info['dado'];
+
+        $dadosEquip = array("dados" => $equipDAO->verif($dado));
+        $resEquip = json_encode($dadosEquip);
+
+        $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->verif($dado));
+        $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
+
+        $dadosREquipPneu = array("dados" => $rEquipPneuDAO->verif($dado));
+        $resREquipPneu = json_encode($dadosREquipPneu);
+
+        return $resEquip . "#" . $resREquipAtivDAO . "|" . $resREquipPneu;
+        
+    }
+    
+    public function ver($info) {
+
+        $equipDAO = new EquipDAO();
+        $rEquipAtivDAO = new REquipAtivDAO();
+        $rEquipPneuDAO = new REquipPneuDAO();
+
+        $dado = $info['dado'];
+
+        $dadosEquip = array("dados" => $equipDAO->verif($dado));
+        $resEquip = json_encode($dadosEquip);
+
+        $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->verif($dado));
+        $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
+
+        $dadosREquipPneu = array("dados" => $rEquipPneuDAO->verif($dado));
+        $resREquipPneu = json_encode($dadosREquipPneu);
+
+        return $resEquip . "_" . $resREquipAtivDAO . "|" . $resREquipPneu;
         
     }
     

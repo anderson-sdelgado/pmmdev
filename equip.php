@@ -1,14 +1,7 @@
 <?php
 
-require('./dao/EquipDAO.class.php');
+require('./control/EquipCTR.class.php');
 
-$equipDAO = new EquipDAO();
+$equipCTR = new EquipCTR();
 
-//cria o array associativo
-$dados = array("dados"=>$equipDAO->dados());
-
-//converte o conteúdo do array associativo para uma string JSON
-$json_str = json_encode($dados);
-
-//imprime a string JSON
-echo $json_str;
+echo $retorno = $equipCTR->dadosVersao1();

@@ -27,7 +27,7 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = " . $ajusteDataHoraDAO->dataHoraGMT($d->dtCab)
+                . " DTHR_CELULAR  = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
                 . " EQUIP_NRO = " . $d->equipCab;
 
@@ -53,7 +53,7 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = " . $ajusteDataHoraDAO->dataHoraGMT($d->dtCab)
+                . " DTHR_CELULAR  = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
                 . " EQUIP_NRO = " . $d->equipCab;
 

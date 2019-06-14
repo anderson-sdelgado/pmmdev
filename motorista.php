@@ -1,14 +1,7 @@
 <?php
 
-require('./dao/MotoristaDAO.class.php');
+require('./control/MotoristaCTR.class.php');
 
-$motoristaDAO = new MotoristaDAO();
+$motoristaCTR = new MotoristaCTR();
 
-//cria o array associativo
-$dados = array("dados"=>$motoristaDAO->dados());
-
-//converte o conteúdo do array associativo para uma string JSON
-$json_str = json_encode($dados);
-
-//imprime a string JSON
-echo $json_str;
+echo $motoristaCTR->dados();

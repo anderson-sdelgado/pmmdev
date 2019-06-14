@@ -1,14 +1,12 @@
 <?php
 
-require('./dao/AtualOSAtivDAO.class.php');
+require_once('./control/OSCTR.class.php');
 
-$atualOSAtivDAO = new AtualOSAtivDAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $retorno = $atualOSAtivDAO->dados($info['dado']);
+   $osCTR = new OSCTR();
+   echo $osCTR->dadosVersao1($info);
 
 endif;
-
-echo $retorno;

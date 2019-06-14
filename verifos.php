@@ -1,15 +1,12 @@
 <?php
 
-require('./dao/VerifOSDAO.class.php');
+require('./control/OSCTR.class.php');
 
-$verifOSDAO = new VerifOSDAO();
+$osCTR = new OSCTR();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $retorno = $verifOSDAO->dados($info['dado']);
+    echo $retorno = $osCTR->dados($info);
 
 endif;
-
-echo $retorno;
-

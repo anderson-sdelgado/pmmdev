@@ -1,14 +1,12 @@
 <?php
 
-require('./dao/VerEquipDAO.class.php');
+require('./control/EquipCTR.class.php');
 
-$verEquipDAO = new VerEquipDAO();
+$equipCTR = new EquipCTR();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
 
-    $retorno = $verEquipDAO->dados($info['dado']);
+    echo $retorno = $equipCTR->ver($info);
 
 endif;
-
-echo $retorno;

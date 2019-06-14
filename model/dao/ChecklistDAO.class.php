@@ -5,15 +5,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once 'Conn.class.php';
+require_once ('./dbutil/Conn.class.php');
 /**
- * Description of MotoristaDAO
+ * Description of ChecklistDAO
  *
  * @author anderson
  */
-class MotoristaDAO extends Conn {
-    //put your code here
-    
+class ChecklistDAO extends Conn {
     //put your code here
     
     /** @var PDOStatement */
@@ -25,14 +23,13 @@ class MotoristaDAO extends Conn {
     public function dados() {
 
         $select = " SELECT "
-                    . " NRO_CRACHA AS \"codMotorista\" "
-                    . " , FUNC_NOME AS \"nomeMotorista\" "
-                . " FROM "
-                    . " USINAS.V_SIMOVA_FUNC "
-                . " ORDER BY "
-                    . " NRO_CRACHA "
-                . " ASC ";
-        
+                        . " PLMANPREV_ID AS \"idChecklist\" "
+                        . " , NRO_TURNO AS \"turnoChecklist\" "
+                    . " FROM "
+                        . " V_PLANO_CHECK "
+                    . " WHERE "
+                        . " NRO_TURNO IS NOT NULL";
+
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);

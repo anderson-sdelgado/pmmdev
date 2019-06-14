@@ -102,7 +102,7 @@ class RespCheckListDAO extends Conn {
                 . " FROM "
                 . " ITEM_BOLETIM_CHECK "
                 . " WHERE "
-                . " ID_BOLETIM = " . $qtdeCab . " "
+                . " ID_BOLETIM = " . $idCab
                 . " AND "
                 . " ITMANPREV_ID = " . $i->idItBDIt . " ";
 

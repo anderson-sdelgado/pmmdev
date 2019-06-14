@@ -30,5 +30,18 @@ class AtualParadaCTR {
         return $resRAtivParadaDAO . "_" . $resParada;
                 
     }
+    
+    public function dadosVersao1($info) {
+
+        $rAtivParadaDAO = new RAtivParadaDAO();
+
+        $dado = $info['dado'];
+        
+        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dadosVersao1($dado));
+        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
+        
+        return $resRAtivParadaDAO;
+                
+    }
 
 }

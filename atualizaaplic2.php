@@ -1,19 +1,12 @@
 <?php
 
-require('./model/dao/AtualizaAplic2DAO.class.php');
+require_once('./control/AtualAplicativoCTR.class.php');
 
-$atualizaAplicDAO = new AtualizaAplic2DAO();
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 if (isset($info)):
-    
-    //$dados = '{"dados":[{"idEquipAtualizacao":663,"versaoAtual":"1.1"}]}';
-    
-    $jsonObj = json_decode($info['dado']);
-    //$jsonObj = json_decode($dados); //Teste
-    $dados = $jsonObj->dados;
-    $retorno = $atualizaAplicDAO->pesqInfo($dados);
-    
-endif;
 
-echo $retorno;
+   $atualAplicativoCTR = new AtualAplicativoCTR();
+    echo $atualAplicativoCTR->verAtualAplic($info);
+
+endif;
