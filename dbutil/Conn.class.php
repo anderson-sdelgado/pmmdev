@@ -77,7 +77,6 @@ class Conn {
         return self::$Connect;
     }
 
-    /** Retorna um objeto PDO Singleton Pattern. */
     protected static function getConn() {
         return self::Conectar();
     }

@@ -98,23 +98,23 @@ class InserirCheckListCTR {
 
     private function salvarBoletimSDC($dadosCab, $dadosItem) {
         $cabecCheckListDAO = new CabecCheckListDAO();
-        foreach ($dadosCab as $d) {
-            $v = $cabecCheckListDAO->verifCabecCheckListSDC($d);
+        foreach ($dadosCab as $cab) {
+            $v = $cabecCheckListDAO->verifCabecCheckListSDC($cab);
             if ($v == 0) {
-                $cabecCheckListDAO->insCabecCheckListSDC($d);
+                $cabecCheckListDAO->insCabecCheckListSDC($cab);
             }
-            $idCabec = $cabecCheckListDAO->idCabecCheckListSDC($d);
-            $this->salvarApontSDC($idCabec, $d->idCab, $dadosItem);
+            $idCabec = $cabecCheckListDAO->idCabecCheckListSDC($cab);
+            $this->salvarApontSDC($idCabec, $cab->idCabecCheckList, $dadosItem);
         }
     }
     
     private function salvarApontSDC($idBolBD, $idBolCel, $dadosItem) {
         $respCheckListDAO = new RespCheckListDAO();
-        foreach ($dadosItem as $i) {
-            if ($idBolCel == $i->idCabIt) {
-                $v = $respCheckListDAO->verifRespCheckListSDC($idBolBD, $i);
+        foreach ($dadosItem as $item) {
+            if ($idBolCel == $item->idCabecItemCheckList) {
+                $v = $respCheckListDAO->verifRespCheckListSDC($idBolBD, $item);
                 if ($v == 0) {
-                    $respCheckListDAO->insRespCheckListSDC($idBolBD, $i);
+                    $respCheckListDAO->insRespCheckListSDC($idBolBD, $item);
                 }
             }
         }

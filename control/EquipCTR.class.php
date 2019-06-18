@@ -45,7 +45,6 @@ class EquipCTR {
         $dadosEquip = array("dados" => $equipDAO->dadosVersao1());
         $resEquip = json_encode($dadosEquip);
 
-
         return $resEquip;
         
     }
@@ -54,7 +53,7 @@ class EquipCTR {
 
         $equipDAO = new EquipDAO();
         $rEquipAtivDAO = new REquipAtivDAO();
-        $rEquipPneuDAO = new REquipPneuDAO();
+        $rAtivParadaDAO = new RAtivParadaDAO();
 
         $dado = $info['dado'];
 
@@ -64,10 +63,10 @@ class EquipCTR {
         $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->verif($dado));
         $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-        $dadosREquipPneu = array("dados" => $rEquipPneuDAO->verif($dado));
-        $resREquipPneu = json_encode($dadosREquipPneu);
+        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->verif($dado));
+        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
 
-        return $resEquip . "#" . $resREquipAtivDAO . "|" . $resREquipPneu;
+        return $resEquip . "#" . $resREquipAtivDAO . "|" . $resRAtivParadaDAO;
         
     }
     
@@ -75,7 +74,7 @@ class EquipCTR {
 
         $equipDAO = new EquipDAO();
         $rEquipAtivDAO = new REquipAtivDAO();
-        $rEquipPneuDAO = new REquipPneuDAO();
+        $rAtivParadaDAO = new RAtivParadaDAO();
 
         $dado = $info['dado'];
 
@@ -85,10 +84,10 @@ class EquipCTR {
         $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->verif($dado));
         $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-        $dadosREquipPneu = array("dados" => $rEquipPneuDAO->verif($dado));
-        $resREquipPneu = json_encode($dadosREquipPneu);
+        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->verif($dado));
+        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
 
-        return $resEquip . "_" . $resREquipAtivDAO . "|" . $resREquipPneu;
+        return $resEquip . "_" . $resREquipAtivDAO . "|" . $resRAtivParadaDAO;
         
     }
     

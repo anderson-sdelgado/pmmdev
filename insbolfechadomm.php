@@ -7,7 +7,7 @@ $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 if (isset($info)):
 
     $inserirDadosMMCTR = new InserirDadosMMCTR();
-    echo $inserirDadosMMCTR->salvarDadosApontMM($info, "insbolfechadomm");
+    echo $inserirDadosMMCTR->salvarDadosBolFechadoMM($info, "insbolfechadomm");
     
 endif;
 

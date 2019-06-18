@@ -62,4 +62,15 @@ class OSCTR {
                 
     }
     
+    public function dadosClear() {
+
+        $osDAO = new OSDAO();
+
+        $dadosOS = array("dados" => $osDAO->dadosClear());
+        $resOS = json_encode($dadosOS);
+        
+        return $resOS;
+                
+    }
+    
 }

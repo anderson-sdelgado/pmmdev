@@ -18,7 +18,7 @@ class CabecCheckListDAO extends Conn {
     ///////////////////////////////////////////////VERSAO 2/////////////////////////////////////////////////////////////
     //    DADOS QUE VEM DA PAGINA INSERIRCHECKLIST2
     
-    public function verifCabecCheckList($d) {
+    public function verifCabecCheckList($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -27,9 +27,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DTHR_CELULAR  = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " DTHR_CELULAR  = TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCab;
+                . " EQUIP_NRO = " . $cab->equipCab;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -44,7 +44,7 @@ class CabecCheckListDAO extends Conn {
         return $v;
     }
 
-    public function idCabecCheckList($d) {
+    public function idCabecCheckList($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -53,9 +53,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DTHR_CELULAR  = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " DTHR_CELULAR  = TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCab;
+                . " EQUIP_NRO = " . $cab->equipCab;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -69,7 +69,7 @@ class CabecCheckListDAO extends Conn {
         return $id;
     }
 
-    public function insCabecCheckList($d) {
+    public function insCabecCheckList($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -77,7 +77,7 @@ class CabecCheckListDAO extends Conn {
                 . " NRO_TURNO "
                 . " FROM "
                 . " USINAS.TURNO_TRAB "
-                . " WHERE TURNOTRAB_ID = " . $d->turnoCab;
+                . " WHERE TURNOTRAB_ID = " . $cab->turnoCab;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -96,20 +96,20 @@ class CabecCheckListDAO extends Conn {
                 . " , NRO_TURNO "
                 . " ) "
                 . " VALUES ( "
-                . " " . $d->equipCab . " "
-                . " , " . $d->funcCab . ""
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($d->dtCab)
-                . " , TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " " . $cab->equipCab . " "
+                . " , " . $cab->funcCab . ""
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($cab->dtCab)
+                . " , TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " , " . $turno . ")";
 
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
-        if ($d->dtAtualCab != "0") {
+        if ($cab->dtAtualCab != "0") {
 
             $sql = " UPDATE USINAS.ATUALIZA_CHECKLIST_MOBILE  "
-                    . " SET DT_MOBILE = TO_DATE('" . $d->dtAtualCab . "','DD/MM/YYYY HH24:MI') "
-                    . " WHERE EQUIP_NRO = " . $d->equipCab;
+                    . " SET DT_MOBILE = TO_DATE('" . $cab->dtAtualCab . "','DD/MM/YYYY HH24:MI') "
+                    . " WHERE EQUIP_NRO = " . $cab->equipCab;
 
             $this->Create = $this->Conn->prepare($sql);
             $this->Create->execute();
@@ -119,7 +119,7 @@ class CabecCheckListDAO extends Conn {
     ///////////////////////////////////////////////VERSAO 1 COM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DA PAGINA APONTACHECKLISTDT
     
-    public function verifCabecCheckListCDC($d) {
+    public function verifCabecCheckListCDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -128,9 +128,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " DT = TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCab;
+                . " EQUIP_NRO = " . $cab->equipCab;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -145,7 +145,7 @@ class CabecCheckListDAO extends Conn {
         return $v;
     }
 
-    public function idCabecCheckListCDC($d) {
+    public function idCabecCheckListCDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -154,9 +154,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " DT = TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCab;
+                . " EQUIP_NRO = " . $cab->equipCab;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -170,7 +170,7 @@ class CabecCheckListDAO extends Conn {
         return $id;
     }
 
-    public function insCabecCheckListCDC($d) {
+    public function insCabecCheckListCDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -178,7 +178,7 @@ class CabecCheckListDAO extends Conn {
                 . " NRO_TURNO "
                 . " FROM "
                 . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW "
-                . " WHERE TURNOTRAB_ID = " . $d->turnoCabecCheckList;
+                . " WHERE TURNOTRAB_ID = " . $cab->turnoCab;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -196,9 +196,9 @@ class CabecCheckListDAO extends Conn {
                 . " , NRO_TURNO "
                 . " ) "
                 . " VALUES ( "
-                . " " . $d->equipCab . " "
-                . " , " . $d->funcCab . ""
-                . " , TO_DATE('" . $d->dtCab . "','DD/MM/YYYY HH24:MI') "
+                . " " . $cab->equipCab . " "
+                . " , " . $cab->funcCab . ""
+                . " , TO_DATE('" . $cab->dtCab . "','DD/MM/YYYY HH24:MI') "
                 . " , " . $turno . ")";
 
         $this->Create = $this->Conn->prepare($sql);
@@ -209,7 +209,7 @@ class CabecCheckListDAO extends Conn {
     ///////////////////////////////////////////////SEM DATA DE CELULAR//////////////////////////////////////////////////////////
     //    DADOS QUE VEM DA PAGINA APONTACHECKLIST
     
-    public function verifCabecCheckListSDC($d) {
+    public function verifCabecCheckListSDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -218,9 +218,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = TO_DATE('" . $d->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
+                . " DT = TO_DATE('" . $cab->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCabecCheckList;
+                . " EQUIP_NRO = " . $cab->equipCabecCheckList;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -235,7 +235,7 @@ class CabecCheckListDAO extends Conn {
         return $v;
     }
 
-    public function idCabecCheckListSDC($d) {
+    public function idCabecCheckListSDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -244,9 +244,9 @@ class CabecCheckListDAO extends Conn {
                 . " FROM "
                 . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DT = TO_DATE('" . $d->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
+                . " DT = TO_DATE('" . $cab->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_NRO = " . $d->equipCabecCheckList;
+                . " EQUIP_NRO = " . $cab->equipCabecCheckList;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -260,7 +260,7 @@ class CabecCheckListDAO extends Conn {
         return $id;
     }
 
-    public function insCabecCheckListSDC($d) {
+    public function insCabecCheckListSDC($cab) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -268,7 +268,7 @@ class CabecCheckListDAO extends Conn {
                 . " NRO_TURNO "
                 . " FROM "
                 . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW "
-                . " WHERE TURNOTRAB_ID = " . $d->turnoCabecCheckList;
+                . " WHERE TURNOTRAB_ID = " . $cab->turnoCabecCheckList;
 
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -286,9 +286,9 @@ class CabecCheckListDAO extends Conn {
                 . " , NRO_TURNO "
                 . " ) "
                 . " VALUES ( "
-                . " " . $d->equipCabecCheckList . " "
-                . " , " . $d->funcCabecCheckList . ""
-                . " , TO_DATE('" . $d->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
+                . " " . $cab->equipCabecCheckList . " "
+                . " , " . $cab->funcCabecCheckList . ""
+                . " , TO_DATE('" . $cab->dtCabecCheckList . "','DD/MM/YYYY HH24:MI') "
                 . " , " . $turno . ")";
 
         $this->Create = $this->Conn->prepare($sql);

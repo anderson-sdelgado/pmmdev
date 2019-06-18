@@ -73,7 +73,6 @@ class ApontFertDAO extends Conn {
 
         if ($apont->paradaApontaFert == 0) {
             $apont->paradaApontaFert = "null";
-        } else {
             $raio = 45;
         }
 

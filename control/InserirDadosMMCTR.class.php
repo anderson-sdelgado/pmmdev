@@ -106,6 +106,7 @@ class InserirDadosMMCTR {
             $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
             $idBol = $this->salvarApont($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            
         } else {
 
             $pos1 = strpos($dados, "|") + 1;
@@ -120,9 +121,9 @@ class InserirDadosMMCTR {
             $dadosImplemento = $jsonObjImplemento->implemento;
 
             if ($pagina == 'inserirapontdt') {
-                $idBol = $this->salvarApontCDC($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $idBol = $this->salvarApontCDC($dadosAponta, $dadosImplemento);
             } elseif ($pagina == 'insapontmm') {
-                $idBol = $this->salvarApontSDC($dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+                $idBol = $this->salvarApontSDC($dadosAponta, $dadosImplemento);
             }
         }
 
@@ -170,8 +171,7 @@ class InserirDadosMMCTR {
             $pos2 = strpos($dados, "|") + 1;
             $pos3 = strpos($dados, "#") + 1;
             $pos4 = strpos($dados, "?") + 1;
-            $pos5 = strpos($dados, "@") + 1;
-            
+
             $c = substr($dados, 0, ($pos1 - 1));
             $amm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
             $i = substr($dados, $pos2, (($pos3 - 1) - $pos2));
@@ -181,7 +181,7 @@ class InserirDadosMMCTR {
             $jsonObjAponta = json_decode($amm);
             $jsonObjImplemento = json_decode($i);
             $jsonObjRendimento = json_decode($r);
-            
+
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImplemento->implemento;
@@ -213,7 +213,7 @@ class InserirDadosMMCTR {
                 $boletimMMDAO->insBoletimMMAberto($bol);
             }
             $idBol = $boletimMMDAO->idBoletimMM($bol);
-            $this->salvarApont($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarApontBol($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento, $dadosBolPneu, $dadosItemPneu);
         }
         return $idBol;
     }
@@ -241,8 +241,9 @@ class InserirDadosMMCTR {
             if ($v == 0) {
                 $apontMMDAO->insApontMM($apont->idExtBolAponta, $apont);
             }
-            $this->salvarImplemento($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
-            $this->salvarBoletimPneu($apont->idExtBolAponta, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
+            $idApont = $apontMMDAO->idApontMM($apont->idExtBolAponta, $apont);
+            $this->salvarImplemento($idApont, $apont->idAponta, $dadosImplemento);
+            $this->salvarBoletimPneu($idApont, $apont->idAponta, $dadosBolPneu, $dadosItemPneu);
         }
     }
 
@@ -324,7 +325,7 @@ class InserirDadosMMCTR {
                 $boletimMMDAO->insBoletimMMAbertoCDC($bol);
             }
             $idBol = $boletimMMDAO->idBoletimMMCDC($bol);
-            $this->salvarApontCDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
+            $this->salvarApontBolCDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
         }
         return $idBol;
     }
@@ -352,7 +353,8 @@ class InserirDadosMMCTR {
             if ($v == 0) {
                 $apontMMDAO->insApontMMCDC($apont->idExtBolAponta, $apont);
             }
-            $this->salvarImplementoCDC($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
+            $idApont = $apontMMDAO->idApontMMCDC($apont->idExtBolAponta, $apont);
+            $this->salvarImplementoCDC($idApont, $apont->idAponta, $dadosImplemento);
         }
     }
 
@@ -407,7 +409,7 @@ class InserirDadosMMCTR {
                 $boletimMMDAO->insBoletimMMAbertoSDC($bol);
             }
             $idBol = $boletimMMDAO->idBoletimMMSDC($bol);
-            $this->salvarApontSDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
+            $this->salvarApontBolSDC($idBol, $bol->idBoletim, $dadosAponta, $dadosImplemento);
         }
         return $idBol;
     }
@@ -435,7 +437,8 @@ class InserirDadosMMCTR {
             if ($v == 0) {
                 $apontMMDAO->insApontMMSDC($apont->idExtBolAponta, $apont);
             }
-            $this->salvarImplementoSDC($apont->idExtBolAponta, $apont->idAponta, $dadosImplemento);
+            $idApont = $apontMMDAO->idApontMMSDC($apont->idExtBolAponta, $apont);
+            $this->salvarImplementoSDC($idApont, $apont->idAponta, $dadosImplemento);
         }
     }
 
