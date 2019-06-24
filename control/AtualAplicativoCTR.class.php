@@ -18,8 +18,9 @@ class AtualAplicativoCTR {
 
         $atualAplicativoDAO = new AtualAplicativoDAO();
 
-        $dados = $info['dado'];
-        $dadosAtualAplic = array("dados" => $atualAplicativoDAO->verAtualAplic($dados));
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
+        $dadosAtualAplic = $atualAplicativoDAO->verAtualAplic($dados);
         return $dadosAtualAplic;
         
     }
@@ -28,8 +29,9 @@ class AtualAplicativoCTR {
 
         $atualAplicativoDAO = new AtualAplicativoDAO();
 
-        $dados = $info['dado'];
-        $dadosAtualAplic = array("dados" => $atualAplicativoDAO->verAtualAplic($dados));
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
+        $dadosAtualAplic = $atualAplicativoDAO->verAtualAplicVersao1($dados);
         return $dadosAtualAplic;
         
     }
