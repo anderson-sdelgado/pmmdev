@@ -12,7 +12,7 @@ require_once './dbutil/Conn.class.php';
  *
  * @author anderson
  */
-class AtualAplicativoDAO extends Conn {
+class AtualAplicDAO extends Conn {
     //put your code here
 
     /** @var PDOStatement */
@@ -103,7 +103,6 @@ class AtualAplicativoDAO extends Conn {
             } else {
 
                 if ($va != $vn) {
-
                     $retorno = 'S';
                 } else {
 
@@ -181,7 +180,27 @@ class AtualAplicativoDAO extends Conn {
             }
         }
 
-        return $retorno;
+        $select = " SELECT "
+                    . " TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS DTHR "
+                . " FROM "
+                    . " DUAL ";
+
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result1 = $this->Read->fetchAll();
+
+        foreach ($result1 as $item) {
+            $dthr = $item['DTHR'];
+        }
+
+        if($retorno == 'S'){
+            return $retorno;
+        }
+        else{
+            return $retorno . "#" . $dthr;
+        }
+        
     }
 
     public function verAtualAplicVersao1($dados) {
@@ -308,7 +327,6 @@ class AtualAplicativoDAO extends Conn {
                     } else {
 
                         if ($vcl == 1) {
-
                             $retorno = 'N_AC';
                         }
                     }

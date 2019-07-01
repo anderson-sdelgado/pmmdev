@@ -214,11 +214,11 @@ class RespCheckListDAO extends Conn {
                 . " and "
                 . " vipc.componente_id = vcc.componente_id ";
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
         $result = $this->Read->fetchAll();
-
 
         foreach ($result as $inf) {
             $questao = $inf['QUESTAO'];

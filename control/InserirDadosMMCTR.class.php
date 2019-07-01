@@ -135,7 +135,7 @@ class InserirDadosMMCTR {
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
 
-        if ($pagina == 'inserirbolfechado2') {
+        if ($pagina == 'inserirbolfechadomm2') {
 
             $pos1 = strpos($dados, "_") + 1;
             $pos2 = strpos($dados, "|") + 1;

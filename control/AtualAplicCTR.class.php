@@ -5,33 +5,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/AtualAplicativoDAO.class.php');
+require('./model/dao/AtualAplicDAO.class.php');
 /**
  * Description of AtualAplicativoCTR
  *
  * @author anderson
  */
-class AtualAplicativoCTR {
+class AtualAplicCTR {
     //put your code here
     
     public function verAtualAplic($info) {
 
-        $atualAplicativoDAO = new AtualAplicativoDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
         $jsonObj = json_decode($info['dado']);
         $dados = $jsonObj->dados;
-        $dadosAtualAplic = $atualAplicativoDAO->verAtualAplic($dados);
+        $dadosAtualAplic = $atualAplicDAO->verAtualAplic($dados);
         return $dadosAtualAplic;
         
     }
     
     public function verAtualAplicVersao1($info) {
 
-        $atualAplicativoDAO = new AtualAplicativoDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
         $jsonObj = json_decode($info['dado']);
         $dados = $jsonObj->dados;
-        $dadosAtualAplic = $atualAplicativoDAO->verAtualAplicVersao1($dados);
+        $dadosAtualAplic = $atualAplicDAO->verAtualAplicVersao1($dados);
         return $dadosAtualAplic;
         
     }

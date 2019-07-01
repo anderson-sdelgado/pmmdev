@@ -7,7 +7,6 @@
  */
 require_once ('./dbutil/Conn.class.php');
 require_once ('./model/dao/AjusteDataHoraDAO.class.php');
-
 /**
  * Description of CabecChecklist
  *
@@ -57,6 +56,7 @@ class CabecCheckListDAO extends Conn {
                 . " AND "
                 . " EQUIP_NRO = " . $cab->equipCab;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -79,6 +79,7 @@ class CabecCheckListDAO extends Conn {
                 . " USINAS.TURNO_TRAB "
                 . " WHERE TURNOTRAB_ID = " . $cab->turnoCab;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -121,8 +122,6 @@ class CabecCheckListDAO extends Conn {
     
     public function verifCabecCheckListCDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
@@ -147,8 +146,6 @@ class CabecCheckListDAO extends Conn {
 
     public function idCabecCheckListCDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " ID_BOLETIM AS ID "
                 . " FROM "
@@ -158,6 +155,7 @@ class CabecCheckListDAO extends Conn {
                 . " AND "
                 . " EQUIP_NRO = " . $cab->equipCab;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -172,14 +170,13 @@ class CabecCheckListDAO extends Conn {
 
     public function insCabecCheckListCDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " NRO_TURNO "
                 . " FROM "
                 . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW "
                 . " WHERE TURNOTRAB_ID = " . $cab->turnoCab;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -211,8 +208,6 @@ class CabecCheckListDAO extends Conn {
     
     public function verifCabecCheckListSDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
@@ -237,8 +232,6 @@ class CabecCheckListDAO extends Conn {
 
     public function idCabecCheckListSDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " ID_BOLETIM AS ID "
                 . " FROM "
@@ -248,6 +241,7 @@ class CabecCheckListDAO extends Conn {
                 . " AND "
                 . " EQUIP_NRO = " . $cab->equipCabecCheckList;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -262,14 +256,13 @@ class CabecCheckListDAO extends Conn {
 
     public function insCabecCheckListSDC($cab) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $select = " SELECT "
                 . " NRO_TURNO "
                 . " FROM "
                 . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW "
                 . " WHERE TURNOTRAB_ID = " . $cab->turnoCabecCheckList;
 
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

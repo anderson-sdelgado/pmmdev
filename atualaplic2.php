@@ -7,6 +7,6 @@ $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 if (isset($info)):
 
    $atualAplicCTR = new AtualAplicCTR();
-    echo $atualAplicCTR->verAtualAplicVersao1($info);
+   echo $atualAplicCTR->verAtualAplic($info);
 
 endif;
