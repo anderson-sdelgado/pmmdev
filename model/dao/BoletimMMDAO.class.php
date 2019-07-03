@@ -251,7 +251,6 @@ class BoletimMMDAO extends Conn {
                 . " , DTHR_INICIAL_CEL "
                 . " , DTHR_TRANS_INICIAL "
                 . " , STATUS "
-                . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->codMotoBoletim
@@ -264,7 +263,6 @@ class BoletimMMDAO extends Conn {
                 . " , TO_DATE('" . $bol->dthrInicioBoletim . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
-                . " , " . $bol->statusConBoletim
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -299,7 +297,6 @@ class BoletimMMDAO extends Conn {
                 . " , DTHR_FINAL_CEL "
                 . " , DTHR_TRANS_FINAL "
                 . " , STATUS "
-                . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->codMotoBoletim
@@ -316,7 +313,6 @@ class BoletimMMDAO extends Conn {
                 . " , TO_DATE('" . $bol->dthrFimBoletim . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
-                . " , " . $bol->statusConBoletim
                 . " )";
 
         $this->Conn = parent::getConn();
