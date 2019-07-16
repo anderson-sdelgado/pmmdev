@@ -42,4 +42,28 @@ class EquipSegDAO extends Conn {
 
         return $result;
     }
+    
+    public function dadosVersao1() {
+
+        $select = " SELECT "
+                    . " E.EQUIP_ID AS \"idEquip\" "
+                    . " , E.NRO_EQUIP AS \"codEquip\" "
+                    . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
+                    . " , E.CLASSOPER_DESCR AS \"descrClasseEquip\" "
+                    . " , E.TP_EQUIP AS \"tipoEquip\" "
+                . " FROM " 
+                    . " V_PMM_EQUIP_SEG E " 
+                . " ORDER BY " 
+                    . " E.NRO_EQUIP " 
+                    . " ASC ";
+        
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
 }

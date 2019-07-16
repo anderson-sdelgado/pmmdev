@@ -25,5 +25,16 @@ class EquipSegCTR {
         return $json_str;
         
     }
+    
+    public function dadosVersao1() {
+
+        $equipSegDAO = new EquipSegDAO();
+
+        $dados = array("dados" => $equipSegDAO->dadosVersao1());
+        $json_str = json_encode($dados);
+
+        return $json_str;
+        
+    }
 
 }

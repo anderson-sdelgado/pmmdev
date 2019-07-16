@@ -31,8 +31,8 @@ class OSDAO extends Conn {
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
                 . " NRO_OS = " . $os
-//                    . " AND DT_INIC_PROGR <= SYSDATE " 
-//                    . " AND DT_FIM_PROGR >= SYSDATE - 1"
+                . " AND DT_INIC_PROGR <= SYSDATE " 
+                . " AND DT_FIM_PROGR >= SYSDATE - 1"
                 . " ";
 
         $this->Conn = parent::getConn();
@@ -47,12 +47,15 @@ class OSDAO extends Conn {
     public function dadosClear() {
 
         $select = " SELECT DISTINCT "
-                . " NRO_OS AS \"nroOS\" "
-                . " , PROPRAGR_CD AS \"codProprOS\" "
-                . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
-                . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
+                    . " NRO_OS AS \"nroOS\" "
+                    . " , NVL(PROPRAGR_CD, 0)  AS \"codProprOS\" "
+                    . " , NVL(CARACTER(PROPRAGR_DESCR), 'ESTRUTURAL') AS \"descrProprOS\" "
+                    . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
                 . " FROM "
-                . " USINAS.V_PMM_OS ";
+                    . " USINAS.V_PMM_OS "
+                . " WHERE "
+                    . " DT_INIC_PROGR <= SYSDATE " 
+                    . " AND DT_FIM_PROGR >= SYSDATE " ;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

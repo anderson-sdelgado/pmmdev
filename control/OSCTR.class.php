@@ -34,14 +34,31 @@ class OSCTR {
     
     public function dadosVersao1($info) {
 
-        $osDAO = new OSDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
 
         $dado = $info['dado'];
         
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->atual($dado));
+        $resROSAtiv = json_encode($dadosROSAtiv);
+        
+        return $resROSAtiv;
+                
+    }
+    
+    public function verif($info) {
+
+        $osDAO = new OSDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
+
+        $dado = $info['dado'];
+
         $dadosOS = array("dados" => $osDAO->dados($dado));
         $resOS = json_encode($dadosOS);
+
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->verif($dado));
+        $resROSAtiv = json_encode($dadosROSAtiv);
         
-        return $resOS;
+        return $resOS . "#" . $resROSAtiv;
                 
     }
     
@@ -55,7 +72,7 @@ class OSCTR {
         $dadosOS = array("dados" => $osDAO->dados($dado));
         $resOS = json_encode($dadosOS);
 
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado));
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->verif($dado));
         $resROSAtiv = json_encode($dadosROSAtiv);
         
         return $resOS . "_" . $resROSAtiv;

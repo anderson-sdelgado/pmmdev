@@ -27,6 +27,7 @@ class PerdaDAO extends Conn {
                         . " , P.TOLETE AS \"toletePerda\" "
                         . " , P.LASCA AS \"lascaPerda\" "
                         . " , P.TOCO AS \"tocoPerda\" "
+                        . " , P.PONTEIRO AS \"ponteiroPerda\" "
                         . " , P.CANAINTEIRA AS \"canaInteiraPerda\" "
                         . " , P.PEDACO AS \"pedacoPerda\" "
                         . " , P.REPIQUE AS \"repiquePerda\" "
