@@ -87,8 +87,8 @@ class ApontMMDAO extends Conn {
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
                 . " , NRO_EQUIP_TRANSB "
-                . " , LATITUDE "
-                . " , LONGITUDE "
+//                . " , LATITUDE "
+//                . " , LONGITUDE "
                 . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
@@ -100,8 +100,8 @@ class ApontMMDAO extends Conn {
                 . " , TO_DATE('" . $apont->dthrAponta . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , " . $apont->transbordoAponta
-                . " , " . $apont->latitudeAponta
-                . " , " . $apont->longitudeAponta
+//                . " , " . $apont->latitudeAponta
+//                . " , " . $apont->longitudeAponta
                 . " , " . $apont->statusConAponta
                 . " )";
 

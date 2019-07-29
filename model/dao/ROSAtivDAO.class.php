@@ -29,8 +29,6 @@ class ROSAtivDAO extends Conn {
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
                 . " NRO_OS = " . $os
-                . " AND DT_INIC_PROGR <= SYSDATE " 
-                . " AND DT_FIM_PROGR >= SYSDATE - 1"
                 . " ";
         
         $this->Conn = parent::getConn();
@@ -52,8 +50,6 @@ class ROSAtivDAO extends Conn {
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
                 . " NRO_OS = " . $os
-                . " AND DT_INIC_PROGR <= SYSDATE " 
-                . " AND DT_FIM_PROGR >= SYSDATE - 1"
                 . " ";
         
         $this->Conn = parent::getConn();

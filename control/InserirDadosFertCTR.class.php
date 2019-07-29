@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('./model/dao/InserirLogDAO.class.php');
+require_once('./model/dao/LogDAO.class.php');
 require_once('./model/dao/BoletimFertDAO.class.php');
 require_once('./model/dao/ApontFertDAO.class.php');
 require_once('./model/dao/RecolhimentoFertDAO.class.php');
@@ -28,26 +28,18 @@ class InserirDadosFertCTR {
 
         $pos1 = strpos($dados, "_") + 1;
         $pos2 = strpos($dados, "|") + 1;
-        $pos3 = strpos($dados, "#") + 1;
-        $pos4 = strpos($dados, "?") + 1;
 
         $bolfert = substr($dados, 0, ($pos1 - 1));
         $apontfert = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $recol = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-        $bolpneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-        $itempneu = substr($dados, $pos4);
+        $recol = substr($dados, $pos2);
 
         $jsonObjBoletim = json_decode($bolfert);
         $jsonObjAponta = json_decode($apontfert);
         $jsonObjRecolhimento = json_decode($recol);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
 
         $dadosBoletim = $jsonObjBoletim->boletim;
         $dadosAponta = $jsonObjAponta->aponta;
         $dadosRecolhimento = $jsonObjRecolhimento->recolhimento;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
         $boletimFertDAO = new BoletimFertDAO();
 
@@ -59,7 +51,7 @@ class InserirDadosFertCTR {
                 $boletimFertDAO->updateBoletimFertFechado($bol);
             }
             $idBol = $boletimFertDAO->idBoletimFert($bol);
-            $this->salvarApont($idBol, $bol->idBolFert, $dadosAponta, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarApont($idBol, $bol->idBolFert, $dadosAponta);
             $this->salvarRecolhimento($idBol, $bol->idBolFert, $dadosRecolhimento);
         }
         return 'GRAVOU-BOLFECHADOFERT';
@@ -71,23 +63,15 @@ class InserirDadosFertCTR {
         $this->salvarLog($dados, $pagina);
 
         $pos1 = strpos($dados, "_") + 1;
-        $pos2 = strpos($dados, "|") + 1;
-        $pos3 = strpos($dados, "#") + 1;
 
         $bolfert = substr($dados, 0, ($pos1 - 1));
-        $apontfert = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $bolpneu = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-        $itempneu = substr($dados, $pos3);
+        $apontfert = substr($dados, $pos1);
 
         $jsonObjBoletim = json_decode($bolfert);
         $jsonObjAponta = json_decode($apontfert);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
 
         $dadosBoletim = $jsonObjBoletim->boletim;
         $dadosAponta = $jsonObjAponta->aponta;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
         $boletimFertDAO = new BoletimFertDAO();
 
@@ -97,7 +81,7 @@ class InserirDadosFertCTR {
                 $boletimFertDAO->insBoletimFertAberto($bol);
             }
             $idBol = $boletimFertDAO->idBoletimFert($bol);
-            $this->salvarApont($idBol, $bol->idBolFert, $dadosAponta, $dadosBolPneu, $dadosItemPneu);
+            $this->salvarApont($idBol, $bol->idBolFert, $dadosAponta);
         }
         return "GRAVFERT+id=" . $idBol . "_";
     }
@@ -109,20 +93,9 @@ class InserirDadosFertCTR {
         $dados = $info['dado'];
         $this->salvarLog($dados, $pagina);
 
-        $pos1 = strpos($dados, "_") + 1;
-        $pos2 = strpos($dados, "|") + 1;
-
-        $apontfert = substr($dados, 0, ($pos1 - 1));
-        $bolpneu = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-        $itempneu = substr($dados, $pos2);
-
-        $jsonObjAponta = json_decode($apontfert);
-        $jsonObjBolPneu = json_decode($bolpneu);
-        $jsonObjItemPneu = json_decode($itempneu);
+        $jsonObjAponta = json_decode($dados);
         
         $dadosAponta = $jsonObjAponta->aponta;
-        $dadosBolPneu = $jsonObjBolPneu->bolpneu;
-        $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
         foreach ($dadosAponta as $apont) {
             $v = $apontFertDAO->verifApontFert($apont->idExtBolApontaFert, $apont);
@@ -130,7 +103,6 @@ class InserirDadosFertCTR {
                 $apontFertDAO->insApontFert($apont->idExtBolApontaFert, $apont);
             }
             $idApont = $apontFertDAO->idApontFert($apont->idExtBolApontaFert, $apont);
-            $this->salvarBoletimPneu($idApont, $apont->idApontaFert, $dadosBolPneu, $dadosItemPneu);
         }
         return 'GRAVOU-APONTAFERT';
     }
@@ -144,33 +116,6 @@ class InserirDadosFertCTR {
                     $apontFertDAO->insApontFert($idBolBD, $apont);
                 }
                 $idApont = $apontFertDAO->idApontFert($idBolBD, $apont);
-                $this->salvarBoletimPneu($idApont, $apont->idApontaFert, $dadosBolPneu, $dadosItemPneu);
-            }
-        }
-    }
-
-    private function salvarBoletimPneu($idApontBD, $idApontCel, $dadosBolPneu, $dadosItemPneu) {
-        $boletimPneuDAO = new BoletimPneuDAO();
-        foreach ($dadosBolPneu as $bolPneu) {
-            if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu, 2);
-                if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, 2);
-                }
-                $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu, 2);
-                $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
-            }
-        }
-    }
-
-    private function salvarItemMedPneu($idBolPneuBD, $idBolPneuCel, $dadosItemPneu) {
-        $itemMedPneuDAO = new ItemMedPneuDAO();
-        foreach ($dadosItemPneu as $itemPneu) {
-            if ($idBolPneuCel == $itemPneu->idBolItemMedPneu) {
-                $v = $itemMedPneuDAO->verifItemMedPneu($idBolPneuBD, $itemPneu);
-                if ($v == 0) {
-                    $itemMedPneuDAO->insItemMedPneu($idBolPneuBD, $itemPneu);
-                }
             }
         }
     }
@@ -188,8 +133,8 @@ class InserirDadosFertCTR {
     }
 
     private function salvarLog($dados, $pagina) {
-        $inserirLogDAO = new InserirLogDAO();
-        $inserirLogDAO->salvarDados($dados, $pagina);
+        $logDAO = new LogDAO();
+        $logDAO->salvarDados($dados, $pagina);
     }
 
 }

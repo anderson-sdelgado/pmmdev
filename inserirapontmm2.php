@@ -10,5 +10,3 @@ if (isset($info)):
     echo $inserirDadosMMCTR->salvarDadosApontMM($info, "inserirapontmm2");
     
 endif;
-
-

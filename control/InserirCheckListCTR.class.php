@@ -7,7 +7,7 @@
  */
 require('./model/dao/CabecCheckListDAO.class.php');
 require('./model/dao/RespCheckListDAO.class.php');
-require('./model/dao/InserirLogDAO.class.php');
+require('./model/dao/LogDAO.class.php');
 
 /**
  * Description of InserirDadosCheckListCTR
@@ -20,10 +20,10 @@ class InserirCheckListCTR {
 
     public function salvarDados($info, $pagina) {
 
-        $inserirLogDAO = new InserirLogDAO();
+        $logDAO = new LogDAO();
         
         $dados = $info['dado'];
-        $inserirLogDAO->salvarDados($dados, $pagina);
+        $logDAO->salvarDados($dados, $pagina);
 
         $posicao = strpos($dados, "_") + 1;
         $cabec = substr($dados, 0, ($posicao - 1));

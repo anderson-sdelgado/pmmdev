@@ -22,12 +22,25 @@ class ParadaDAO extends Conn {
 
     public function dados() {
 
+//        $select = " SELECT "
+//                    . " MOTPARADA_ID AS \"idParada\" "
+//                    . " , CD AS \"codParada\" "
+//                    . " , CARACTER(DESCR) AS \"descrParada\" "
+//                    . " , DECODE(TIPO, 2, 1, 0) AS \"flagCalibragem\" "
+//                    . " , DECODE(TIPO, 1, 1, 0) AS \"flagCheckList\" "
+//                    . " , DECODE(CD, 33, 1, 0) AS \"flagImplemento\" "
+//                . " FROM "
+//                    . " USINAS.MOTIVO_PARADA "
+//                . " ORDER BY "
+//                    . " MOTPARADA_ID "
+//                . " ASC ";
+                
         $select = " SELECT "
                     . " MOTPARADA_ID AS \"idParada\" "
                     . " , CD AS \"codParada\" "
                     . " , CARACTER(DESCR) AS \"descrParada\" "
                     . " , DECODE(TIPO, 2, 1, 0) AS \"flagCalibragem\" "
-                    . " , DECODE(TIPO, 1, 1, 0) AS \"flagCheckList\" "
+                    . " , DECODE(CD, 515, 1, 0) AS \"flagCheckList\" "
                     . " , DECODE(CD, 33, 1, 0) AS \"flagImplemento\" "
                 . " FROM "
                     . " USINAS.MOTIVO_PARADA "

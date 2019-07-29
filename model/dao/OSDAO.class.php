@@ -31,8 +31,6 @@ class OSDAO extends Conn {
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
                 . " NRO_OS = " . $os
-                . " AND DT_INIC_PROGR <= SYSDATE " 
-                . " AND DT_FIM_PROGR >= SYSDATE - 1"
                 . " ";
 
         $this->Conn = parent::getConn();
@@ -52,10 +50,7 @@ class OSDAO extends Conn {
                     . " , NVL(CARACTER(PROPRAGR_DESCR), 'ESTRUTURAL') AS \"descrProprOS\" "
                     . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
                 . " FROM "
-                    . " USINAS.V_PMM_OS "
-                . " WHERE "
-                    . " DT_INIC_PROGR <= SYSDATE " 
-                    . " AND DT_FIM_PROGR >= SYSDATE " ;
+                    . " USINAS.V_PMM_OS ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
