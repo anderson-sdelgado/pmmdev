@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once './dbutil/Conn.class.php';
-require_once './model/dao/AjusteDataHoraDAO.class.php';
+require_once('../dbutil/Conn.class.php');
+require_once('../model/dao/AjusteDataHoraDAO.class.php');
 /**
  * Description of BoletimFertDAO
  *
@@ -21,9 +21,9 @@ class BoletimFertDAO extends Conn {
                 . " FROM "
                 . " PMM_BOLETIM_FERT "
                 . " WHERE "
-                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicialBolFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
-                . " EQUIP_ID = " . $bol->codEquipBolFert . " ";
+                . " EQUIP_ID = " . $bol->idEquipBolFert . " ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -45,9 +45,9 @@ class BoletimFertDAO extends Conn {
                 . " FROM "
                 . " PMM_BOLETIM_FERT "
                 . " WHERE "
-                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicialBolFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
-                . " EQUIP_ID = " . $bol->codEquipBolFert . " ";
+                . " EQUIP_ID = " . $bol->idEquipBolFert . " ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -85,15 +85,15 @@ class BoletimFertDAO extends Conn {
                 . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
-                . " " . $bol->codMotoBolFert
-                . " , " . $bol->codEquipBolFert
-                . " , " . $bol->codEquipBombaBolFert
-                . " , " . $bol->codTurnoBolFert
+                . " " . $bol->matricFuncBolFert
+                . " , " . $bol->idEquipBolFert
+                . " , " . $bol->idEquipBombaBolFert
+                . " , " . $bol->idTurnoBolFert
                 . " , " . $bol->hodometroInicialBolFert
                 . " , " . $bol->osBolFert
                 . " , " . $bol->ativPrincBolFert
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicioBolFert)
-                . " , TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI') "
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolFert)
+                . " , TO_DATE('" . $bol->dthrInicialBolFert . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
                 . " , " . $bol->statusConBolFert
@@ -135,19 +135,19 @@ class BoletimFertDAO extends Conn {
                 . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
-                . " " . $bol->codMotoBolFert
-                . " , " . $bol->codEquipBolFert
-                . " , " . $bol->codEquipBombaBolFert
-                . " , " . $bol->codTurnoBolFert
+                . " " . $bol->matricFuncBolFert
+                . " , " . $bol->idEquipBolFert
+                . " , " . $bol->idEquipBombaBolFert
+                . " , " . $bol->idTurnoBolFert
                 . " , " . $bol->hodometroInicialBolFert
                 . " , " . $bol->hodometroFinalBolFert
                 . " , " . $bol->osBolFert
                 . " , " . $bol->ativPrincBolFert
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicioBolFert)
-                . " , TO_DATE('" . $bol->dthrInicioBolFert . "','DD/MM/YYYY HH24:MI')"
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolFert)
+                . " , TO_DATE('" . $bol->dthrInicialBolFert . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFimBolFert)
-                . " , TO_DATE('" . $bol->dthrFimBolFert . "','DD/MM/YYYY HH24:MI')"
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolFert)
+                . " , TO_DATE('" . $bol->dthrFinalBolFert . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
                 . " , " . $bol->statusConBolFert
@@ -170,8 +170,8 @@ class BoletimFertDAO extends Conn {
                 . " SET "
                 . " HOD_HOR_FINAL = " . $bol->hodometroFinalBolFert
                 . " , STATUS = " . $bol->statusBolFert
-                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFimBolFert)
-                . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFimBolFert . "','DD/MM/YYYY HH24:MI')"
+                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolFert)
+                . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFinalBolFert . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
                 . " WHERE "
                 . " ID = " . $bol->idExtBolFert;

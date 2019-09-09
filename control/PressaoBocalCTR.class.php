@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/PressaoBocalDAO.class.php');
+require_once('../model/dao/PressaoBocalDAO.class.php');
 /**
  * Description of PressaoBocal
  *
@@ -14,15 +14,21 @@ require('./model/dao/PressaoBocalDAO.class.php');
 class PressaoBocalCTR {
     //put your code here
     
-    public function dados() {
+    public function dados($versao) {
 
-        $pressaoBocalDAO = new PressaoBocalDAO();
-
-        $dados = array("dados" => $pressaoBocalDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+        $versao = str_replace("_", ".", $versao);
         
+        if($versao >= 2.00){
+
+            $pressaoBocalDAO = new PressaoBocalDAO();
+
+            $dados = array("dados" => $pressaoBocalDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+    
     }
     
 }

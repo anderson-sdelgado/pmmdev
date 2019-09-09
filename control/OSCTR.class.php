@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/OSDAO.class.php');
-require('./model/dao/ROSAtivDAO.class.php');
+require_once('../model/dao/OSDAO.class.php');
+require_once('../model/dao/ROSAtivDAO.class.php');
 /**
  * Description of OSCTR
  *
@@ -15,79 +15,27 @@ require('./model/dao/ROSAtivDAO.class.php');
 class OSCTR {
     //put your code here
     
-    public function dados($info) {
+    public function dados($versao, $info) {
 
-        $osDAO = new OSDAO();
-        $rOSAtivDAO = new ROSAtivDAO();
-
-        $dado = $info['dado'];
-
-        $dadosOS = array("dados" => $osDAO->dados($dado));
-        $resOS = json_encode($dadosOS);
-
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado));
-        $resROSAtiv = json_encode($dadosROSAtiv);
+        $versao = str_replace("_", ".", $versao);
         
-        return $resOS . "#" . $resROSAtiv;
-                
-    }
-    
-    public function dadosVersao1($info) {
-
-        $rOSAtivDAO = new ROSAtivDAO();
-
-        $dado = $info['dado'];
+        if($versao >= 2.00){
         
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->atual($dado));
-        $resROSAtiv = json_encode($dadosROSAtiv);
+            $osDAO = new OSDAO();
+            $rOSAtivDAO = new ROSAtivDAO();
+
+            $dado = $info['dado'];
+
+            $dadosOS = array("dados" => $osDAO->dados($dado));
+            $resOS = json_encode($dadosOS);
+
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado));
+            $resROSAtiv = json_encode($dadosROSAtiv);
+
+            return $resOS . "#" . $resROSAtiv;
         
-        return $resROSAtiv;
-                
-    }
-    
-    public function verif($info) {
-
-        $osDAO = new OSDAO();
-        $rOSAtivDAO = new ROSAtivDAO();
-
-        $dado = $info['dado'];
-
-        $dadosOS = array("dados" => $osDAO->dados($dado));
-        $resOS = json_encode($dadosOS);
-
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->verif($dado));
-        $resROSAtiv = json_encode($dadosROSAtiv);
+        }
         
-        return $resOS . "#" . $resROSAtiv;
-                
-    }
-    
-    public function ver($info) {
-
-        $osDAO = new OSDAO();
-        $rOSAtivDAO = new ROSAtivDAO();
-
-        $dado = $info['dado'];
-
-        $dadosOS = array("dados" => $osDAO->dados($dado));
-        $resOS = json_encode($dadosOS);
-
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->verif($dado));
-        $resROSAtiv = json_encode($dadosROSAtiv);
-        
-        return $resOS . "_" . $resROSAtiv;
-                
-    }
-    
-    public function dadosClear() {
-
-        $osDAO = new OSDAO();
-
-        $dadosOS = array("dados" => $osDAO->dadosClear());
-        $resOS = json_encode($dadosOS);
-        
-        return $resOS;
-                
     }
     
 }

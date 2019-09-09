@@ -1,6 +1,6 @@
 <?php
 
-require('./control/BocalCTR.class.php');
+require('./control_v1/BocalCTR.class.php');
 
 $bocalCTR = new BocalCTR();
 

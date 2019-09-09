@@ -1,6 +1,6 @@
 <?php
 
-require('./control/EquipCTR.class.php');
+require('./control_v1/EquipCTR.class.php');
 
 $equipCTR = new EquipCTR();
 

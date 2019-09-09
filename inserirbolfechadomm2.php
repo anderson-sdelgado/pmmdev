@@ -1,6 +1,6 @@
 <?php
 
-require_once('./control/InserirDadosMMCTR.class.php');
+require_once('./control_v1/InserirDadosMMCTR.class.php');
 
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 

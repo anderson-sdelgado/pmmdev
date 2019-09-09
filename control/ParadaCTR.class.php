@@ -5,7 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/ParadaDAO.class.php');
+require_once('../model/dao/RAtivParadaDAO.class.php');
+require_once('../model/dao/ParadaDAO.class.php');
 /**
  * Description of ParadaCTR
  *
@@ -13,16 +14,43 @@ require('./model/dao/ParadaDAO.class.php');
  */
 class ParadaCTR {
     //put your code here
-    
-    public function dados() {
 
-        $paradaDAO = new ParadaDAO();
+    public function dados($versao) {
 
-        $dados = array("dados" => $paradaDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+        $versao = str_replace("_", ".", $versao);
         
+        if($versao >= 2.00){
+        
+            $paradaDAO = new ParadaDAO();
+
+            $dados = array("dados" => $paradaDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+    
+    public function atual($versao) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+            
+            $rAtivParadaDAO = new RAtivParadaDAO();
+            $paradaDAO = new ParadaDAO();
+
+            $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados());
+            $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
+
+            $dadosParada = array("dados" => $paradaDAO->dados());
+            $resParada = json_encode($dadosParada);
+
+            return $resRAtivParadaDAO . "_" . $resParada;
+        
+        }
+                
     }
     
 }

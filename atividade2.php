@@ -1,6 +1,6 @@
 <?php
 
-require('./control/AtividadeCTR.class.php');
+require('./control_v1/AtividadeCTR.class.php');
 
 $atividadeCTR = new AtividadeCTR();
 

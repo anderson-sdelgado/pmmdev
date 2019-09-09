@@ -5,8 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/PerdaDAO.class.php');
-
+require_once('../model/dao/PerdaDAO.class.php');
 /**
  * Description of PerdaCTR
  *
@@ -16,16 +15,22 @@ class PerdaCTR {
 
     //put your code here
 
-    public function dados($info) {
+    public function dados($versao, $info) {
 
-        $perdaDAO = new PerdaDAO();
-
-        $dado = $info['dado'];
-
-        $dadosPerda = array("dados" => $perdaDAO->dados($dado));
-        $resPerda = json_encode($dadosPerda);
+        $versao = str_replace("_", ".", $versao);
         
-        return $resPerda;
+        if($versao >= 2.00){
+        
+            $dado = $info['dado'];
+
+            $perdaDAO = new PerdaDAO();
+            
+            $dadosPerda = array("dados" => $perdaDAO->dados($dado));
+            $resPerda = json_encode($dadosPerda);
+
+            return $resPerda;
+        
+        }
         
     }
 

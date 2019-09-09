@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/TurnoDAO.class.php');
+require_once('../model/dao/TurnoDAO.class.php');
 /**
  * Description of TurnoCTR
  *
@@ -14,14 +14,20 @@ require('./model/dao/TurnoDAO.class.php');
 class TurnoCTR {
     //put your code here
     
-    public function dados() {
+    public function dados($versao) {
+
+        $versao = str_replace("_", ".", $versao);
         
-        $turnoDAO = new TurnoDAO();
-       
-        $dados = array("dados"=>$turnoDAO->dados());
-        $json_str = json_encode($dados);
+        if($versao >= 2.00){
         
-        return $json_str;
+            $turnoDAO = new TurnoDAO();
+
+            $dados = array("dados"=>$turnoDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+            
+        }
         
     }
     

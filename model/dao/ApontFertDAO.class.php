@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once './dbutil/Conn.class.php';
-require_once './model/dao/AjusteDataHoraDAO.class.php';
+require_once('../dbutil/Conn.class.php');
+require_once('../model/dao/AjusteDataHoraDAO.class.php');
 
 /**
  * Description of ApontFertDAO
@@ -24,7 +24,7 @@ class ApontFertDAO extends Conn {
                 . " FROM "
                 . " PMM_APONTAMENTO_FERT "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
@@ -48,7 +48,7 @@ class ApontFertDAO extends Conn {
                 . " FROM "
                 . " PMM_APONTAMENTO_FERT "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
+                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontFert . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
@@ -71,21 +71,21 @@ class ApontFertDAO extends Conn {
 
         $raio = "null";
 
-        if ($apont->paradaApontaFert == 0) {
-            $apont->paradaApontaFert = "null";
+        if ($apont->paradaApontFert == 0) {
+            $apont->paradaApontFert = "null";
             $raio = 45;
         }
 
-        if ($apont->bocalApontaFert == 0) {
-            $apont->bocalApontaFert = "null";
+        if ($apont->bocalApontFert == 0) {
+            $apont->bocalApontFert = "null";
         }
 
-        if ($apont->pressaoApontaFert == 0) {
-            $apont->pressaoApontaFert = "null";
+        if ($apont->pressaoApontFert == 0) {
+            $apont->pressaoApontFert = "null";
         }
 
-        if ($apont->velocApontaFert == 0) {
-            $apont->velocApontaFert = "null";
+        if ($apont->velocApontFert == 0) {
+            $apont->velocApontFert = "null";
         }
 
         $sql = "INSERT INTO PMM_APONTAMENTO_FERT ("
@@ -100,25 +100,21 @@ class ApontFertDAO extends Conn {
                 . " , PRESSAO "
                 . " , VELOCIDADE "
                 . " , RAIO "
-//                . " , LATITUDE "
-//                . " , LONGITUDE "
                 . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
-                . " , " . $apont->osApontaFert
-                . " , " . $apont->ativApontaFert
-                . " , " . $apont->paradaApontaFert
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontaFert)
-                . " , TO_DATE('" . $apont->dthrApontaFert . "','DD/MM/YYYY HH24:MI')"
+                . " , " . $apont->osApontFert
+                . " , " . $apont->ativApontFert
+                . " , " . $apont->paradaApontFert
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontFert)
+                . " , TO_DATE('" . $apont->dthrApontFert . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $apont->bocalApontaFert
-                . " , " . $apont->pressaoApontaFert
-                . " , " . $apont->velocApontaFert
+                . " , " . $apont->bocalApontFert
+                . " , " . $apont->pressaoApontFert
+                . " , " . $apont->velocApontFert
                 . " , " . $raio
-//                . " , " . $apont->latitudeApontaFert
-//                . " , " . $apont->longitudeApontaFert
-                . " , " . $apont->statusConApontaFert
+                . " , " . $apont->statusConApontFert
                 . " )";
 
         $this->Conn = parent::getConn();

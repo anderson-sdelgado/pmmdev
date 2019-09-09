@@ -1,6 +1,6 @@
 <?php
 
-require('./control/CheckListCTR.class.php');
+require('./control_v1/CheckListCTR.class.php');
 
 $checkListCTR = new CheckListCTR();
 

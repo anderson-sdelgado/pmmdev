@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once './dbutil/Conn.class.php';
-require_once 'AjusteDataHoraDAO.class.php';
+require_once('../dbutil/Conn.class.php');
+require_once('../model/dao/AjusteDataHoraDAO.class.php');
 
 /**
  * Description of RecolhimentoFertDAO
@@ -23,9 +23,9 @@ class RecolhimentoFertDAO extends Conn {
                 . " FROM "
                 . " PMM_RECOLHIMENTO_FERT "
                 . " WHERE "
-                . " OS_NRO = " . $recol->nroOSRecol
+                . " OS_NRO = " . $recol->nroOSRecolhFert
                 . " AND "
-                . " DTHR_CEL = TO_DATE('" . $recol->dthrRecol . "','DD/MM/YYYY HH24:MI') "
+                . " DTHR_CEL = TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
@@ -56,10 +56,10 @@ class RecolhimentoFertDAO extends Conn {
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
-                . " , " . $recol->nroOSRecol
-                . " , " . $recol->valorRecol
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($recol->dthrRecol)
-                . " , TO_DATE('" . $recol->dthrRecol . "','DD/MM/YYYY HH24:MI') "
+                . " , " . $recol->nroOSRecolhFert
+                . " , " . $recol->valorRecolhFert
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($recol->dthrRecolhFert)
+                . " , TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";
 

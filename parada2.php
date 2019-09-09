@@ -1,6 +1,6 @@
 <?php
 
-require('./control/ParadaCTR.class.php');
+require('./control_v1/ParadaCTR.class.php');
 
 $paradaCTR = new ParadaCTR();
 

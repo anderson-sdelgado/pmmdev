@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/BocalDAO.class.php');
+require_once('../model/dao/BocalDAO.class.php');
 /**
  * Description of Bocal
  *
@@ -14,14 +14,20 @@ require('./model/dao/BocalDAO.class.php');
 class BocalCTR {
     //put your code here
     
-    public function dados() {
+    public function dados($versao) {
         
-        $bocalDAO = new BocalDAO();
-       
-        $dados = array("dados"=>$bocalDAO->dados());
-        $json_str = json_encode($dados);
+        $versao = str_replace("_", ".", $versao);
         
-        return $json_str;
+        if($versao >= 2.00){
+        
+            $bocalDAO = new BocalDAO();
+
+            $dados = array("dados"=>$bocalDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
         
     }
     

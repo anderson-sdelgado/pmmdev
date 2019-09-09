@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once ('./dbutil/Conn.class.php');
+require_once('../dbutil/Conn.class.php');
 /**
  * Description of REquipAtivDAO
  *
@@ -60,7 +60,7 @@ class REquipAtivDAO extends Conn {
                     . " , V_SIMOVA_MODELO_ATIVAGR VA "
                     . " , V_SIMOVA_ATIVAGR_NEW AA "
                 . " WHERE "
-                . " VE.NRO_EQUIP = " . $equip . ""
+                . " VE.NRO_EQUIP = " . $equip
                 . " AND "
                 . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID "
                 . " AND "

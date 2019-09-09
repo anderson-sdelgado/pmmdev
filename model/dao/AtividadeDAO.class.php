@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once ('./dbutil/Conn.class.php');
+require_once('../dbutil/Conn.class.php');
 /**
  * Description of AtividadeDAO
  *
@@ -20,29 +20,30 @@ class AtividadeDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados() {
+    public function dadosComFlag() {
 
         $select = " SELECT "
                         . " A.ATIVAGR_ID AS \"idAtiv\" "
                         . " , A.ATIVAGR_CD AS \"codAtiv\" "
                         . " , CARACTER(A.ATIVAGR_DESCR) AS \"descrAtiv\" "
-                        . " , A.INFO_REND AS \"flagRendimento\" "
-                        . " , A.INFO_CARREG AS \"flagTransbordo\" "
-                        . " , A.INFO_IMPL AS \"flagImplemento\" "
-                        . " , nvl(( SELECT  1 "
-                                . " FROM "
-                                . " USINAS.V_SIMOVA_EQUIP E "
-                                . " , USINAS.ROLAO R " 
-                                . " , V_SIMOVA_MODELO_ATIVAGR VA " 
-                                . " , V_SIMOVA_ATIVAGR_NEW AA " 
-                                . " WHERE "  
-                                . " E.MODELEQUIP_ID = VA.MODELEQUIP_ID " 
-                                . " AND " 
-                                . " VA.ATIVAGR_CD = AA.ATIVAGR_CD AND "
-                                . " R.TP_EQUIP = 1 AND "
-                                . " E.EQUIP_ID = R.EQUIP_ID "
-                                . " AND AA.ativagr_cd = A.ativagr_cd "
-                                . " and rownum        = 1),0) \"flagCarretel\" "
+                . " FROM "
+                    . " USINAS.VMB_ATIVAGR_MECAN A ";
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    public function dadosSemFlag() {
+
+        $select = " SELECT "
+                        . " A.ATIVAGR_ID AS \"idAtiv\" "
+                        . " , A.ATIVAGR_CD AS \"codAtiv\" "
+                        . " , CARACTER(A.ATIVAGR_DESCR) AS \"descrAtiv\" "
                 . " FROM "
                     . " USINAS.VMB_ATIVAGR_MECAN A ";
 

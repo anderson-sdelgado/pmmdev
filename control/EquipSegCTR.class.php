@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require('./model/dao/EquipSegDAO.class.php');
+require_once('../model/dao/EquipSegDAO.class.php');
 /**
  * Description of EquipSegCTR
  *
@@ -15,25 +15,20 @@ class EquipSegCTR {
 
     //put your code here
 
-    public function dados() {
-
-        $equipSegDAO = new EquipSegDAO();
-
-        $dados = array("dados" => $equipSegDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+    public function dados($versao) {
         
-    }
-    
-    public function dadosVersao1() {
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
 
-        $equipSegDAO = new EquipSegDAO();
+            $equipSegDAO = new EquipSegDAO();
 
-        $dados = array("dados" => $equipSegDAO->dadosVersao1());
-        $json_str = json_encode($dados);
+            $dados = array("dados" => $equipSegDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
         
     }
 
