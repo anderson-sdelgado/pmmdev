@@ -44,20 +44,11 @@ class FertirrigacaoCTR {
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosRecolhimento = $jsonObjRecolhimento->recolhimento;
 
-            $boletimFertDAO = new BoletimFertDAO();
+            $ret = $this->salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento);
 
-            foreach ($dadosBoletim as $bol) {
-                $v = $boletimFertDAO->verifBoletimFert($bol);
-                if ($v == 0) {
-                    $boletimFertDAO->insBoletimFertFechado($bol);
-                } else {
-                    $boletimFertDAO->updateBoletimFertFechado($bol);
-                }
-                $idBol = $boletimFertDAO->idBoletimFert($bol);
-                $this->salvarApontBol($idBol, $bol->idBolFert, $dadosAponta);
-                $this->salvarRecolhimento($idBol, $bol->idBolFert, $dadosRecolhimento);
-            }
-            return 'GRAVOU-BOLFECHADOFERT';
+            return 'BOLFECHADOFERT_' . $ret;
+            
+            
         }
     }
 
@@ -82,18 +73,10 @@ class FertirrigacaoCTR {
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
 
-            $boletimFertDAO = new BoletimFertDAO();
+            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta);
 
-            foreach ($dadosBoletim as $bol) {
-                $v = $boletimFertDAO->verifBoletimFert($bol);
-                if ($v == 0) {
-                    $boletimFertDAO->insBoletimFertAberto($bol);
-                }
-                $idBol = $boletimFertDAO->idBoletimFert($bol);
-                $this->salvarApontBol($idBol, $bol->idBolFert, $dadosAponta);
-            }
-
-            return "GRAVFERT+id=" . $idBol . "_";
+            return "BOLABERTOFERT_" . $ret;
+            
         }
     }
 
@@ -110,30 +93,88 @@ class FertirrigacaoCTR {
             $jsonObjAponta = json_decode($dados);
             $dadosAponta = $jsonObjAponta->aponta;
 
-            $apontFertDAO = new ApontFertDAO();
+            $ret = $this->salvarApontExt($dadosAponta);
 
-            foreach ($dadosAponta as $apont) {
-                $v = $apontFertDAO->verifApontFert($apont->idExtBolApontFert, $apont);
-                if ($v == 0) {
-                    $apontFertDAO->insApontFert($apont->idExtBolApontFert, $apont);
-                }
-            }
-            return 'GRAVOU-APONTAFERT';
+            return 'APONTFERT_' . $ret;
+            
         }
     }
 
+    private function salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento) {
+        
+        $boletimFertDAO = new BoletimFertDAO();
+        $idBolMMArray = array();
+
+        foreach ($dadosBoletim as $bol) {
+            $v = $boletimFertDAO->verifBoletimFert($bol);
+            if ($v == 0) {
+                $boletimFertDAO->insBoletimFertFechado($bol);
+            } else {
+                $boletimFertDAO->updateBoletimFertFechado($bol);
+            }
+            $idBolBD = $boletimFertDAO->idBoletimFert($bol);
+            $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta);
+            $this->salvarRecolhimento($idBolBD, $bol->idBolFert, $dadosRecolhimento);
+            $apontFertDAO = new ApontFertDAO();
+            $qtdeApontBolFert = $apontFertDAO->verifQtdeApontFert($idBolBD);
+            $idBolMMArray[] = array("idBolFert" => $bol->idBolFert, "qtdeApontBolFert" => $qtdeApontBolFert);
+        }
+        $dadoBol = array("boletim"=>$idBolMMArray);
+        $retBol = json_encode($dadoBol);
+        return $retBol;
+    }
+    
+    private function salvarBoletoAberto($dadosBoletim, $dadosAponta) {
+        $boletimFertDAO = new BoletimFertDAO();
+        $idBolMMArray = array();
+        
+        foreach ($dadosBoletim as $bol) {
+           $v = $boletimFertDAO->verifBoletimFert($bol);
+           if ($v == 0) {
+               $boletimFertDAO->insBoletimFertAberto($bol);
+           }
+           $idBolBD = $boletimFertDAO->idBoletimFert($bol);
+           $retApont = $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta);
+           $idBolMMArray[] = array("idBolFert" => $bol->idBolFert, "idExtBolFert" => $idBolBD);
+        }
+        
+        $dadoBol = array("boletim"=>$idBolMMArray);
+        $retBol = json_encode($dadoBol);
+        return $retBol . "|" . $retApont;
+    }
+    
     private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta) {
         $apontFertDAO = new ApontFertDAO();
+        $idApontArray = array();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolApontFert) {
                 $v = $apontFertDAO->verifApontFert($idBolBD, $apont);
                 if ($v == 0) {
                     $apontFertDAO->insApontFert($idBolBD, $apont);
                 }
+                $idApontArray[] = array("idApontFert" => $apont->idApontFert);
             }
         }
+        $dadoApont = array("apont"=>$idApontArray);
+        $retApont = json_encode($dadoApont);
+        return $retApont;
     }
 
+    private function salvarApontExt($dadosAponta) {
+        $apontFertDAO = new ApontFertDAO();
+        $idApontArray = array();
+        foreach ($dadosAponta as $apont) {
+            $v = $apontFertDAO->verifApontFert($apont->idExtBolApontFert, $apont);
+            if ($v == 0) {
+                $apontFertDAO->insApontFert($apont->idExtBolApontFert, $apont);
+            }
+            $idApontArray[] = array("idApontFert" => $apont->idApontFert);
+        }
+        $dadoApont = array("apont"=>$idApontArray);
+        $retApont = json_encode($dadoApont);
+        return $retApont;
+    }
+    
     private function salvarRecolhimento($idBolBD, $idBolCel, $dadosRecolhimento) {
         $recolhimentoFertDAO = new RecolhimentoFertDAO();
         foreach ($dadosRecolhimento as $rend) {
@@ -151,4 +192,5 @@ class FertirrigacaoCTR {
         $logDAO->salvarDados($dados, $pagina);
     }
 
+    
 }

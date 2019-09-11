@@ -10,6 +10,7 @@ require_once('../model/dao/BoletimMMDAO.class.php');
 require_once('../model/dao/ApontMMDAO.class.php');
 require_once('../model/dao/ImplementoMMDAO.class.php');
 require_once('../model/dao/RendimentoMMDAO.class.php');
+
 /**
  * Description of InserirDadosMM
  *
@@ -42,12 +43,10 @@ class MotoMecCTR {
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImplemento->implemento;
 
-            $idBol = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento);
+            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento);
 
-            return "GRAVOU+id=" . $idBol . "_";
-        
+            return "BOLABERTOMM_" . $ret;
         }
-        
     }
 
     public function salvarApont($versao, $info, $pagina) {
@@ -71,12 +70,10 @@ class MotoMecCTR {
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImplemento->implemento;
 
-            $this->salvarApontExt($dadosAponta, $dadosImplemento);
+            $ret = $this->salvarApontExt($dadosAponta, $dadosImplemento);
 
-            return 'GRAVOU-APONTAMM';
-        
+            return 'APONTMM_' . $ret;
         }
-        
     }
 
     public function salvarBolFechado($versao, $info, $pagina) {
@@ -108,12 +105,10 @@ class MotoMecCTR {
             $dadosImplemento = $jsonObjImplemento->implemento;
             $dadosRendimento = $jsonObjRendimento->rendimento;
 
-            $this->salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento);
+            $ret = $this->salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento);
 
-            return 'GRAVOU-BOLFECHADO';
-        
+            return 'BOLFECHADOMM_' . $ret;
         }
-        
     }
 
     private function salvarLog($dados, $pagina) {
@@ -123,35 +118,47 @@ class MotoMecCTR {
 
     private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento) {
         $boletimMMDAO = new BoletimMMDAO();
+        $idBolMMArray = array();
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMM($bol);
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMAberto($bol);
             }
-            $idBol = $boletimMMDAO->idBoletimMM($bol);
-            $this->salvarApontBol($idBol, $bol->idBolMM, $dadosAponta, $dadosImplemento);
+            $idBolBD = $boletimMMDAO->idBoletimMM($bol);
+            $retApont = $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento);
+            $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "idExtBolMM" => $idBolBD);
         }
-        return $idBol;
+        $dadoBol = array("boletim"=>$idBolMMArray);
+        $retBol = json_encode($dadoBol);
+        return $retBol . "|" . $retApont;
     }
 
     private function salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosRendimento) {
         $boletimMMDAO = new BoletimMMDAO();
+        $idBolMMArray = array();
         foreach ($dadosBoletim as $bol) {
             $v = $boletimMMDAO->verifBoletimMM($bol);
             if ($v == 0) {
                 $boletimMMDAO->insBoletimMMFechado($bol);
-                $idBol = $boletimMMDAO->idBoletimMM($bol);
+                $idBolBD = $boletimMMDAO->idBoletimMM($bol);
             } else {
-                $idBol = $boletimMMDAO->idBoletimMM($bol);
-                $boletimMMDAO->altBoletimMMFechado($idBol, $bol);
+                $idBolBD = $boletimMMDAO->idBoletimMM($bol);
+                $boletimMMDAO->updateBoletimMMFechado($idBolBD, $bol);
             }
-            $this->salvarApontBol($idBol, $bol->idBolMM, $dadosAponta, $dadosImplemento);
-            $this->salvarRendimento($idBol, $bol->idBolMM, $dadosRendimento);
+            $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento);
+            $this->salvarRendimento($idBolBD, $bol->idBolMM, $dadosRendimento);
+            $apontMMDAO = new ApontMMDAO();
+            $qtdeApontBolMM = $apontMMDAO->verifQtdeApontMM($idBolBD);
+            $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "qtdeApontBolMM" => $qtdeApontBolMM);
         }
+        $dadoBol = array("boletim"=>$idBolMMArray);
+        $retBol = json_encode($dadoBol);
+        return $retBol;
     }
 
     private function salvarApontExt($dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
+        $idApontArray = array();
         foreach ($dadosAponta as $apont) {
             $v = $apontMMDAO->verifApontMM($apont->idExtBolApontMM, $apont);
             if ($v == 0) {
@@ -159,12 +166,16 @@ class MotoMecCTR {
             }
             $idApont = $apontMMDAO->idApontMM($apont->idExtBolApontMM, $apont);
             $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
+            $idApontArray[] = array("idApontMM" => $apont->idApontMM);
         }
+        $dadoApont = array("apont"=>$idApontArray);
+        $retApont = json_encode($dadoApont);
+        return $retApont;
     }
 
     private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento) {
         $apontMMDAO = new ApontMMDAO();
-        $retApont = array();
+        $idApontArray = array();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolApontMM) {
                 $v = $apontMMDAO->verifApontMM($idBolBD, $apont);
@@ -173,9 +184,12 @@ class MotoMecCTR {
                 }
                 $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
                 $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
-                $retApont[] = array("idApont" => $apont->idApontMM);
+                $idApontArray[] = array("idApontMM" => $apont->idApontMM);
             }
         }
+        $dadoApont = array("apont"=>$idApontArray);
+        $retApont = json_encode($dadoApont);
+        return $retApont;
     }
 
     private function salvarImplemento($idApontaBD, $idApontaCel, $dadosImplemento) {

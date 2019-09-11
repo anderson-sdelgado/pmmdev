@@ -117,7 +117,7 @@ class ApontMMDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
-        if ($apont->paradaAponta != "null") {
+        if ($apont->paradaApontMM != "null") {
 
             $select = " SELECT "
                     . " COUNT(A.ID) AS QTDE "
@@ -176,4 +176,26 @@ class ApontMMDAO extends Conn {
         }
     }
 
+    public function verifQtdeApontMM($idBol) {
+
+        $select = " SELECT "
+                . " COUNT(*) AS QTDE "
+                . " FROM "
+                . " PMM_APONTAMENTO "
+                . " WHERE "
+                . " BOLETIM_ID = " . $idBol;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        foreach ($result as $item) {
+            $v = $item['QTDE'];
+        }
+
+        return $v;
+    }
+    
 }

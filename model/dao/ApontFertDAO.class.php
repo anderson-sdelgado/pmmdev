@@ -122,4 +122,26 @@ class ApontFertDAO extends Conn {
         $this->Create->execute();
     }
 
+    public function verifQtdeApontFert($idBol) {
+
+        $select = " SELECT "
+                . " COUNT(*) AS QTDE "
+                . " FROM "
+                . " PMM_APONTAMENTO_FERT "
+                . " WHERE "
+                . " BOLETIM_ID = " . $idBol;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        foreach ($result as $item) {
+            $v = $item['QTDE'];
+        }
+
+        return $v;
+    }
+    
 }

@@ -155,7 +155,7 @@ class BoletimMMDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function altBoletimMMFechado($idBol, $bol) {
+    public function updateBoletimMMFechado($idBol, $bol) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -177,5 +177,5 @@ class BoletimMMDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
-
+    
 }

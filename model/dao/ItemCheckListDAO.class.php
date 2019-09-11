@@ -23,10 +23,10 @@ class ItemCheckListDAO extends Conn {
     public function dados() {
 
         $select = " SELECT "
-                        . " ITMANPREV_ID AS \"idItemChecklist\" "
-                        . " , PLMANPREV_ID AS \"idChecklist\" "
-                        . " , SEQ AS \"seqItemChecklist\" "
-                        . " , CARACTER(PROC_OPER) AS \"descrItemChecklist\" "
+                        . " ITMANPREV_ID AS \"idItemCheckList\" "
+                        . " , PLMANPREV_ID AS \"idCheckList\" "
+                        . " , SEQ AS \"seqItemCheckList\" "
+                        . " , CARACTER(PROC_OPER) AS \"descrItemCheckList\" "
                     . " FROM "
                         . " V_ITEM_PLANO_CHECK ";
 

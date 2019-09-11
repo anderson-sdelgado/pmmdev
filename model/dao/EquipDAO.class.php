@@ -29,7 +29,7 @@ class EquipDAO extends Conn {
                 . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
                 . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
                 . " , E.TPTUREQUIP_CD AS \"codTurno\" "
-                . " , NVL(C.PLMANPREV_ID, 0) AS \"idChecklist\" "
+                . " , NVL(C.PLMANPREV_ID, 0) AS \"idCheckList\" "
                 . " , CASE WHEN E.CLASSOPER_CD = 211 AND R.TP_EQUIP IS NULL THEN 4  "
                 . " ELSE NVL(R.TP_EQUIP, 0) END AS \"tipoEquipFert\" "
                 . " , NVL(PBH.HOD_HOR_FINAL, 0) AS \"horimetroEquip\" "
