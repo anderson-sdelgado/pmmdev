@@ -6,15 +6,14 @@
  * and open the template in the editor.
  */
 require_once('../dbutil/Conn.class.php');
-
 /**
- * Description of ItemChecklistDAO
+ * Description of LeiraDAO
  *
  * @author anderson
  */
-class ItemCheckListDAO extends Conn {
+class LeiraDAO extends Conn {
     //put your code here
-
+    
     /** @var PDOStatement */
     private $Read;
 
@@ -24,11 +23,9 @@ class ItemCheckListDAO extends Conn {
     public function dados() {
 
         $select = " SELECT "
-                . " ITMANPREV_ID AS \"idItemCheckList\" "
-                . " , PLMANPREV_ID AS \"idCheckList\" "
-                . " , CARACTER(PROC_OPER) AS \"descrItemCheckList\" "
-                . " FROM "
-                . " V_ITEM_PLANO_CHECK ";
+                  . " LEIRA_ID AS \"idLeira\" "
+                  . " , CD AS \"codLeira\" "
+                  . " FROM USINAS.LEIRA";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -38,17 +35,5 @@ class ItemCheckListDAO extends Conn {
 
         return $result;
     }
-
-    public function atualCheckList($equip) {
-        
-        $sql = " UPDATE USINAS.ATUALIZA_CHECKLIST_MOBILE  "
-                . " SET DT_MOBILE = SYSDATE "
-                . " WHERE EQUIP_NRO = " . $equip;
-
-        $this->Conn = parent::getConn();
-        $this->Create = $this->Conn->prepare($sql);
-        $this->Create->execute();
-        
-    }
-
+    
 }

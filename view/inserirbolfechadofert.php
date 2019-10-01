@@ -8,6 +8,6 @@ require_once('../control/FertirrigacaoCTR.class.php');
 if (isset($info)):
 
     $fertirrigacaoCTR = new FertirrigacaoCTR();
-    echo $inserirDadosFertCTR->salvarBolFechado($versao, $info, "inserirbolfechadofert2");
+    echo $fertirrigacaoCTR->salvarBolFechado($versao, $info, "inserirbolfechadofert2");
     
 endif;

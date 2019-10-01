@@ -27,6 +27,7 @@ class OSDAO extends Conn {
                 . " , PROPRAGR_CD AS \"codProprOS\" "
                 . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
                 . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
+                . " , SERV_AGR AS \"tipoOS\" "
                 . " FROM "
                 . " USINAS.V_PMM_OS "
                 . " WHERE "

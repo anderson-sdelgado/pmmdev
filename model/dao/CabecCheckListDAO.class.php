@@ -103,15 +103,6 @@ class CabecCheckListDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
-        if ($cab->dtAtualCabCL != "0") {
-
-            $sql = " UPDATE USINAS.ATUALIZA_CHECKLIST_MOBILE  "
-                    . " SET DT_MOBILE = TO_DATE('" . $cab->dtAtualCabCL . "','DD/MM/YYYY HH24:MI') "
-                    . " WHERE EQUIP_NRO = " . $cab->equipCabCL;
-
-            $this->Create = $this->Conn->prepare($sql);
-            $this->Create->execute();
-        }
     }
 
 }

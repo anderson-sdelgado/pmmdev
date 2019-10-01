@@ -7,8 +7,8 @@ require_once('../control/CheckListCTR.class.php');
 
 if (isset($info)):
 
-    $CheckListDAO = new CheckListDAO();
-    echo $checkListDAO->dados($versao, $info);
+    $checkListCTR = new CheckListCTR();
+    echo $checkListCTR->pesq($versao, $info);
 
 endif;
 

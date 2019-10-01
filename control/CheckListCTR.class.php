@@ -27,14 +27,16 @@ class CheckListCTR {
             $equipDAO = new EquipDAO();
             $itemCheckListDAO = new ItemCheckListDAO();
 
-            $dado = $info['dado'];
+            $nroEquip = $info['dado'];
 
-            $dadosEquip = array("dados" => $equipDAO->dados($dado));
+            $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
             $resEquip = json_encode($dadosEquip);
 
             $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados());
             $resItemCheckList = json_encode($dadosItemCheckList);
 
+            $itemCheckListDAO->atualCheckList($nroEquip);
+            
             return $resEquip . "_" . $resItemCheckList;
         
         }
