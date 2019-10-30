@@ -62,18 +62,19 @@ class RFuncaoAtivParDAO extends Conn  {
                 . " UNION "
                 . " SELECT "
                 . " MOTPARADA_ID AS \"idAtivPar\" "
-                . " , DECODE(FLAG, 'FLAGCHECKLIST', 1, 'FLAGIMPLEMENTO', 2) AS \"codFuncao\" "
+                . " , DECODE(FLAG, 'FLAGCHECKLIST', 1, 'FLAGIMPLEMENTO', 2, 'FLAGCALIBPNEU', 3) AS \"codFuncao\" "
                 . " , 2 AS \"tipoFuncao\" "
                 . " FROM "
                 . " (SELECT " 
                 . " MOTPARADA_ID "
                 . " , DECODE(CD, 515, 1) AS FLAGCHECKLIST "
                 . " , DECODE(CD, 33, 1) AS FLAGIMPLEMENTO "
+                . " , DECODE(CD, 66, 1) AS FLAGCALIBPNEU"
                 . " FROM "
                 . " USINAS.MOTIVO_PARADA ) M "
                 . " UNPIVOT "
                 . " (VALOR FOR FLAG IN "
-                . " (FLAGCHECKLIST, FLAGIMPLEMENTO) "
+                . " (FLAGCHECKLIST, FLAGIMPLEMENTO, FLAGCALIBPNEU) "
                 . " )";
         
         $this->Conn = parent::getConn();

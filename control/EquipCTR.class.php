@@ -7,6 +7,7 @@
  */
 require_once('../model/dao/EquipDAO.class.php');
 require_once('../model/dao/REquipAtivDAO.class.php');
+require_once('../model/dao/REquipPneuDAO.class.php');
 /**
  * Description of EquipCTR
  *
@@ -23,6 +24,7 @@ class EquipCTR {
         
             $equipDAO = new EquipDAO();
             $rEquipAtivDAO = new REquipAtivDAO();
+            $rEquipPneuDAO = new REquipPneuDAO();
 
             $dado = $info['dado'];
 
@@ -31,8 +33,11 @@ class EquipCTR {
 
             $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
             $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
+            
+            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado));
+            $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
-            return $resEquip . "#" . $resREquipAtivDAO;
+            return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
         
         }
         

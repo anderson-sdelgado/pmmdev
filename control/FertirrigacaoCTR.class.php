@@ -9,7 +9,8 @@ require_once('../model/dao/LogDAO.class.php');
 require_once('../model/dao/BoletimFertDAO.class.php');
 require_once('../model/dao/ApontFertDAO.class.php');
 require_once('../model/dao/RecolhimentoFertDAO.class.php');
-
+require_once('../model/dao/CabecPneuDAO.class.php');
+require_once('../model/dao/ItemPneuDAO.class.php');
 /**
  * Description of InserirDadosFertCTR
  *
@@ -30,23 +31,32 @@ class FertirrigacaoCTR {
         if ($versao >= 2.00) {
 
             $pos1 = strpos($dados, "_") + 1;
-            $pos2 = strpos($dados, "|") + 1;
+            $pos2 = strpos($dados, "?") + 1;
+            $pos3 = strpos($dados, "@") + 1;
+            $pos4 = strpos($dados, "|") + 1;
+            
 
             $bolfert = substr($dados, 0, ($pos1 - 1));
             $apontfert = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-            $recol = substr($dados, $pos2);
+            $cabecPneu = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $itemPneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+            $recol = substr($dados, $pos4);
 
             $jsonObjBoletim = json_decode($bolfert);
             $jsonObjAponta = json_decode($apontfert);
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
             $jsonObjRecolhimento = json_decode($recol);
 
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
             $dadosRecolhimento = $jsonObjRecolhimento->recolhimento;
 
-            $ret = $this->salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento);
+            $ret = $this->salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento, $dadosCabecPneu, $dadosItemPneu);
 
-            return 'BOLFECHADOFERT_' . $ret;
+            return $ret;
             
             
         }
@@ -63,19 +73,27 @@ class FertirrigacaoCTR {
         if ($versao >= 2.00) {
 
             $pos1 = strpos($dados, "_") + 1;
+            $pos2 = strpos($dados, "?") + 1;
+            $pos3 = strpos($dados, "@") + 1;
 
             $bolfert = substr($dados, 0, ($pos1 - 1));
-            $apontfert = substr($dados, $pos1);
+            $apontfert = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $cabecPneu = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $itemPneu = substr($dados, $pos3);
 
             $jsonObjBoletim = json_decode($bolfert);
             $jsonObjAponta = json_decode($apontfert);
-
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
+            
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta);
+            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosCabecPneu, $dadosItemPneu);
 
-            return "BOLABERTOFERT_" . $ret;
+            return $ret;
             
         }
     }
@@ -90,17 +108,29 @@ class FertirrigacaoCTR {
 
         if ($versao >= 2.00) {
 
-            $jsonObjAponta = json_decode($dados);
+            $pos1 = strpos($dados, "?") + 1;
+            $pos2 = strpos($dados, "@") + 1;
+            
+            $apontfert = substr($dados, 0, ($pos1 - 1));
+            $cabecPneu = substr($dados, $pos1, (($pos2 - 1) - $pos1));
+            $itemPneu = substr($dados, $pos2);
+            
+            $jsonObjAponta = json_decode($apontfert);
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
+            
             $dadosAponta = $jsonObjAponta->aponta;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-            $ret = $this->salvarApontExt($dadosAponta);
+            $ret = $this->salvarApontExt($dadosAponta, $dadosCabecPneu, $dadosItemPneu);
 
-            return 'APONTFERT_' . $ret;
+            return $ret;
             
         }
     }
 
-    private function salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento) {
+    private function salvarBoletoFechado($dadosBoletim, $dadosAponta, $dadosRecolhimento, $dadosCabecPneu, $dadosItemPneu) {
         
         $boletimFertDAO = new BoletimFertDAO();
         $idBolMMArray = array();
@@ -113,7 +143,7 @@ class FertirrigacaoCTR {
                 $boletimFertDAO->updateBoletimFertFechado($bol);
             }
             $idBolBD = $boletimFertDAO->idBoletimFert($bol);
-            $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta);
+            $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta, $dadosCabecPneu, $dadosItemPneu);
             $this->salvarRecolhimento($idBolBD, $bol->idBolFert, $dadosRecolhimento);
             $apontFertDAO = new ApontFertDAO();
             $qtdeApontBolFert = $apontFertDAO->verifQtdeApontFert($idBolBD);
@@ -121,10 +151,10 @@ class FertirrigacaoCTR {
         }
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
-        return $retBol;
+        return 'BOLFECHADOFERT_' . $retBol;
     }
     
-    private function salvarBoletoAberto($dadosBoletim, $dadosAponta) {
+    private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
         $boletimFertDAO = new BoletimFertDAO();
         $idBolMMArray = array();
         
@@ -134,16 +164,16 @@ class FertirrigacaoCTR {
                $boletimFertDAO->insBoletimFertAberto($bol);
            }
            $idBolBD = $boletimFertDAO->idBoletimFert($bol);
-           $retApont = $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta);
+           $retApont = $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta, $dadosCabecPneu, $dadosItemPneu);
            $idBolMMArray[] = array("idBolFert" => $bol->idBolFert, "idExtBolFert" => $idBolBD);
         }
         
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
-        return $retBol . "|" . $retApont;
+        return "BOLABERTOFERT_" . $retBol . "|" . $retApont;
     }
     
-    private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta) {
+    private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
         $apontFertDAO = new ApontFertDAO();
         $idApontArray = array();
         foreach ($dadosAponta as $apont) {
@@ -152,6 +182,8 @@ class FertirrigacaoCTR {
                 if ($v == 0) {
                     $apontFertDAO->insApontFert($idBolBD, $apont);
                 }
+                $idApont = $apontFertDAO->idApontFert($idBolBD, $apont);
+                $this->salvarCabecPneu($idApont, $apont->idApontFert, $dadosCabecPneu, $dadosItemPneu);
                 $idApontArray[] = array("idApontFert" => $apont->idApontFert);
             }
         }
@@ -160,7 +192,7 @@ class FertirrigacaoCTR {
         return $retApont;
     }
 
-    private function salvarApontExt($dadosAponta) {
+    private function salvarApontExt($dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
         $apontFertDAO = new ApontFertDAO();
         $idApontArray = array();
         foreach ($dadosAponta as $apont) {
@@ -168,11 +200,13 @@ class FertirrigacaoCTR {
             if ($v == 0) {
                 $apontFertDAO->insApontFert($apont->idExtBolApontFert, $apont);
             }
+            $idApont = $apontFertDAO->idApontFert($apont->idExtBolApontFert, $apont);
+            $this->salvarCabecPneu($idApont, $apont->idApontFert, $dadosCabecPneu, $dadosItemPneu);
             $idApontArray[] = array("idApontFert" => $apont->idApontFert);
         }
         $dadoApont = array("apont"=>$idApontArray);
         $retApont = json_encode($dadoApont);
-        return $retApont;
+        return 'APONTFERT_' . $retApont;
     }
     
     private function salvarRecolhimento($idBolBD, $idBolCel, $dadosRecolhimento) {
@@ -187,6 +221,32 @@ class FertirrigacaoCTR {
         }
     }
 
+    private function salvarCabecPneu($idApontaBD, $idApontaCel, $dadosCabecPneu, $dadosItemPneu) {
+        $cabecPneuDAO = new CabecPneuDAO();
+        foreach ($dadosCabecPneu as $cabecPneu) {
+            if ($idApontaCel == $cabecPneu->idApontCabecPneu) {
+                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu);
+                if ($v == 0) {
+                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 2);
+                }
+                $idCabecPneuBD = $cabecPneuDAO->idCabecPneu($idApontaBD, $cabecPneu);
+                $this->salvarItemPneu($idCabecPneuBD, $cabecPneu->idCabecPneu, $dadosItemPneu);
+            }
+        }
+    }
+    
+    private function salvarItemPneu($idCabecPneuBD, $idCabecPneuCel, $dadosItemPneu) {
+        $itemPneuDAO = new ItemPneuDAO();
+        foreach ($dadosItemPneu as $itemPneu) {
+            if ($idCabecPneuCel == $itemPneu->idCabecItemPneu) {
+                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu);
+                if ($v == 0) {
+                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu);
+                }
+            }
+        }
+    }
+    
     private function salvarLog($dados, $pagina) {
         $logDAO = new LogDAO();
         $logDAO->salvarDados($dados, $pagina);

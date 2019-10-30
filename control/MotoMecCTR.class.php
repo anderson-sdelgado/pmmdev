@@ -11,6 +11,8 @@ require_once('../model/dao/ApontMMDAO.class.php');
 require_once('../model/dao/ImplementoMMDAO.class.php');
 require_once('../model/dao/RendimentoMMDAO.class.php');
 require_once('../model/dao/MovLeiraMMDAO.class.php');
+require_once('../model/dao/CabecPneuDAO.class.php');
+require_once('../model/dao/ItemPneuDAO.class.php');
 /**
  * Description of InserirDadosMM
  *
@@ -31,25 +33,33 @@ class MotoMecCTR {
             $pos1 = strpos($dados, "_") + 1;
             $pos2 = strpos($dados, "|") + 1;
             $pos3 = strpos($dados, "#") + 1;
+            $pos4 = strpos($dados, "?") + 1;
+            $pos5 = strpos($dados, "@") + 1;
 
             $bolmm = substr($dados, 0, ($pos1 - 1));
             $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
             $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-            $movLeira = substr($dados, $pos3);
+            $movLeira = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+            $cabecPneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
+            $itemPneu = substr($dados, $pos5);
 
             $jsonObjBoletim = json_decode($bolmm);
             $jsonObjAponta = json_decode($apontmm);
             $jsonObjImplemento = json_decode($impl);
             $jsonObjMovLeira = json_decode($movLeira);
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
 
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImplemento->implemento;
             $dadosMovLeira = $jsonObjMovLeira->movleira;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira);
+            $ret = $this->salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu);
 
-            return "BOLABERTOMM_" . $ret;
+            return $ret;
         }
     }
 
@@ -65,22 +75,30 @@ class MotoMecCTR {
 
             $pos1 = strpos($dados, "|") + 1;
             $pos2 = strpos($dados, "#") + 1;
+            $pos3 = strpos($dados, "?") + 1;
+            $pos4 = strpos($dados, "@") + 1;
 
             $apontmm = substr($dados, 0, ($pos1 - 1));
             $imp = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-            $movLeira = substr($dados, $pos2);
+            $movLeira = substr($dados, $pos2, (($pos3 - 1) - $pos2));
+            $cabecPneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
+            $itemPneu = substr($dados, $pos4);
 
             $jsonObjAponta = json_decode($apontmm);
             $jsonObjImplemento = json_decode($imp);
             $jsonObjMovLeira = json_decode($movLeira);
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
 
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImplemento->implemento;
             $dadosMovLeira = $jsonObjMovLeira->movleira;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-            $ret = $this->salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira);
+            $ret = $this->salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu);
 
-            return 'APONTMM_' . $ret;
+            return $ret;
         }
     }
 
@@ -97,29 +115,37 @@ class MotoMecCTR {
             $pos1 = strpos($dados, "_") + 1;
             $pos2 = strpos($dados, "|") + 1;
             $pos3 = strpos($dados, "#") + 1;
-            $pos4 = strpos($dados, "=") + 1;
+            $pos4 = strpos($dados, "?") + 1;
+            $pos5 = strpos($dados, "@") + 1;
+            $pos6 = strpos($dados, "=") + 1;
 
             $bolmm = substr($dados, 0, ($pos1 - 1));
             $apontmm = substr($dados, $pos1, (($pos2 - 1) - $pos1));
             $impl = substr($dados, $pos2, (($pos3 - 1) - $pos2));
             $movLeira = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-            $rend = substr($dados, $pos4);
+            $cabecPneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
+            $itemPneu = substr($dados, $pos5, (($pos6 - 1) - $pos5));
+            $rend = substr($dados, $pos6);
 
             $jsonObjBoletim = json_decode($bolmm);
             $jsonObjAponta = json_decode($apontmm);
             $jsonObjImpl = json_decode($impl);
             $jsonObjRend = json_decode($rend);
             $jsonObjMovLeira = json_decode($movLeira);
+            $jsonObjCabecPneu = json_decode($cabecPneu);
+            $jsonObjItemPneu = json_decode($itemPneu);
             
             $dadosBoletim = $jsonObjBoletim->boletim;
             $dadosAponta = $jsonObjAponta->aponta;
             $dadosImplemento = $jsonObjImpl->implemento;
             $dadosRendimento = $jsonObjRend->rendimento;
             $dadosMovLeira = $jsonObjMovLeira->movleira;
+            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
+            $dadosItemPneu = $jsonObjItemPneu->itempneu;
 
-            $ret = $this->salvarBoletoFech($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosRendimento);
+            $ret = $this->salvarBoletoFech($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosRendimento, $dadosCabecPneu, $dadosItemPneu);
 
-            return 'BOLFECHADOMM_' . $ret;
+            return $ret;
         }
     }
 
@@ -128,7 +154,7 @@ class MotoMecCTR {
         $logDAO->salvarDados($dados, $pagina);
     }
 
-    private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira) {
+    private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu) {
         $boletimMMDAO = new BoletimMMDAO();
         $idBolMMArray = array();
         foreach ($dadosBoletim as $bol) {
@@ -137,16 +163,16 @@ class MotoMecCTR {
                 $boletimMMDAO->insBoletimMMAberto($bol);
             }
             $idBolBD = $boletimMMDAO->idBoletimMM($bol);
-            $retApont = $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento);
+            $retApont = $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu);
             $retMovLeira = $this->salvarMovLeira($idBolBD, $bol->idBolMM, $dadosMovLeira);
             $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "idExtBolMM" => $idBolBD);
         }
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
-        return $retBol . "|" . $retApont . "#" . $retMovLeira;
+        return 'BOLABERTOMM_' . $retBol . "|" . $retApont . "#" . $retMovLeira;
     }
 
-    private function salvarBoletoFech($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosRendimento) {
+    private function salvarBoletoFech($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosRendimento, $dadosCabecPneu, $dadosItemPneu) {
         $boletimMMDAO = new BoletimMMDAO();
         $idBolMMArray = array();
         foreach ($dadosBoletim as $bol) {
@@ -158,7 +184,7 @@ class MotoMecCTR {
                 $idBolBD = $boletimMMDAO->idBoletimMM($bol);
                 $boletimMMDAO->updateBoletimMMFechado($idBolBD, $bol);
             }
-            $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento);
+            $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu);
             $this->salvarRendimento($idBolBD, $bol->idBolMM, $dadosRendimento);
             $this->salvarMovLeira($idBolBD, $bol->idBolMM, $dadosMovLeira);
             $apontMMDAO = new ApontMMDAO();
@@ -167,10 +193,10 @@ class MotoMecCTR {
         }
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
-        return $retBol;
+        return 'BOLFECHADOMM_' . $retBol;
     }
 
-    private function salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira) {
+    private function salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu) {
         $apontMMDAO = new ApontMMDAO();
         $idApontArray = array();
         foreach ($dadosAponta as $apont) {
@@ -180,6 +206,7 @@ class MotoMecCTR {
             }
             $idApont = $apontMMDAO->idApontMM($apont->idExtBolApontMM, $apont);
             $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
+            $this->salvarCabecPneu($idApont, $apont->idApontMM, $dadosCabecPneu, $dadosItemPneu);
             $idApontArray[] = array("idApontMM" => $apont->idApontMM);
         }
         $dadoApont = array("apont"=>$idApontArray);
@@ -197,10 +224,10 @@ class MotoMecCTR {
         $dadoMovLeira = array("movLeira"=>$idMovLeiraArray);
         $retMovLeira = json_encode($dadoMovLeira);
         
-        return $retApont . "|" . $retMovLeira;
+        return 'APONTMM_' . $retApont . "|" . $retMovLeira;
     }
 
-    private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento) {
+    private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu) {
         $apontMMDAO = new ApontMMDAO();
         $idApontArray = array();
         foreach ($dadosAponta as $apont) {
@@ -211,6 +238,7 @@ class MotoMecCTR {
                 }
                 $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
                 $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
+                $this->salvarCabecPneu($idApont, $apont->idApontMM, $dadosCabecPneu, $dadosItemPneu);
                 $idApontArray[] = array("idApontMM" => $apont->idApontMM);
             }
         }
@@ -228,6 +256,32 @@ class MotoMecCTR {
                     if ($v == 0) {
                         $implementoMMDAO->insImplementoMM($idApontaBD, $imp);
                     }
+                }
+            }
+        }
+    }
+    
+    private function salvarCabecPneu($idApontaBD, $idApontaCel, $dadosCabecPneu, $dadosItemPneu) {
+        $cabecPneuDAO = new CabecPneuDAO();
+        foreach ($dadosCabecPneu as $cabecPneu) {
+            if ($idApontaCel == $cabecPneu->idApontCabecPneu) {
+                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu);
+                if ($v == 0) {
+                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 1);
+                }
+                $idCabecPneuBD = $cabecPneuDAO->idCabecPneu($idApontaBD, $cabecPneu);
+                $this->salvarItemPneu($idCabecPneuBD, $cabecPneu->idCabecPneu, $dadosItemPneu);
+            }
+        }
+    }
+    
+    private function salvarItemPneu($idCabecPneuBD, $idCabecPneuCel, $dadosItemPneu) {
+        $itemPneuDAO = new ItemPneuDAO();
+        foreach ($dadosItemPneu as $itemPneu) {
+            if ($idCabecPneuCel == $itemPneu->idCabecItemPneu) {
+                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu);
+                if ($v == 0) {
+                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu);
                 }
             }
         }

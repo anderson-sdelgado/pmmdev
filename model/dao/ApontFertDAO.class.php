@@ -100,6 +100,8 @@ class ApontFertDAO extends Conn {
                 . " , PRESSAO "
                 . " , VELOCIDADE "
                 . " , RAIO "
+                . " , LONGITUDE "
+                . " , LATITUDE "
                 . " , STATUS_CONEXAO "
                 . " ) "
                 . " VALUES ("
@@ -114,6 +116,8 @@ class ApontFertDAO extends Conn {
                 . " , " . $apont->pressaoApontFert
                 . " , " . $apont->velocApontFert
                 . " , " . $raio
+                . " , " . $apont->longitudeApontFert
+                . " , " . $apont->latitudeApontFert
                 . " , " . $apont->statusConApontFert
                 . " )";
 

@@ -69,6 +69,13 @@ class BoletimFertDAO extends Conn {
         if ($bol->hodometroInicialBolFert > 9999999) {
             $bol->hodometroInicialBolFert = 0;
         }
+        
+        if ($bol->idEquipBolFert == $bol->idEquipBombaBolFert) {
+            $motoBomba = null;
+        }
+        else{
+            $motoBomba = $bol->idEquipBombaBolFert;
+        }
 
         $sql = "INSERT INTO PMM_BOLETIM_FERT ("
                 . " FUNC_MATRIC "
@@ -87,7 +94,7 @@ class BoletimFertDAO extends Conn {
                 . " VALUES ("
                 . " " . $bol->matricFuncBolFert
                 . " , " . $bol->idEquipBolFert
-                . " , " . $bol->idEquipBombaBolFert
+                . " , " . $motoBomba
                 . " , " . $bol->idTurnoBolFert
                 . " , " . $bol->hodometroInicialBolFert
                 . " , " . $bol->osBolFert
