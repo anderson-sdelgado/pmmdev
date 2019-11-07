@@ -202,4 +202,25 @@ class ApontMMDAO extends Conn {
         return $v;
     }
     
+    public function updApontLogTrac($idBol, $dthr) {
+
+        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
+        
+        $sql = "UPDATE PMM_APONTAMENTO_LOGTRAC "
+                . " SET DTAFIM = " . $ajusteDataHoraDAO->dataHoraGMT($dthr)
+                . " WHERE ID = "
+                . " NVL(( "
+                . " SELECT MAX(A1.ID) "
+                . " FROM PMM_APONTAMENTO_LOGTRAC A1"
+                . " , EQUIP E1"
+                . " , PMM_BOLETIM B1 "
+                . " WHERE B1.ID = " . $idBol
+                . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
+                . " AND E1.EQUIP_ID = B1.EQUIP_ID"
+                . " AND A1.DTAFIM IS NULL), 0)";
+
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+    }
+    
 }
