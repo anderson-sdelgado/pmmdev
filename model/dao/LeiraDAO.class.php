@@ -23,8 +23,9 @@ class LeiraDAO extends Conn {
     public function dados() {
 
         $select = " SELECT "
-                  . " LEIRA_ID AS \"idLeira\" "
-                  . " , CD AS \"codLeira\" "
+                    . " LEIRA_ID AS \"idLeira\" "
+                    . " , CD AS \"codLeira\" "
+                    . " , 0 AS \"statusLeira\" "
                   . " FROM USINAS.LEIRA";
 
         $this->Conn = parent::getConn();

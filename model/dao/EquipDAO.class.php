@@ -43,7 +43,8 @@ class EquipDAO extends Conn {
                 . " E.NRO_EQUIP = " . $equip
                 . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
                 . " AND E.EQUIP_ID = R.EQUIP_ID(+) "
-                . " AND E.EQUIP_ID = PBH.EQUIP_ID(+) ";
+                . " AND E.EQUIP_ID = PBH.EQUIP_ID(+)"
+                . " AND E.TPTUREQUIP_CD IS NOT NULL ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

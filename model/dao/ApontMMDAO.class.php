@@ -87,6 +87,7 @@ class ApontMMDAO extends Conn {
                 . " , LONGITUDE "
                 . " , LATITUDE "
                 . " , STATUS_CONEXAO "
+                . " , STATUS_DTHR "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -100,6 +101,7 @@ class ApontMMDAO extends Conn {
                 . " , " . $apont->longitudeApontMM
                 . " , " . $apont->latitudeApontMM
                 . " , " . $apont->statusConApontMM
+                . " , " . $apont->statusDtHrApontMM
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -116,7 +118,8 @@ class ApontMMDAO extends Conn {
                 . " , PMM_BOLETIM B1 "
                 . " WHERE B1.ID = " . $idBol
                 . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
-                . " AND E1.EQUIP_ID = B1.EQUIP_ID), 0)";
+                . " AND E1.EQUIP_ID = B1.EQUIP_ID "
+                . " AND A1.DTAFIM IS NULL), 0) ";
 
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
@@ -216,9 +219,10 @@ class ApontMMDAO extends Conn {
                 . " , PMM_BOLETIM B1 "
                 . " WHERE B1.ID = " . $idBol
                 . " AND A1.CDGEQUIPAMENTO = E1.NRO_EQUIP "
-                . " AND E1.EQUIP_ID = B1.EQUIP_ID"
-                . " AND A1.DTAFIM IS NULL), 0)";
+                . " AND E1.EQUIP_ID = B1.EQUIP_ID "
+                . " AND A1.DTAFIM IS NULL), 0) ";
 
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
