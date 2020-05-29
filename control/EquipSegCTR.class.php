@@ -31,5 +31,22 @@ class EquipSegCTR {
         }
         
     }
+    
+    public function dadosECM($versao) {
+        
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+
+            $equipSegDAO = new EquipSegDAO();
+
+            $dados = array("dados" => $equipSegDAO->dadosECM());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
 
 }

@@ -31,4 +31,45 @@ class LeiraCTR {
         
     }
     
+    public function pesqLeiraComp($versao, $info) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        $leiraDAO = new LeiraDAO();
+        
+        if ($versao >= 2.00) {
+        
+            $jsonObj = json_decode($info['dado']);
+            $dados = $jsonObj->dados;
+
+            foreach ($dados as $d) {
+                $equip = $d->equip;
+                $os = $d->os;
+            }
+
+            $retorno = array("dados" => $leiraDAO->retLeiraComp($equip, $os));
+            $ret = json_encode($retorno);
+            return $ret;
+        
+        }
+        
+    }
+    
+    public function pesqLeiraProd($versao, $info) {
+
+        $versao = str_replace("_", ".", $versao);
+
+        $leiraDAO = new LeiraDAO();
+        $carregDAO = new CarregDAO();
+
+        if ($versao >= 2.00) {
+
+            $equip = $info['dado'];
+            $retorno = array("dados" => $leiraDAO->retLeiraProd($equip));
+            $carregDAO->updCarregProd($equip);
+            $ret = json_encode($retorno);
+            return $ret;
+        }
+    }
+    
 }

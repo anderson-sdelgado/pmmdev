@@ -38,4 +38,40 @@ class OSCTR {
         
     }
     
+    public function pesqECM($versao, $info) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+        
+            $osDAO = new OSDAO();
+            
+            $dado = $info['dado'];
+
+            $dadosOS = array("dados" => $osDAO->dadosECM($dado));
+            $resOS = json_encode($dadosOS);
+
+            return $resOS;
+        
+        }
+        
+    }
+    
+    public function dadosECM($versao) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+        
+            $osDAO = new OSDAO();
+            
+            $dadosOS = array("dados" => $osDAO->dadosClearECM());
+            $resOS = json_encode($dadosOS);
+
+            return $resOS;
+        
+        }
+        
+    }
+    
 }

@@ -23,7 +23,7 @@ class Conn {
 
             if (self::$Connect == null) {
                 if ($BD == 1) {
-                    $tns = "  (DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
+                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
                             (CONNECT_DATA =
                               (SERVER = DEDICATED)
@@ -37,7 +37,7 @@ class Conn {
                             )
                           )";
                 } elseif ($BD == 2) {
-                    $tns = "  (DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
+                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
                             (CONNECT_DATA =
                               (SERVER = DEDICATED)
@@ -51,7 +51,7 @@ class Conn {
                             )
                           )";
                 } elseif ($BD == 3) {
-                    $tns = "  (DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
+                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.2.15)(PORT = 1521))
                             (CONNECT_DATA =
                               (SERVER = DEDICATED)

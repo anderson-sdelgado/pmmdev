@@ -37,4 +37,28 @@ class LeiraDAO extends Conn {
         return $result;
     }
     
+    public function retLeiraComp($equip, $os) {
+        
+        $idLeira = 0;
+        $codLeira = null;
+        
+        while (empty($cdLeira)) {
+            
+            $sql = "CALL pk_composto_auto.pkb_ret_leira(?, ?, ?, ?)";
+            $this->Conn = parent::getConn();
+            $stmt = $this->Conn->prepare($sql);
+            $stmt->bindParam(1, $equip, PDO::PARAM_INT, 32);
+            $stmt->bindParam(2, $os, PDO::PARAM_INT, 32);
+            $stmt->bindParam(3, $idLeira, PDO::PARAM_INT, 32);
+            $stmt->bindParam(4, $codLeira, PDO::PARAM_STR, 4000);
+            $stmt->execute();
+            $dado = array("equip" => $equip, "os" => $os
+                , "idLeira" => $idLeira, "codLeira" => $codLeira);
+            
+        }
+        
+        return array($dado);
+        
+    }
+    
 }

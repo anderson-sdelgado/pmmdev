@@ -43,4 +43,31 @@ class EquipCTR {
         
     }
     
+    public function dadosECM($versao, $info) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+        
+            $equipDAO = new EquipDAO();
+            $rEquipAtivDAO = new REquipAtivDAO();
+            $rEquipPneuDAO = new REquipPneuDAO();
+
+            $dado = $info['dado'];
+
+            $dadosEquip = array("dados" => $equipDAO->dadosECM($dado));
+            $resEquip = json_encode($dadosEquip);
+
+            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
+            $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
+            
+            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado));
+            $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
+
+            return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
+        
+        }
+        
+    }
+    
 }

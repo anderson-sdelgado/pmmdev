@@ -62,4 +62,48 @@ class OSDAO extends Conn {
         return $result;
     }
     
+    public function dadosECM($os) {
+
+        $select = "SELECT " 
+                . " ID_ATIV_OS AS \"idAtivOS\" "
+                . " , NRO_OS AS \"nroOS\" "
+                . " , ID_LIB_OS AS \"idLibOS\" "
+                . " , ID_PROPR_AGR AS \"idProprAgr\" "
+                . " , DESCR_PROPR_AGR AS \"descrProprAgr\" "
+                . " , ID_ATIV AS \"idAtiv\" "
+                . " FROM "
+                . " USINAS.V_ECM_OS "
+                . " WHERE "
+                . " NRO_OS = " . $os;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    public function dadosClearECM() {
+
+        $select = "SELECT " 
+                . " ID_ATIV_OS AS \"idAtivOS\" "
+                . " , NRO_OS AS \"nroOS\" "
+                . " , ID_LIB_OS AS \"idLibOS\" "
+                . " , ID_PROPR_AGR AS \"idProprAgr\" "
+                . " , DESCR_PROPR_AGR AS \"descrProprAgr\" "
+                . " , ID_ATIV AS \"idAtiv\" "
+                . " FROM "
+                . " USINAS.V_ECM_OS ";
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
 }

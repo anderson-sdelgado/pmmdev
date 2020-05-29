@@ -13,6 +13,7 @@ require_once('../model/dao/RendimentoMMDAO.class.php');
 require_once('../model/dao/MovLeiraMMDAO.class.php');
 require_once('../model/dao/CabecPneuDAO.class.php');
 require_once('../model/dao/ItemPneuDAO.class.php');
+require_once('../model/dao/MotoMecDAO.class.php');
 /**
  * Description of InserirDadosMM
  *
@@ -315,6 +316,23 @@ class MotoMecCTR {
         $dadoMovLeira = array("movLeira"=>$idMovLeiraArray);
         $retMovLeira = json_encode($dadoMovLeira);
         return $retMovLeira;
+    }
+    
+    public function dados($versao) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+        
+            $motoMecDAO = new MotoMecDAO();
+
+            $dados = array("dados" => $motoMecDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
     }
 
 }
