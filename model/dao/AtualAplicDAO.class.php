@@ -330,4 +330,150 @@ class AtualAplicDAO extends Conn {
         return $cla;
     }
     
+    
+    public function verAtualPCOMP($equip) {
+
+        $select = "SELECT "
+                . " COUNT(*) AS QTDE "
+                . " FROM "
+                . " PCOMP_ATUALIZACAO "
+                . " WHERE "
+                . " EQUIP_ID = " . $equip;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        foreach ($result as $item) {
+            $v = $item['QTDE'];
+        }
+
+        return $v;
+    }
+    
+     public function insAtualPCOMP($equip, $va) {
+
+        $sql = "INSERT INTO PCOMP_ATUALIZACAO ("
+                . " EQUIP_ID "
+                . " , VERSAO_ATUAL "
+                . " , VERSAO_NOVA "
+                . " , DTHR_ULT_ATUAL "
+                . " ) "
+                . " VALUES ("
+                . " " . $equip
+                . " , TRIM(TO_CHAR(" . $va . ", '99999999D99')) "
+                . " , TRIM(TO_CHAR(" . $va . ", '99999999D99')) "
+                . " , SYSDATE "
+                . " )";
+
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+
+    }
+    
+    public function retAtualPCOMP($equip) {
+
+        $select = " SELECT "
+                . " VERSAO_NOVA"
+                . " , VERSAO_ATUAL"
+                . " FROM "
+                . " PCOMP_ATUALIZACAO "
+                . " WHERE "
+                . " EQUIP_ID = " . $equip;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    public function updAtualNovaPCOMP($equip, $va) {
+
+        $sql = "UPDATE PCOMP_ATUALIZACAO "
+                . " SET "
+                . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                . " , VERSAO_NOVA = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                . " , DTHR_ULT_ATUAL = SYSDATE "
+                . " WHERE "
+                . " EQUIP_ID = " . $equip;
+
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+    }
+    
+    public function verAtualCheckListPCOMP($equip) {
+
+        $select = " SELECT "
+                . " PA.VERSAO_ATUAL"
+                . ", CASE "
+                . " WHEN NVL(ACM.EQUIP_NRO, 0) = 0 "
+                . " THEN 0 "
+                . " ELSE 1 "
+                . " END AS VERIF_CHECKLIST "
+                . " FROM "
+                . " PCOMP_ATUALIZACAO PA "
+                . " , (SELECT EQUIP_NRO "
+                . " FROM "
+                . " ATUALIZA_CHECKLIST_MOBILE "
+                . " WHERE "
+                . " DT_MOBILE IS NULL) ACM "
+                . " WHERE "
+                . " PA.EQUIP_ID = " . $equip
+                . " AND "
+                . " PA.EQUIP_ID = ACM.EQUIP_NRO(+) ";
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    public function updAtualPCOMP($equip, $va) {
+
+        $sql = "UPDATE PCOMP_ATUALIZACAO "
+                . " SET "
+                . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
+                . " , DTHR_ULT_ATUAL = SYSDATE "
+                . " WHERE "
+                . " EQUIP_ID = " . $equip;
+
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+    }
+    
+    public function idCheckListPCOMP($equip) {
+
+        $select = " SELECT "
+                . " NVL(C.PLMANPREV_ID, 0) AS IDCHECKLIST "
+                . " FROM "
+                . " USINAS.V_SIMOVA_EQUIP E "
+                . " , USINAS.V_EQUIP_PLANO_CHECK C "
+                . " WHERE  "
+                . " E.NRO_EQUIP = " . $equip
+                . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) ";
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        foreach ($result as $item) {
+            $cla = $item['IDCHECKLIST'];
+        }
+
+        return $cla;
+    }
+    
 }

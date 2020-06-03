@@ -8,9 +8,7 @@ require('../control/CarregCTR.class.php');
 $carregCTR = new CarregCTR();
 
 if (isset($info)):
-    
-    //$dados = '{"dados":[{"equip":663,"os":994349}]}';
-    echo $carregCTR->pesqLeiraComp($versao, $info);
-//    echo 'teste';
+
+    echo $carregCTR->retCarregComp($versao, $info);
     
 endif;

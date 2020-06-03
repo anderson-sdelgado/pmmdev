@@ -23,7 +23,8 @@ class OSDAO extends Conn {
     public function dados($os) {
 
         $select = " SELECT DISTINCT "
-                . " NRO_OS AS \"nroOS\" "
+                . " OS_ID AS \"idOS\" "
+                . " , NRO_OS AS \"nroOS\" "
                 . " , PROPRAGR_CD AS \"codProprOS\" "
                 . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
                 . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
