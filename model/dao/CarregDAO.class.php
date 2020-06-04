@@ -22,12 +22,13 @@ class CarregDAO extends Conn {
     public function cancelCarregProd($carreg) {
         
         $update = " UPDATE "
-                . " USINAS.REG_COMPOSTO "
+//                    . " USINAS.REG_COMPOSTO "
+                    . " REG_COMPOSTO_TESTE "
                 . " SET "
-                . " FLAG_CARREG = 2, CANCEL = 1 "
+                    . " FLAG_CARREG = 2, CANCEL = 1 "
                 . " WHERE "
-                . " FLAG_CARREG = 1 AND "
-                . " EQUIP_ID = " . $carreg->equipApontCarreg;
+                    . " FLAG_CARREG = 1 AND "
+                    . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
@@ -40,11 +41,12 @@ class CarregDAO extends Conn {
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " USINAS.REG_COMPOSTO "
+//                . " USINAS.REG_COMPOSTO "
+                . " REG_COMPOSTO_TESTE "
                 . " WHERE "
-                . " DT = TO_DATE('" . $carreg->dataApontCarreg . "','DD/MM/YYYY HH24:MI') "
+                . " DT = TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_ID = " . $carreg->equipApontCarreg;
+                . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -62,7 +64,27 @@ class CarregDAO extends Conn {
     
     public function insCarregProd($carreg) {
         
-        $insert = "INSERT INTO USINAS.REG_COMPOSTO ("
+        $select = " SELECT "
+                    . " FUNC_ID AS IDFUNC "
+                . " FROM "
+                    . " USINAS.V_SIMOVA_FUNC "
+                . " WHERE "
+                    . " NRO_CRACHA = " . $carreg->$carreg->motoCarreg;
+        
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+        
+        foreach ($result as $item) {
+            $idFunc = $item['IDFUNC'];
+        }
+        
+        $insert = "INSERT INTO "
+//                . " USINAS.REG_COMPOSTO "
+                . " REG_COMPOSTO_TESTE "
+                . " ( "
                 . " TIPO "
                 . " , DT "
                 . " , EQUIP_ID "
@@ -72,14 +94,13 @@ class CarregDAO extends Conn {
                 . " ) "
                 . " VALUES ("
                 . " 0 "
-                . " , TO_DATE('" . $carreg->dataApontCarreg . "','DD/MM/YYYY HH24:MI') "
-                . " , " . $carreg->equipApontCarreg . " "
-                . " , " . $carreg->motoApontCarreg . " "
-                . " , " . $carreg->prodApontCarreg . " "
+                . " , TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
+                . " , " . $carreg->equipCarreg
+                . " , " . $idFunc
+                . " , " . $carreg->prodCarreg
                 . " , 1 "
                 . " )";
         
-        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($insert);
         $this->Create->execute();
         
@@ -88,11 +109,12 @@ class CarregDAO extends Conn {
     public function cancelCarregComp($carreg) {
         
         $update = " UPDATE "
-                . " USINAS.REG_COMPOSTO "
+//                    . " USINAS.REG_COMPOSTO "
+                    . " REG_COMPOSTO_TESTE "
                 . " SET "
-                . " CANCEL = 1 "
+                    . " CANCEL = 1 "
                 . " WHERE "
-                . " EQUIP_ID = " . $carreg->equipApontCarreg;
+                    . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
@@ -103,13 +125,14 @@ class CarregDAO extends Conn {
     public function verifCarregComp($carreg) {
         
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
+                    . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " USINAS.REG_COMPOSTO "
+//                    . " USINAS.REG_COMPOSTO "
+                    . " REG_COMPOSTO_TESTE "
                 . " WHERE "
-                . " DT = TO_DATE('" . $carreg->dataApontCarreg . "','DD/MM/YYYY HH24:MI') "
+                    . " DT = TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
-                . " EQUIP_ID = " . $carreg->equipApontCarreg;
+                    . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -128,13 +151,13 @@ class CarregDAO extends Conn {
     public function insCarregComp($carreg) {
         
         $select = " SELECT "
-                . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
+                    . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
                 . " FROM "
-                . " OS_AGRICOLA OA "
-                . " , OS OS "
+                    . " OS_AGRICOLA OA "
+                    . " , OS OS "
                 . " WHERE "
-                . " OS.OS_ID = OA.OS_ID "
-                . " AND OS.OS_ID = " . $carreg->osApontCarreg;
+                    . " OS.OS_ID = OA.OS_ID "
+                    . " AND OS.OS_ID = " . $carreg->osCarreg;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -146,7 +169,26 @@ class CarregDAO extends Conn {
             $os = $item['OSAGRICOLA'];
         }
         
-        $insert = "INSERT INTO USINAS.REG_COMPOSTO ("
+        $select = " SELECT "
+                    . " FUNC_ID AS IDFUNC "
+                . " FROM "
+                    . " USINAS.V_SIMOVA_FUNC "
+                . " WHERE "
+                    . " NRO_CRACHA = " . $carreg->motoCarreg;
+        
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+        
+        foreach ($result as $item) {
+            $idFunc = $item['IDFUNC'];
+        }
+        
+        $insert = "INSERT INTO "
+//                . " USINAS.REG_COMPOSTO "
+                . " REG_COMPOSTO_TESTE "
+                . " ( "
                 . " TIPO "
                 . " , DT "
                 . " , EQUIP_ID "
@@ -158,10 +200,10 @@ class CarregDAO extends Conn {
                 . " ) "
                 . " VALUES ("
                 . " 1 "
-                . " , TO_DATE('" . $carreg->dataApontCarreg . "','DD/MM/YYYY HH24:MI') "
-                . " , " . $carreg->equipApontCarreg
-                . " , " . $carreg->motoApontCarreg
-                . " , " . $carreg->leiraApontCarreg
+                . " , TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
+                . " , " . $carreg->equipCarreg
+                . " , " . $idFunc
+                . " , " . $carreg->idLeiraCarreg
                 . " , " . $os
                 . " , 2 "
                 . " , 76271 "
@@ -175,7 +217,8 @@ class CarregDAO extends Conn {
     public function updCarregProd($equip) {
         
         $update = " UPDATE "
-                        . " USINAS.REG_COMPOSTO "
+//                        . " USINAS.REG_COMPOSTO "
+                        . " REG_COMPOSTO_TESTE "
                     . " SET "
                         . " FLAG_CARREG = 2"
                     . " WHERE "
@@ -198,13 +241,16 @@ class CarregDAO extends Conn {
                         . " C.EQUIP_ID AS \"equip\" "
                         . " , L.CD AS \"codLeira\" "
                         . " , C.ORDCARREG_ID AS \"idOrdCarreg\" "
+                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dthrOrdCarreg\" "
                         . " , O.PESO_ENTRADA AS \"pesoEntrada\" "
                         . " , O.PESO_SAIDA AS \"pesoSaida\" "
                         . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquido\" "
                     . " FROM "
-                        . " USINAS.REG_COMPOSTO C "
+//                        . " USINAS.REG_COMPOSTO C "
+                        . " REG_COMPOSTO_TESTE C "
                         . " , USINAS.LEIRA L "
-                        . " , USINAS.ORD_CARREG O "
+//                        . " , USINAS.ORD_CARREG O "
+                        . " , ORD_CARREG_TESTE O "
                     . " WHERE "
                         . " C.EQUIP_ID = " . $equip
                         . " AND "
@@ -236,13 +282,16 @@ class CarregDAO extends Conn {
                         . " C.EQUIP_ID AS \"equipCarreg\" "
                         . " , L.CD AS \"codLeiraCarreg\" "
                         . " , C.ORDCARREG_ID AS \"idOrdCarreg\" "
+                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dthrOrdCarreg\" "
                         . " , O.PESO_ENTRADA AS \"pesoEntradaCarreg\" "
                         . " , O.PESO_SAIDA AS \"pesoSaidaCarreg\" "
                         . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquidoCarreg\" "
                     . " FROM "
-                        . " USINAS.REG_COMPOSTO C "
+//                        . " USINAS.REG_COMPOSTO C "
+                        . " REG_COMPOSTO_TESTE C "
                         . " , USINAS.LEIRA L "
-                        . " , USINAS.ORD_CARREG O "
+//                        . " , USINAS.ORD_CARREG O "
+                        . " , ORD_CARREG_TESTE O "
                     . " WHERE "
                         . " C.EQUIP_ID = " . $equip
                         . " AND "
@@ -284,8 +333,8 @@ class CarregDAO extends Conn {
 //            
 //        }
         
-            $dado = array("equip" => 2986, "os" => 1245061
-                , "idLeira" => 1, "codLeira" => '02');
+            $dado = array("equipCarreg" => 2986, "osCarreg" => 1245061
+                , "idLeiraCarreg" => 1, "codLeiraCarreg" => '02');
         
         return array($dado);
         

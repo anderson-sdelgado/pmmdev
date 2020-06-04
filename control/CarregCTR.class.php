@@ -26,7 +26,7 @@ class CarregCTR {
         if($versao >= 2.00){
         
             $jsonObj = json_decode($dados);
-            $carreg = $jsonObj->dados;
+            $carreg = $jsonObj->carreg;
             $this->salvarDadosCarreg($carreg);
         
         }
@@ -36,22 +36,26 @@ class CarregCTR {
     private function salvarDadosCarreg($carreg) {
         
         $carregDAO = new CarregDAO();
+        $idCarregArray = array();
         foreach ($carreg as $c) {
-            if ($c->tipoApontCarreg == 1) {
+            if ($c->tipoCarreg == 1) {
                 $carregDAO->cancelCarregProd($c);
                 $v = $carregDAO->verifCarregProd($c);
                 if ($v == 0) {
-                    $$carregDAO->insCarregProd($c);
+                    $carregDAO->insCarregProd($c);
                 }
-            } elseif ($c->tipoApontCarreg == 2) {
+            } elseif ($c->tipoCarreg == 2) {
                 $carregDAO->cancelCarregComp($c);
                 $v = $carregDAO->verifCarregComp($c);
                 if ($v == 0) {
-                    $$carregDAO->insCarregComp($c);
+                    $carregDAO->insCarregComp($c);
                 }
             }
+            $idCarregArray[] = array("idCarreg" => $c->idCarreg);
         }
-        echo 'GRAVOU-CARREG';
+        $dadoCarreg = array("carreg"=>$idCarregArray);
+        $retCarreg = json_encode($dadoCarreg);
+        echo 'GRAVOU-CARREG_' . $retCarreg;
         
     }
     
@@ -74,8 +78,8 @@ class CarregCTR {
             $dados = $jsonObj->dados;
 
             foreach ($dados as $d) {
-                $equip = $d->idEquip;
-                $os = $d->idOS;
+                $equip = $d->equipCarreg;
+                $os = $d->osCarreg;
             }
 
             $retorno = array("dados" => $carregDAO->retLeiraComp($equip, $os));
