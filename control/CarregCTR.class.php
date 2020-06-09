@@ -90,7 +90,7 @@ class CarregCTR {
         
     }
     
-    public function retLeiraCarregProd($versao, $info) {
+    public function retCarregProd($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
 
@@ -98,15 +98,8 @@ class CarregCTR {
 
         if ($versao >= 2.00) {
 
-            $jsonObj = json_decode($info['dado']);
-            $dados = $jsonObj->dados;
-
-            foreach ($dados as $d) {
-                $equip = $d->equipCarreg;
-            }
-            
-            $retorno = array("dados" => $carregDAO->retLeiraCarregProd($equip));
-            $carregDAO->updCarregProd($equip);
+            $retorno = array("dados" => $carregDAO->retCarregProd($info['dado']));
+            $carregDAO->updCarregProd($info['dado']);
             $ret = json_encode($retorno);
             return $ret;
         }
@@ -119,15 +112,8 @@ class CarregCTR {
         $carregDAO = new CarregDAO();
 
         if ($versao >= 2.00) {
-
-            $jsonObj = json_decode($info['dado']);
-            $dados = $jsonObj->dados;
-
-            foreach ($dados as $d) {
-                $equip = $d->equipCarreg;
-            }
             
-            $retorno = array("dados" => $carregDAO->retCarregComp($equip));
+            $retorno = array("dados" => $carregDAO->retCarregComp($info['dado']));
             $ret = json_encode($retorno);
             return $ret;
         }

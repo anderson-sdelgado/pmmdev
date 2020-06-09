@@ -23,17 +23,16 @@ class OSDAO extends Conn {
     public function dados($os) {
 
         $select = " SELECT DISTINCT "
-                . " OS_ID AS \"idOS\" "
-                . " , NRO_OS AS \"nroOS\" "
-                . " , PROPRAGR_CD AS \"codProprOS\" "
-                . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
-                . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
-                . " , SERV_AGR AS \"tipoOS\" "
+                    . " OS_ID AS \"idOS\" "
+                    . " , NRO_OS AS \"nroOS\" "
+                    . " , PROPRAGR_CD AS \"codProprOS\" "
+                    . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
+                    . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
+                    . " , SERV_AGR AS \"tipoOS\" "
                 . " FROM "
-                . " USINAS.V_PMM_OS "
+                    . " USINAS.V_PMM_OS "
                 . " WHERE "
-                . " NRO_OS = " . $os
-                . " ";
+                    . " NRO_OS = " . $os;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

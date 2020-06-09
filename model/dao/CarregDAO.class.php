@@ -69,7 +69,7 @@ class CarregDAO extends Conn {
                 . " FROM "
                     . " USINAS.V_SIMOVA_FUNC "
                 . " WHERE "
-                    . " NRO_CRACHA = " . $carreg->$carreg->motoCarreg;
+                    . " NRO_CRACHA = " . $carreg->motoCarreg;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -231,20 +231,21 @@ class CarregDAO extends Conn {
         
     }
     
-    public function retLeiraCarregProd($equip) {
+    public function retCarregProd($equip) {
         
         $result = null;
         
         while(empty($result)) {
         
             $select = " SELECT "
-                        . " C.EQUIP_ID AS \"equip\" "
-                        . " , L.CD AS \"codLeira\" "
+                        . " C.EQUIP_ID AS \"equipCarreg\" "
+                        . " , L.LEIRA_ID AS \"idLeiraCarreg\" "
+                        . " , L.CD AS \"codLeiraCarreg\" "
                         . " , C.ORDCARREG_ID AS \"idOrdCarreg\" "
-                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dthrOrdCarreg\" "
-                        . " , O.PESO_ENTRADA AS \"pesoEntrada\" "
-                        . " , O.PESO_SAIDA AS \"pesoSaida\" "
-                        . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquido\" "
+                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dataCarreg\" "
+                        . " , O.PESO_ENTRADA AS \"pesoEntradaCarreg\" "
+                        . " , O.PESO_SAIDA AS \"pesoSaidaCarreg\" "
+                        . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquidoCarreg\" "
                     . " FROM "
 //                        . " USINAS.REG_COMPOSTO C "
                         . " REG_COMPOSTO_TESTE C "
@@ -256,7 +257,7 @@ class CarregDAO extends Conn {
                         . " AND "
                         . " C.FLAG_CARREG = 1 "
                         . " AND"
-                        . " C.LEIRA_ID_DESCARGA = L.LEIRA_ID "
+                        . " C.LEIRA_ID = L.LEIRA_ID "
                         . " AND "
                         . " O.ORDCARREG_ID = C.ORDCARREG_ID ";
             
@@ -280,9 +281,10 @@ class CarregDAO extends Conn {
         
             $select = " SELECT "
                         . " C.EQUIP_ID AS \"equipCarreg\" "
+                        . " , L.LEIRA_ID AS \"idLeiraCarreg\" "
                         . " , L.CD AS \"codLeiraCarreg\" "
                         . " , C.ORDCARREG_ID AS \"idOrdCarreg\" "
-                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dthrOrdCarreg\" "
+                        . " , TO_CHAR(C.DT, 'DD/MM/YYYY HH24:MI') AS \"dataCarreg\" "
                         . " , O.PESO_ENTRADA AS \"pesoEntradaCarreg\" "
                         . " , O.PESO_SAIDA AS \"pesoSaidaCarreg\" "
                         . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquidoCarreg\" "

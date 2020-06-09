@@ -9,6 +9,6 @@ $carregCTR = new CarregCTR();
 
 if (isset($info)):
 
-    echo $carregCTR->retLeiraCarregProd($versao, $info);
+    echo $carregCTR->retCarregProd($versao, $info);
     
 endif;
