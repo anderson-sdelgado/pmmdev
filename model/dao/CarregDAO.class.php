@@ -22,8 +22,7 @@ class CarregDAO extends Conn {
     public function cancelCarregProd($carreg) {
         
         $update = " UPDATE "
-//                    . " USINAS.REG_COMPOSTO "
-                    . " REG_COMPOSTO_TESTE "
+                    . " USINAS.REG_COMPOSTO "
                 . " SET "
                     . " FLAG_CARREG = 2, CANCEL = 1 "
                 . " WHERE "
@@ -41,8 +40,7 @@ class CarregDAO extends Conn {
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
                 . " FROM "
-//                . " USINAS.REG_COMPOSTO "
-                . " REG_COMPOSTO_TESTE "
+                . " USINAS.REG_COMPOSTO "
                 . " WHERE "
                 . " DT = TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
@@ -82,8 +80,7 @@ class CarregDAO extends Conn {
         }
         
         $insert = "INSERT INTO "
-//                . " USINAS.REG_COMPOSTO "
-                . " REG_COMPOSTO_TESTE "
+                . " USINAS.REG_COMPOSTO "
                 . " ( "
                 . " TIPO "
                 . " , DT "
@@ -109,8 +106,7 @@ class CarregDAO extends Conn {
     public function cancelCarregComp($carreg) {
         
         $update = " UPDATE "
-//                    . " USINAS.REG_COMPOSTO "
-                    . " REG_COMPOSTO_TESTE "
+                    . " USINAS.REG_COMPOSTO "
                 . " SET "
                     . " CANCEL = 1 "
                 . " WHERE "
@@ -127,8 +123,7 @@ class CarregDAO extends Conn {
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
                 . " FROM "
-//                    . " USINAS.REG_COMPOSTO "
-                    . " REG_COMPOSTO_TESTE "
+                    . " USINAS.REG_COMPOSTO "
                 . " WHERE "
                     . " DT = TO_DATE('" . $carreg->dataCarreg . "','DD/MM/YYYY HH24:MI') "
                 . " AND "
@@ -186,8 +181,7 @@ class CarregDAO extends Conn {
         }
         
         $insert = "INSERT INTO "
-//                . " USINAS.REG_COMPOSTO "
-                . " REG_COMPOSTO_TESTE "
+                . " USINAS.REG_COMPOSTO "
                 . " ( "
                 . " TIPO "
                 . " , DT "
@@ -217,8 +211,7 @@ class CarregDAO extends Conn {
     public function updCarregProd($equip) {
         
         $update = " UPDATE "
-//                        . " USINAS.REG_COMPOSTO "
-                        . " REG_COMPOSTO_TESTE "
+                        . " USINAS.REG_COMPOSTO "
                     . " SET "
                         . " FLAG_CARREG = 2"
                     . " WHERE "
@@ -247,11 +240,9 @@ class CarregDAO extends Conn {
                         . " , O.PESO_SAIDA AS \"pesoSaidaCarreg\" "
                         . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquidoCarreg\" "
                     . " FROM "
-//                        . " USINAS.REG_COMPOSTO C "
-                        . " REG_COMPOSTO_TESTE C "
+                        . " USINAS.REG_COMPOSTO C "
                         . " , USINAS.LEIRA L "
-//                        . " , USINAS.ORD_CARREG O "
-                        . " , ORD_CARREG_TESTE O "
+                        . " , USINAS.ORD_CARREG O "
                     . " WHERE "
                         . " C.EQUIP_ID = " . $equip
                         . " AND "
@@ -289,11 +280,9 @@ class CarregDAO extends Conn {
                         . " , O.PESO_SAIDA AS \"pesoSaidaCarreg\" "
                         . " , ABS(O.PESO_SAIDA - O.PESO_ENTRADA) AS \"pesoLiquidoCarreg\" "
                     . " FROM "
-//                        . " USINAS.REG_COMPOSTO C "
-                        . " REG_COMPOSTO_TESTE C "
+                        . " USINAS.REG_COMPOSTO C "
                         . " , USINAS.LEIRA L "
-//                        . " , USINAS.ORD_CARREG O "
-                        . " , ORD_CARREG_TESTE O "
+                        . " , USINAS.ORD_CARREG O "
                     . " WHERE "
                         . " C.EQUIP_ID = " . $equip
                         . " AND "
@@ -320,23 +309,21 @@ class CarregDAO extends Conn {
         $idLeira = 0;
         $codLeira = null;
         
-//        while (empty($cdLeira)) {
-//            
-//            $sql = "CALL pk_composto_auto.pkb_ret_leira(?, ?, ?, ?)";
-//            $this->Conn = parent::getConn();
-//            $stmt = $this->Conn->prepare($sql);
-//            $stmt->bindParam(1, $equip, PDO::PARAM_INT, 32);
-//            $stmt->bindParam(2, $os, PDO::PARAM_INT, 32);
-//            $stmt->bindParam(3, $idLeira, PDO::PARAM_INT, 32);
-//            $stmt->bindParam(4, $codLeira, PDO::PARAM_STR, 4000);
-//            $stmt->execute();
-//            $dado = array("equip" => $equip, "os" => $os
-//                , "idLeira" => $idLeira, "codLeira" => $codLeira);
-//            
-//        }
-        
-            $dado = array("equipCarreg" => 2986, "osCarreg" => 1245061
-                , "idLeiraCarreg" => 1, "codLeiraCarreg" => '02');
+        while (empty($codLeira)) {
+            
+            $sql = "CALL pk_composto_auto.pkb_ret_leira(?, ?, ?, ?)";
+            $this->Conn = parent::getConn();
+            $stmt = $this->Conn->prepare($sql);
+            $stmt->bindParam(1, $equip, PDO::PARAM_INT, 32);
+            $stmt->bindParam(2, $os, PDO::PARAM_INT, 32);
+            $stmt->bindParam(3, $idLeira, PDO::PARAM_INT, 32);
+            $stmt->bindParam(4, $codLeira, PDO::PARAM_STR, 4000);
+            $stmt->execute();
+            
+            $dado = array("equip" => $equip, "os" => $os
+                , "idLeira" => $idLeira, "codLeira" => $codLeira);
+            
+        }
         
         return array($dado);
         

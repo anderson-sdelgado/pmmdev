@@ -28,7 +28,7 @@ class MotoMecCTR {
         $this->salvarLog($dados, $pagina);
 
         $versao = str_replace("_", ".", $versao);
-
+        
         if ($versao >= 2.00) {
 
             $pos1 = strpos($dados, "_") + 1;
@@ -127,7 +127,7 @@ class MotoMecCTR {
             $cabecPneu = substr($dados, $pos4, (($pos5 - 1) - $pos4));
             $itemPneu = substr($dados, $pos5, (($pos6 - 1) - $pos5));
             $rend = substr($dados, $pos6);
-
+            
             $jsonObjBoletim = json_decode($bolmm);
             $jsonObjAponta = json_decode($apontmm);
             $jsonObjImpl = json_decode($impl);
