@@ -82,7 +82,6 @@ class BoletimMMDAO extends Conn {
                 . " , DTHR_TRANS_INICIAL "
                 . " , STATUS "
                 . " , STATUS_CONEXAO "
-                . " , STATUS_DTHR_INICIAL "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->matricFuncBolMM
@@ -96,7 +95,6 @@ class BoletimMMDAO extends Conn {
                 . " , SYSDATE "
                 . " , 1 "
                 . " , " . $bol->statusConBolMM
-                . " , " . $bol->statusDtHrInicialBolMM
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -132,8 +130,6 @@ class BoletimMMDAO extends Conn {
                 . " , DTHR_TRANS_FINAL "
                 . " , STATUS "
                 . " , STATUS_CONEXAO "
-                . " , STATUS_DTHR_INICIAL "
-                . " , STATUS_DTHR_FINAL "
                 . " ) "
                 . " VALUES ("
                 . " " . $bol->matricFuncBolMM
@@ -151,8 +147,6 @@ class BoletimMMDAO extends Conn {
                 . " , SYSDATE "
                 . " , 2 "
                 . " , " . $bol->statusConBolMM
-                . " , " . $bol->statusDtHrInicialBolMM
-                . " , " . $bol->statusDtHrFinalBolMM
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -175,7 +169,6 @@ class BoletimMMDAO extends Conn {
                 . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolMM)
                 . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFinalBolMM . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
-                . " , STATUS_DTHR_FINAL = " . $bol->statusDtHrFinalBolMM
                 . " WHERE "
                 . " ID = " . $idBol;
 

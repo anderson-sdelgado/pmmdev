@@ -103,7 +103,6 @@ class ApontFertDAO extends Conn {
                 . " , LONGITUDE "
                 . " , LATITUDE "
                 . " , STATUS_CONEXAO "
-                . " , STATUS_DTHR "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -120,7 +119,6 @@ class ApontFertDAO extends Conn {
                 . " , " . $apont->longitudeApontFert
                 . " , " . $apont->latitudeApontFert
                 . " , " . $apont->statusConApontFert
-                . " , " . $apont->statusDtHrApontFert
                 . " )";
 
         $this->Conn = parent::getConn();

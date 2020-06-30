@@ -189,7 +189,6 @@ class MotoMecCTR {
             $this->salvarRendimento($idBolBD, $bol->idBolMM, $dadosRendimento);
             $this->salvarMovLeira($idBolBD, $bol->idBolMM, $dadosMovLeira);
             $apontMMDAO = new ApontMMDAO();
-            $apontMMDAO->updApontLogTrac($idBolBD, $bol->dthrFinalBolMM);
             $qtdeApontBolMM = $apontMMDAO->verifQtdeApontMM($idBolBD);
             $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "qtdeApontBolMM" => $qtdeApontBolMM);
         }
