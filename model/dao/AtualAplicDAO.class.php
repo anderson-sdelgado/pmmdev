@@ -66,8 +66,10 @@ class AtualAplicDAO extends Conn {
     public function retAtual($equip) {
 
         $select = " SELECT "
-                . " VERSAO_NOVA"
-                . " , VERSAO_ATUAL"
+                . " VERSAO_NOVA "
+                . " , VERSAO_ATUAL "
+                . " , FLAG_LOG_ENVIO "
+                . " , FLAG_LOG_ERRO "
                 . " FROM "
                 . " PMM_ATUALIZACAO "
                 . " WHERE "

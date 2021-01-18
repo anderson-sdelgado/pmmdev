@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/BocalCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$bocalCTR = new BocalCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $bocalCTR->dados($versao);
+echo $baseDadosCTR->dadosBocal($versao);

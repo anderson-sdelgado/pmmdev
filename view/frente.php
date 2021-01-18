@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/FrenteCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$frenteCTR = new FrenteCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $frenteCTR->dados($versao);
+echo $baseDadosCTR->dadosFrente($versao);

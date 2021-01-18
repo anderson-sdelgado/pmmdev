@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/LeiraCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$leiraCTR = new LeiraCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $leiraCTR->dados($versao);
+echo $baseDadosCTR->dadosLeira($versao);

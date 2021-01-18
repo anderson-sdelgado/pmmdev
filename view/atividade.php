@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/AtividadeCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$atividadeCTR = new AtividadeCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $atividadeCTR->dados($versao);
+echo $baseDadosCTR->dadosAtiv($versao);

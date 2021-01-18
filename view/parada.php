@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/ParadaCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$paradaCTR = new ParadaCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $paradaCTR->dados($versao);
+echo $baseDadosCTR->dadosParada($versao);

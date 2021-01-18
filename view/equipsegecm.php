@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/EquipSegCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$equipSegCTR = new EquipSegCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $equipSegCTR->dadosECM($versao);
+echo $baseDadosCTR->dadosECMEquipSeg($versao);

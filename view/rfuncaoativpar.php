@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/RFuncaoAtivParCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$rFuncaoAtivParCTR = new RFuncaoAtivParCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $rFuncaoAtivParCTR->dados($versao);
+echo $baseDadosCTR->dadosRFuncaoAtivPar($versao);

@@ -28,7 +28,7 @@ class CECDAO extends Conn {
 
             $select = " SELECT "
                     . " CAMINHAO AS \"caminhaoCEC\" "
-                    . " , CD_FRENTE AS \"cdFrenteCEC\" "
+                    . " , CD_FRENTE AS \"codFrenteCEC\" "
                     . " , CEC_PAI AS \"cecPaiCEC\" "
                     . " , TO_CHAR(DT_HR_ENTRADA, 'DD/MM/YYYY HH24:MI') AS \"dthrEntradaCEC\" "
                     . " , POSSUI_SORTEIO AS \"possuiSorteioCEC\" "

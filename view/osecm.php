@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/OSCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$osCTR = new OSCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $osCTR->dadosECM($versao);
+echo $baseDadosCTR->dadosECMOS($versao);

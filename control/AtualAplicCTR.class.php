@@ -18,7 +18,9 @@ class AtualAplicCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        $retorno = '';
+        
+        if(($versao >= 2.00) && ($versao < 3.00)){
         
             $atualAplicDAO = new AtualAplicDAO();
 
@@ -27,55 +29,119 @@ class AtualAplicCTR {
 
             foreach ($dados as $d) {
                 $equip = $d->idEquipAtualizacao;
-                $va = $d->versaoAtual;
-                $cl = $d->idCheckList;
-                $cla = $d->idCheckList;
+                $versaoAtual = $d->versaoAtual;
+                $checkList = $d->idCheckList;
+                $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
             $v = $atualAplicDAO->verAtual($equip);
             if ($v == 0) {
-                $atualAplicDAO->insAtual($equip, $va);
+                $atualAplicDAO->insAtual($equip, $versaoAtual);
             } else {
                 $result = $atualAplicDAO->retAtual($equip);
                 foreach ($result as $item) {
-                    $vn = $item['VERSAO_NOVA'];
-                    $vab = $item['VERSAO_ATUAL'];
+                    $versaoNova = $item['VERSAO_NOVA'];
+                    $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
-                if ($va != $vab) {
-                    $atualAplicDAO->updAtualNova($equip, $va);
+                if ($versaoAtual != $versaoAtualBD) {
+                    $atualAplicDAO->updAtualNova($equip, $versaoAtual);
                 } else {
-                    if ($va != $vn) {
+                    if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
                         $result = $atualAplicDAO->verAtualCheckList($equip);
-                        $vab = '';
+                        $versaoAtualBD = '';
                         foreach ($result as $item) {
-                            $vab = $item['VERSAO_ATUAL'];
-                            $vcl = $item['VERIF_CHECKLIST'];
+                            $versaoAtualBD = $item['VERSAO_ATUAL'];
+                            $verCheckList = $item['VERIF_CHECKLIST'];
                         }
-                        if (strcmp($va, $vab) <> 0) {
-                            $atualAplicDAO->updAtual($equip, $va);
+                        if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
+                            $atualAplicDAO->updAtual($equip, $versaoAtual);
                         } else {
-                            if ($vcl == 1) {
+                            if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $cla = $atualAplicDAO->idCheckList($equip);
-                        if ($cl != $cla) {
+                        $checkListBD = $atualAplicDAO->idCheckList($equip);
+                        if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }
                 }
             }
             $dthr = $atualAplicDAO->dataHora();
-            if ($retorno == 'S') {
-                return $retorno;
-            } else {
-                return $retorno . "#" . $dthr;
+            if (!$retorno == 'S') {
+                $retorno = $retorno . "#" . $dthr;
             }
+            
+        }
+        else if($versao >= 3.00){
         
+            $atualAplicDAO = new AtualAplicDAO();
+
+            $jsonObj = json_decode($info['dado']);
+            $dados = $jsonObj->dados;
+
+            foreach ($dados as $d) {
+                $equip = $d->idEquipAtualizacao;
+                $versaoAtual = $d->versaoAtual;
+                $checkList = $d->idCheckList;
+                $checkListBD = $d->idCheckList;
+            }
+            
+            $retAtualApp = 0;
+            $retAtualCheckList = 0;
+            $retFlagLogEnvio = 0;
+            $retFlagLogErro = 0;
+            
+            $v = $atualAplicDAO->verAtual($equip);
+            if ($v == 0) {
+                $atualAplicDAO->insAtual($equip, $versaoAtual);
+            } else {
+                $result = $atualAplicDAO->retAtual($equip);
+                foreach ($result as $item) {
+                    $versaoNova = $item['VERSAO_NOVA'];
+                    $versaoAtualBD = $item['VERSAO_ATUAL'];
+                    $retFlagLogEnvio = $item['FLAG_LOG_ENVIO'];
+                    $retFlagLogErro = $item['FLAG_LOG_ERRO'];
+                }
+                if ($versaoAtual != $versaoAtualBD) {
+                    $atualAplicDAO->updAtualNova($equip, $versaoAtual);
+                } else {
+                    if ($versaoAtual != $versaoNova) {
+                        $retAtualApp = 1;
+                    } else {
+                        $result = $atualAplicDAO->verAtualCheckList($equip);
+                        $versaoAtualBD = '';
+                        foreach ($result as $item) {
+                            $versaoAtualBD = $item['VERSAO_ATUAL'];
+                            $verCheckList = $item['VERIF_CHECKLIST'];
+                        }
+                        if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
+                            $atualAplicDAO->updAtual($equip, $versaoAtual);
+                        } else {
+                            if ($verCheckList == 1) {
+                                $retAtualCheckList = 1;
+                            }
+                        }
+                        $checkListBD = $atualAplicDAO->idCheckList($equip);
+                        if ($checkList != $checkListBD) {
+                            $retAtualCheckList = 1;
+                        }
+                    }
+                }
+            }
+            $dthr = $atualAplicDAO->dataHora();
+            
+            $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
+                , "flagLogEnvio" => $retFlagLogEnvio, "flagLogErro" => $retFlagLogErro);
+
+            $retorno = array($dado);
+            
         }
         
+        return $retorno;
+
     }
     
     public function atualAplicECM($versao, $info) {
@@ -91,41 +157,41 @@ class AtualAplicCTR {
 
             foreach ($dados as $d) {
                 $equip = $d->idEquipAtualizacao;
-                $va = $d->versaoAtual;
-                $cl = $d->idCheckList;
-                $cla = $d->idCheckList;
+                $versaoAtual = $d->versaoAtual;
+                $checkList = $d->idCheckList;
+                $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
             $v = $atualAplicDAO->verAtualECM($equip);
             if ($v == 0) {
-                $atualAplicDAO->insAtualECM($equip, $va);
+                $atualAplicDAO->insAtualECM($equip, $versaoAtual);
             } else {
                 $result = $atualAplicDAO->retAtualECM($equip);
                 foreach ($result as $item) {
-                    $vn = $item['VERSAO_NOVA'];
-                    $vab = $item['VERSAO_ATUAL'];
+                    $versaoNova = $item['VERSAO_NOVA'];
+                    $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
-                if ($va != $vab) {
-                    $atualAplicDAO->updAtualNovaECM($equip, $va);
+                if ($versaoAtual != $versaoAtualBD) {
+                    $atualAplicDAO->updAtualNovaECM($equip, $versaoAtual);
                 } else {
-                    if ($va != $vn) {
+                    if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
                         $result = $atualAplicDAO->verAtualCheckListECM($equip);
-                        $vab = '';
+                        $versaoAtualBD = '';
                         foreach ($result as $item) {
-                            $vab = $item['VERSAO_ATUAL'];
-                            $vcl = $item['VERIF_CHECKLIST'];
+                            $versaoAtualBD = $item['VERSAO_ATUAL'];
+                            $verCheckList = $item['VERIF_CHECKLIST'];
                         }
-                        if (strcmp($va, $vab) <> 0) {
-                            $atualAplicDAO->updAtualECM($equip, $va);
+                        if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
+                            $atualAplicDAO->updAtualECM($equip, $versaoAtual);
                         } else {
-                            if ($vcl == 1) {
+                            if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $cla = $atualAplicDAO->idCheckListECM($equip);
-                        if ($cl != $cla) {
+                        $checkListBD = $atualAplicDAO->idCheckListECM($equip);
+                        if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }
@@ -155,41 +221,41 @@ class AtualAplicCTR {
 
             foreach ($dados as $d) {
                 $equip = $d->idEquipAtualizacao;
-                $va = $d->versaoAtual;
-                $cl = $d->idCheckList;
-                $cla = $d->idCheckList;
+                $versaoAtual = $d->versaoAtual;
+                $checkList = $d->idCheckList;
+                $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
             $v = $atualAplicDAO->verAtualPCOMP($equip);
             if ($v == 0) {
-                $atualAplicDAO->insAtualPCOMP($equip, $va);
+                $atualAplicDAO->insAtualPCOMP($equip, $versaoAtual);
             } else {
                 $result = $atualAplicDAO->retAtualPCOMP($equip);
                 foreach ($result as $item) {
-                    $vn = $item['VERSAO_NOVA'];
-                    $vab = $item['VERSAO_ATUAL'];
+                    $versaoNova = $item['VERSAO_NOVA'];
+                    $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
-                if ($va != $vab) {
-                    $atualAplicDAO->updAtualNovaPCOMP($equip, $va);
+                if ($versaoAtual != $versaoAtualBD) {
+                    $atualAplicDAO->updAtualNovaPCOMP($equip, $versaoAtual);
                 } else {
-                    if ($va != $vn) {
+                    if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
                         $result = $atualAplicDAO->verAtualCheckListPCOMP($equip);
-                        $vab = '';
+                        $versaoAtualBD = '';
                         foreach ($result as $item) {
-                            $vab = $item['VERSAO_ATUAL'];
-                            $vcl = $item['VERIF_CHECKLIST'];
+                            $versaoAtualBD = $item['VERSAO_ATUAL'];
+                            $verCheckList = $item['VERIF_CHECKLIST'];
                         }
-                        if (strcmp($va, $vab) <> 0) {
-                            $atualAplicDAO->updAtualPCOMP($equip, $va);
+                        if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
+                            $atualAplicDAO->updAtualPCOMP($equip, $versaoAtual);
                         } else {
-                            if ($vcl == 1) {
+                            if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $cla = $atualAplicDAO->idCheckListPCOMP($equip);
-                        if ($cl != $cla) {
+                        $checkListBD = $atualAplicDAO->idCheckListPCOMP($equip);
+                        if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }

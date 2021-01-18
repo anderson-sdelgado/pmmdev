@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/ProdutoCTR.class.php');
+require_once('../control/BaseDadosCTR.class.php');
 
-$produtoCTR = new ProdutoCTR();
+$baseDadosCTR = new BaseDadosCTR();
 
-echo $produtoCTR->dados($versao);
+echo $baseDadosCTR->dadosProduto($versao);

@@ -7,7 +7,6 @@
  */
 require_once('../dbutil/Conn.class.php');
 require_once('../model/dao/AjusteDataHoraDAO.class.php');
-
 /**
  * Description of ApontamentoMM
  *
@@ -102,6 +101,8 @@ class ApontMMDAO extends Conn {
                 . " , " . $apont->statusConApontMM
                 . " )";
 
+//        echo $sql;
+      
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
