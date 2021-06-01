@@ -13,7 +13,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class RespCheckListDAO extends Conn {
 
-    public function verifRespCheckList($idCab, $i) {
+    public function verifRespCheckList($idCab, $i, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -24,7 +24,7 @@ class RespCheckListDAO extends Conn {
                 . " AND "
                 . " ITMANPREV_ID = " . $i->idItBDItCL;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class RespCheckListDAO extends Conn {
         return $v;
     }
 
-    public function insRespCheckList($idCab, $i) {
+    public function insRespCheckList($idCab, $i, $base) {
 
         $grupo = '';
         $questao = '';
@@ -54,7 +54,7 @@ class RespCheckListDAO extends Conn {
                 . " AND "
                 . " VIPC.COMPONENTE_ID = VCC.COMPONENTE_ID ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -83,7 +83,7 @@ class RespCheckListDAO extends Conn {
                 . " , " . $i->opItCL . " "
                 . " , " . $i->idItBDItCL . ")";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

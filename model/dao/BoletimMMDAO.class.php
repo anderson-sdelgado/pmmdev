@@ -14,7 +14,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
  */
 class BoletimMMDAO extends Conn {
     
-    public function verifBoletimMM($bol) {
+    public function verifBoletimMM($bol, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -25,7 +25,7 @@ class BoletimMMDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMM . " ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -38,7 +38,7 @@ class BoletimMMDAO extends Conn {
         return $v;
     }
 
-    public function idBoletimMM($bol) {
+    public function idBoletimMM($bol, $base) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -49,7 +49,7 @@ class BoletimMMDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMM . " ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -62,7 +62,7 @@ class BoletimMMDAO extends Conn {
         return $id;
     }
 
-    public function insBoletimMMAberto($bol) {
+    public function insBoletimMMAberto($bol, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -90,19 +90,19 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroInicialBolMM
                 . " , " . $bol->osBolMM
                 . " , " . $bol->ativPrincBolMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolMM)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolMM, $base)
                 . " , TO_DATE('" . $bol->dthrInicialBolMM . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , 1 "
                 . " , " . $bol->statusConBolMM
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function insBoletimMMFechado($bol) {
+    public function insBoletimMMFechado($bol, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -139,22 +139,22 @@ class BoletimMMDAO extends Conn {
                 . " , " . $bol->hodometroFinalBolMM
                 . " , " . $bol->osBolMM
                 . " , " . $bol->ativPrincBolMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolMM)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrInicialBolMM, $base)
                 . " , TO_DATE('" . $bol->dthrInicialBolMM . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolMM)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolMM, $base)
                 . " , TO_DATE('" . $bol->dthrFinalBolMM . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , 2 "
                 . " , " . $bol->statusConBolMM
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function updateBoletimMMFechado($idBol, $bol) {
+    public function updateBoletimMMFechado($idBol, $bol, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -166,13 +166,13 @@ class BoletimMMDAO extends Conn {
                 . " SET "
                 . " HOD_HOR_FINAL = " . $bol->hodometroFinalBolMM
                 . " , STATUS = " . $bol->statusBolMM
-                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolMM)
+                . " , DTHR_FINAL = " . $ajusteDataHoraDAO->dataHoraGMT($bol->dthrFinalBolMM, $base)
                 . " , DTHR_FINAL_CEL = TO_DATE('" . $bol->dthrFinalBolMM . "','DD/MM/YYYY HH24:MI')"
                 . " , DTHR_TRANS_FINAL = SYSDATE "
                 . " WHERE "
                 . " ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

@@ -20,7 +20,7 @@ class PerdaDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($matric) {
+    public function dados($matric, $base) {
 
         $select = " SELECT " 
                     . " TO_CHAR(P.DT_REF, 'DD/MM/YYYY') AS \"dthrPerda\" "
@@ -40,14 +40,13 @@ class PerdaDAO extends Conn {
                     . " , FUNC F "
                 . " WHERE "
                     . " F.CD = " . $matric
-//                    . " F.CD = 117973 "
                     . " AND "
                     . " P.FRENTE_ID = FF.FRENTE_ID "
                     . " AND "
                     . " FF.FUNC_ID = F.FUNC_ID "
                 . " FETCH FIRST 1 ROWS ONLY ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

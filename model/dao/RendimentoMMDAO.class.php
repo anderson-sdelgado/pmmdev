@@ -14,7 +14,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
  */
 class RendimentoMMDAO extends Conn {
 
-    public function verifRendimentoMM($idBol, $rend) {
+    public function verifRendimentoMM($idBol, $rend, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -27,7 +27,7 @@ class RendimentoMMDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -40,7 +40,7 @@ class RendimentoMMDAO extends Conn {
         return $v;
     }
 
-    public function insRendimentoMM($idBol, $rend) {
+    public function insRendimentoMM($idBol, $rend, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -61,7 +61,7 @@ class RendimentoMMDAO extends Conn {
                 . " , SYSDATE "
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

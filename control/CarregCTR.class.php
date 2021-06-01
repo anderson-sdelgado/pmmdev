@@ -13,7 +13,8 @@ require_once('../model/dao/CarregDAO.class.php');
  * @author anderson
  */
 class CarregCTR {
-    //put your code here
+    
+    private $base = 2;
     
     public function salvarDados($versao, $info, $pagina) {
         
@@ -39,16 +40,16 @@ class CarregCTR {
         $idCarregArray = array();
         foreach ($carreg as $c) {
             if ($c->tipoCarreg == 1) {
-                $carregDAO->cancelCarregProd($c);
-                $v = $carregDAO->verifCarregProd($c);
+                $carregDAO->cancelCarregProd($c, $this->base);
+                $v = $carregDAO->verifCarregProd($c, $this->base);
                 if ($v == 0) {
-                    $carregDAO->insCarregProd($c);
+                    $carregDAO->insCarregProd($c, $this->base);
                 }
             } elseif ($c->tipoCarreg == 2) {
-                $carregDAO->cancelCarregComp($c);
-                $v = $carregDAO->verifCarregComp($c);
+                $carregDAO->cancelCarregComp($c, $this->base);
+                $v = $carregDAO->verifCarregComp($c, $this->base);
                 if ($v == 0) {
-                    $carregDAO->insCarregComp($c);
+                    $carregDAO->insCarregComp($c, $this->base);
                 }
             }
             $idCarregArray[] = array("idCarreg" => $c->idCarreg);
@@ -60,10 +61,8 @@ class CarregCTR {
     }
     
     private function salvarLog($dados, $pagina) {
-        
         $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina);
-        
+        $logDAO->salvarDados($dados, $pagina, $this->base);
     }
     
     public function pesqLeiraComp($versao, $info) {
@@ -82,7 +81,7 @@ class CarregCTR {
                 $os = $d->osCarreg;
             }
 
-            $retorno = array("dados" => $carregDAO->retLeiraComp($equip, $os));
+            $retorno = array("dados" => $carregDAO->retLeiraComp($equip, $os, $this->base));
             $ret = json_encode($retorno);
             return $ret;
         
@@ -98,8 +97,8 @@ class CarregCTR {
 
         if ($versao >= 2.00) {
 
-            $retorno = array("dados" => $carregDAO->retCarregProd($info['dado']));
-            $carregDAO->updCarregProd($info['dado']);
+            $retorno = array("dados" => $carregDAO->retCarregProd($info['dado'], $this->base));
+            $carregDAO->updCarregProd($info['dado'], $this->base);
             $ret = json_encode($retorno);
             return $ret;
         }
@@ -112,8 +111,7 @@ class CarregCTR {
         $carregDAO = new CarregDAO();
 
         if ($versao >= 2.00) {
-            
-            $retorno = array("dados" => $carregDAO->retCarregComp($info['dado']));
+            $retorno = array("dados" => $carregDAO->retCarregComp($info['dado'], $this->base));
             $ret = json_encode($retorno);
             return $ret;
         }

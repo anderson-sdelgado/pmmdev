@@ -15,7 +15,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
 class MovLeiraMMDAO extends Conn {
     //put your code here
     
-    public function verifMovLeiraMM($idBol, $movLeira) {
+    public function verifMovLeiraMM($idBol, $movLeira, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -28,7 +28,7 @@ class MovLeiraMMDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -41,7 +41,7 @@ class MovLeiraMMDAO extends Conn {
         return $v;
     }
 
-    public function insMovLeiraMM($idBol, $movLeira) {
+    public function insMovLeiraMM($idBol, $movLeira, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -62,7 +62,7 @@ class MovLeiraMMDAO extends Conn {
                 . " , SYSDATE "
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

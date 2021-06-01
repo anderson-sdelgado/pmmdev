@@ -18,7 +18,7 @@ require_once('../model/dao/ItemPneuDAO.class.php');
  */
 class FertirrigacaoCTR {
 
-    //put your code here
+    private $base = 2;
 
     public function salvarBolFechado($versao, $info, $pagina) {
 
@@ -136,11 +136,11 @@ class FertirrigacaoCTR {
         $idBolMMArray = array();
 
         foreach ($dadosBoletim as $bol) {
-            $v = $boletimFertDAO->verifBoletimFert($bol);
+            $v = $boletimFertDAO->verifBoletimFert($bol, $this->base);
             if ($v == 0) {
-                $boletimFertDAO->insBoletimFertFechado($bol);
+                $boletimFertDAO->insBoletimFertFechado($bol, $this->base);
             } else {
-                $boletimFertDAO->updateBoletimFertFechado($bol);
+                $boletimFertDAO->updateBoletimFertFechado($bol, $this->base);
             }
             $idBolBD = $boletimFertDAO->idBoletimFert($bol);
             $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta, $dadosCabecPneu, $dadosItemPneu);
@@ -149,21 +149,24 @@ class FertirrigacaoCTR {
             $qtdeApontBolFert = $apontFertDAO->verifQtdeApontFert($idBolBD);
             $idBolMMArray[] = array("idBolFert" => $bol->idBolFert, "qtdeApontBolFert" => $qtdeApontBolFert);
         }
+        
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
         return 'BOLFECHADOFERT_' . $retBol;
+        
     }
     
     private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
+        
         $boletimFertDAO = new BoletimFertDAO();
         $idBolMMArray = array();
         
         foreach ($dadosBoletim as $bol) {
-           $v = $boletimFertDAO->verifBoletimFert($bol);
+           $v = $boletimFertDAO->verifBoletimFert($bol, $this->base);
            if ($v == 0) {
-               $boletimFertDAO->insBoletimFertAberto($bol);
+               $boletimFertDAO->insBoletimFertAberto($bol, $this->base);
            }
-           $idBolBD = $boletimFertDAO->idBoletimFert($bol);
+           $idBolBD = $boletimFertDAO->idBoletimFert($bol, $this->base);
            $retApont = $this->salvarApontBol($idBolBD, $bol->idBolFert, $dadosAponta, $dadosCabecPneu, $dadosItemPneu);
            $idBolMMArray[] = array("idBolFert" => $bol->idBolFert, "idExtBolFert" => $idBolBD);
         }
@@ -171,51 +174,60 @@ class FertirrigacaoCTR {
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
         return "BOLABERTOFERT_" . $retBol . "|" . $retApont;
+        
     }
     
     private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
+        
         $apontFertDAO = new ApontFertDAO();
         $idApontArray = array();
+        
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolApontFert) {
-                $v = $apontFertDAO->verifApontFert($idBolBD, $apont);
+                $v = $apontFertDAO->verifApontFert($idBolBD, $apont, $this->base);
                 if ($v == 0) {
-                    $apontFertDAO->insApontFert($idBolBD, $apont);
+                    $apontFertDAO->insApontFert($idBolBD, $apont, $this->base);
                 }
-                $idApont = $apontFertDAO->idApontFert($idBolBD, $apont);
+                $idApont = $apontFertDAO->idApontFert($idBolBD, $apont, $this->base);
                 $this->salvarCabecPneu($idApont, $apont->idApontFert, $dadosCabecPneu, $dadosItemPneu);
                 $idApontArray[] = array("idApontFert" => $apont->idApontFert);
             }
         }
+        
         $dadoApont = array("apont"=>$idApontArray);
         $retApont = json_encode($dadoApont);
         return $retApont;
+        
     }
 
     private function salvarApontExt($dadosAponta, $dadosCabecPneu, $dadosItemPneu) {
+        
         $apontFertDAO = new ApontFertDAO();
         $idApontArray = array();
+        
         foreach ($dadosAponta as $apont) {
-            $v = $apontFertDAO->verifApontFert($apont->idExtBolApontFert, $apont);
+            $v = $apontFertDAO->verifApontFert($apont->idExtBolApontFert, $apont, $this->base);
             if ($v == 0) {
-                $apontFertDAO->insApontFert($apont->idExtBolApontFert, $apont);
+                $apontFertDAO->insApontFert($apont->idExtBolApontFert, $apont, $this->base);
             }
-            $idApont = $apontFertDAO->idApontFert($apont->idExtBolApontFert, $apont);
+            $idApont = $apontFertDAO->idApontFert($apont->idExtBolApontFert, $apont, $this->base);
             $this->salvarCabecPneu($idApont, $apont->idApontFert, $dadosCabecPneu, $dadosItemPneu);
             $idApontArray[] = array("idApontFert" => $apont->idApontFert);
         }
+        
         $dadoApont = array("apont"=>$idApontArray);
         $retApont = json_encode($dadoApont);
         return 'APONTFERT_' . $retApont;
+        
     }
     
     private function salvarRecolhimento($idBolBD, $idBolCel, $dadosRecolhimento) {
         $recolhimentoFertDAO = new RecolhimentoFertDAO();
         foreach ($dadosRecolhimento as $rend) {
             if ($idBolCel == $rend->idBolRecolhFert) {
-                $v = $recolhimentoFertDAO->verifRecolhimentoFert($idBolBD, $rend);
+                $v = $recolhimentoFertDAO->verifRecolhimentoFert($idBolBD, $rend, $this->base);
                 if ($v == 0) {
-                    $recolhimentoFertDAO->insRecolhimentoFert($idBolBD, $rend);
+                    $recolhimentoFertDAO->insRecolhimentoFert($idBolBD, $rend, $this->base);
                 }
             }
         }
@@ -225,11 +237,11 @@ class FertirrigacaoCTR {
         $cabecPneuDAO = new CabecPneuDAO();
         foreach ($dadosCabecPneu as $cabecPneu) {
             if ($idApontaCel == $cabecPneu->idApontCabecPneu) {
-                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu);
+                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu, $this->base);
                 if ($v == 0) {
-                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 2);
+                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 2, $this->base);
                 }
-                $idCabecPneuBD = $cabecPneuDAO->idCabecPneu($idApontaBD, $cabecPneu);
+                $idCabecPneuBD = $cabecPneuDAO->idCabecPneu($idApontaBD, $cabecPneu, $this->base);
                 $this->salvarItemPneu($idCabecPneuBD, $cabecPneu->idCabecPneu, $dadosItemPneu);
             }
         }
@@ -239,9 +251,9 @@ class FertirrigacaoCTR {
         $itemPneuDAO = new ItemPneuDAO();
         foreach ($dadosItemPneu as $itemPneu) {
             if ($idCabecPneuCel == $itemPneu->idCabecItemPneu) {
-                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu);
+                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu, $this->base);
                 if ($v == 0) {
-                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu);
+                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu, $this->base);
                 }
             }
         }
@@ -249,7 +261,7 @@ class FertirrigacaoCTR {
     
     private function salvarLog($dados, $pagina) {
         $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina);
+        $logDAO->salvarDados($dados, $pagina, $this->base);
     }
 
     

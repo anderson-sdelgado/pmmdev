@@ -20,7 +20,7 @@ class ROSAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($os) {
+    public function dados($os, $base) {
 
         $select = " SELECT "
                 . " NRO_OS AS \"nroOS\" "
@@ -28,10 +28,9 @@ class ROSAtivDAO extends Conn {
                 . " FROM "
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
-                . " NRO_OS = " . $os
-                . " ";
+                . " NRO_OS = " . $os;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -41,7 +40,7 @@ class ROSAtivDAO extends Conn {
         
     }
     
-     public function verif($os) {
+     public function verif($os, $base) {
 
         $select = " SELECT "
                 . " NRO_OS AS \"nroOS\" "
@@ -49,10 +48,9 @@ class ROSAtivDAO extends Conn {
                 . " FROM "
                 . " USINAS.V_PMM_OS "
                 . " WHERE "
-                . " NRO_OS = " . $os
-                . " ";
+                . " NRO_OS = " . $os;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -62,7 +60,7 @@ class ROSAtivDAO extends Conn {
         
     }
     
-    public function atual($os) {
+    public function atual($os, $base) {
 
         $select = " SELECT "
                 . " ROWNUM AS \"idROSAtiv\" "
@@ -73,7 +71,7 @@ class ROSAtivDAO extends Conn {
                 . " WHERE "
                 . " NRO_OS = " . $os;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

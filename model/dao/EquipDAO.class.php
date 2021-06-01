@@ -20,11 +20,12 @@ class EquipDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($equip) {
+    public function dados($equip, $base) {
 
         $select = " SELECT "
                 . " E.EQUIP_ID AS \"idEquip\" "
                 . " , E.NRO_EQUIP AS \"nroEquip\" "
+                . " , E.CLASSEQUIP_CD AS \"tipoEquip\" "
                 . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
                 . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
                 . " , E.TPTUREQUIP_CD AS \"codTurno\" "
@@ -45,7 +46,7 @@ class EquipDAO extends Conn {
                 . " AND E.EQUIP_ID = PBH.EQUIP_ID(+)"
                 . " AND E.TPTUREQUIP_CD IS NOT NULL ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -54,11 +55,12 @@ class EquipDAO extends Conn {
         return $result;
     }
 
-    public function dadosECM($equip) {
+    public function dadosECM($equip, $base) {
 
         $select = " SELECT "
                         . " E.EQUIP_ID AS \"idEquip\" "
                         . " , E.NRO_EQUIP AS \"nroEquip\" "
+                        . " , E.CLASSEQUIP_CD AS \"tipoEquip\" "
                         . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
                         . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
                         . " , E.TPTUREQUIP_CD AS \"codTurno\" "
@@ -76,7 +78,7 @@ class EquipDAO extends Conn {
                         . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
                         . " AND E.TPTUREQUIP_CD IS NOT NULL ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

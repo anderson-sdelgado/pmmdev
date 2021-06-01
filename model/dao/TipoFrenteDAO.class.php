@@ -20,9 +20,7 @@ class TipoFrenteDAO extends Conn {
     /** @var PDO */
     private $Conn;
     
-    public function dados($matric) {
-    
-        $this->Conn = parent::getConn();
+    public function dados($matric, $base) {
         
         $tipoFrente = 0;
         
@@ -41,7 +39,8 @@ class TipoFrenteDAO extends Conn {
                     . " FF.FUNC_ID = F.FUNC_ID "
                     . " AND "
                     . " F.CORR_ID = C.CORR_ID ";
-        
+    
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

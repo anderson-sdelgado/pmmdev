@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 require_once('../model/dao/AtividadeDAO.class.php');
+require_once('../model/dao/BocalDAO.class.php');
 require_once('../model/dao/EquipDAO.class.php');
 require_once('../model/dao/EquipSegDAO.class.php');
 require_once('../model/dao/FrenteDAO.class.php');
@@ -34,6 +35,8 @@ require_once('../model/dao/TurnoDAO.class.php');
 class BaseDadosCTR {
     //put your code here
     
+    private $base = 2;
+    
     public function dadosAtiv($versao) {
 
         $versao = str_replace("_", ".", $versao);
@@ -42,7 +45,7 @@ class BaseDadosCTR {
         
         if(($versao >= 2.00) && ($versao < 2.01)){
         
-            $dados = array("dados" => $atividadeDAO->dadosComFlag());
+            $dados = array("dados" => $atividadeDAO->dadosComFlag($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -50,7 +53,7 @@ class BaseDadosCTR {
         }
         elseif($versao >= 2.01){
             
-            $dados = array("dados" => $atividadeDAO->dadosSemFlag());
+            $dados = array("dados" => $atividadeDAO->dadosSemFlag($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -74,13 +77,13 @@ class BaseDadosCTR {
             $os = substr($dados, 0, ($pos1 - 1));
             $equip = substr($dados, $pos1);
 
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip));
+            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
             $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os));
+            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os, $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag());
+            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag($this->base));
             $resAtividade = json_encode($dadosAtividade);
 
             return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade;
@@ -98,16 +101,16 @@ class BaseDadosCTR {
             $os = substr($dados, 0, ($pos1 - 1));
             $equip = substr($dados, $pos1);
 
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip));
+            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
             $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os));
+            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os, $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosSemFlag());
+            $dadosAtividade = array("dados" => $atividadeDAO->dadosSemFlag($this->base));
             $resAtividade = json_encode($dadosAtividade);
             
-            $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
+            $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados($this->base));
             $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
 
             return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade . "#" . $resRFuncaoAtivPar;
@@ -131,13 +134,13 @@ class BaseDadosCTR {
             $os = substr($dados, 0, ($pos1 - 1));
             $equip = substr($dados, $pos1);
 
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip));
+            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
             $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosOSAtiv = array("dados" => $osDAO->dadosECM($os));
+            $dadosOSAtiv = array("dados" => $osDAO->dadosECM($os, $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag());
+            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag($this->base));
             $resAtividade = json_encode($dadosAtividade);
 
             return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade;
@@ -154,7 +157,7 @@ class BaseDadosCTR {
         
             $bocalDAO = new BocalDAO();
 
-            $dados = array("dados"=>$bocalDAO->dados());
+            $dados = array("dados"=>$bocalDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -175,13 +178,13 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosEquip = array("dados" => $equipDAO->dados($dado));
+            $dadosEquip = array("dados" => $equipDAO->dados($dado, $this->base));
             $resEquip = json_encode($dadosEquip);
 
-            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
+            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado, $this->base));
             $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
             
-            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado));
+            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
             $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
             return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
@@ -202,13 +205,13 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosEquip = array("dados" => $equipDAO->dadosECM($dado));
+            $dadosEquip = array("dados" => $equipDAO->dadosECM($dado, $this->base));
             $resEquip = json_encode($dadosEquip);
 
-            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
+            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado, $this->base));
             $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
             
-            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado));
+            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
             $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
             return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
@@ -225,7 +228,7 @@ class BaseDadosCTR {
 
             $equipSegDAO = new EquipSegDAO();
 
-            $dados = array("dados" => $equipSegDAO->dados());
+            $dados = array("dados" => $equipSegDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -242,7 +245,7 @@ class BaseDadosCTR {
 
             $equipSegDAO = new EquipSegDAO();
 
-            $dados = array("dados" => $equipSegDAO->dadosECM());
+            $dados = array("dados" => $equipSegDAO->dadosECM($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -259,7 +262,7 @@ class BaseDadosCTR {
         
             $frenteDAO = new FrenteDAO();
 
-            $dados = array("dados"=>$frenteDAO->dados());
+            $dados = array("dados"=>$frenteDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -276,7 +279,7 @@ class BaseDadosCTR {
         
             $funcionarioDAO = new FuncionarioDAO();
 
-            $dados = array("dados" => $funcionarioDAO->dados());
+            $dados = array("dados" => $funcionarioDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -297,14 +300,14 @@ class BaseDadosCTR {
             $plantioDAO = new PlantioDAO();
             $perdaDAO = new PerdaDAO();
             
-            $tipoFrente = $tipoFrenteDAO->dados($dado);
+            $tipoFrente = $tipoFrenteDAO->dados($dado, $this->base);
             
             if($tipoFrente == 1) {
-                $dadosPlantio = array("dados" => $plantioDAO->dados($dado));
+                $dadosPlantio = array("dados" => $plantioDAO->dados($dado, $this->base));
                 $retorno = json_encode($dadosPlantio);
             }
             else if($tipoFrente == 3) {
-                $dadosPerda = array("dados" => $perdaDAO->dados($dado));
+                $dadosPerda = array("dados" => $perdaDAO->dados($dado, $this->base));
                 $retorno = json_encode($dadosPerda);
             }
             else{
@@ -325,7 +328,7 @@ class BaseDadosCTR {
         
             $leiraDAO = new LeiraDAO();
 
-            $dados = array("dados"=>$leiraDAO->dados());
+            $dados = array("dados"=>$leiraDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -345,10 +348,10 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosOS = array("dados" => $osDAO->dados($dado));
+            $dadosOS = array("dados" => $osDAO->dados($dado, $this->base));
             $resOS = json_encode($dadosOS);
 
-            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado));
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado, $this->base));
             $resROSAtiv = json_encode($dadosROSAtiv);
 
             return $resOS . "#" . $resROSAtiv;
@@ -367,7 +370,7 @@ class BaseDadosCTR {
             
             $dado = $info['dado'];
 
-            $dadosOS = array("dados" => $osDAO->dadosECM($dado));
+            $dadosOS = array("dados" => $osDAO->dadosECM($dado, $this->base));
             $resOS = json_encode($dadosOS);
 
             return $resOS;
@@ -384,7 +387,7 @@ class BaseDadosCTR {
         
             $osDAO = new OSDAO();
             
-            $dadosOS = array("dados" => $osDAO->dadosClearECM());
+            $dadosOS = array("dados" => $osDAO->dadosClearECM($this->base));
             $resOS = json_encode($dadosOS);
 
             return $resOS;
@@ -401,7 +404,7 @@ class BaseDadosCTR {
         
             $paradaDAO = new ParadaDAO();
 
-            $dados = array("dados" => $paradaDAO->dados());
+            $dados = array("dados" => $paradaDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -419,10 +422,10 @@ class BaseDadosCTR {
             $rAtivParadaDAO = new RAtivParadaDAO();
             $paradaDAO = new ParadaDAO();
 
-            $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados());
+            $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados($this->base));
             $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
 
-            $dadosParada = array("dados" => $paradaDAO->dados());
+            $dadosParada = array("dados" => $paradaDAO->dados($this->base));
             $resParada = json_encode($dadosParada);
 
             return $resRAtivParadaDAO . "_" . $resParada;
@@ -441,7 +444,7 @@ class BaseDadosCTR {
 
             $perdaDAO = new PerdaDAO();
             
-            $dadosPerda = array("dados" => $perdaDAO->dados($dado));
+            $dadosPerda = array("dados" => $perdaDAO->dados($dado, $this->base));
             $resPerda = json_encode($dadosPerda);
 
             return $resPerda;
@@ -460,7 +463,7 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosPneu = array("dados" => $pneuDAO->dados($dado));
+            $dadosPneu = array("dados" => $pneuDAO->dados($dado, $this->base));
             $resPneu = json_encode($dadosPneu);
 
             return $resPneu;
@@ -477,7 +480,7 @@ class BaseDadosCTR {
 
             $pressaoBocalDAO = new PressaoBocalDAO();
 
-            $dados = array("dados" => $pressaoBocalDAO->dados());
+            $dados = array("dados" => $pressaoBocalDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -494,7 +497,7 @@ class BaseDadosCTR {
         
         if($versao >= 2.00){
         
-            $dados = array("dados"=>$produtoDAO->dados());
+            $dados = array("dados"=>$produtoDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -511,7 +514,7 @@ class BaseDadosCTR {
         
             $rAtivParadaDAO = new RAtivParadaDAO();
 
-            $dados = array("dados"=>$rAtivParadaDAO->dados());
+            $dados = array("dados"=>$rAtivParadaDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -528,7 +531,7 @@ class BaseDadosCTR {
         
             $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-            $dados = array("dados"=>$rFuncaoAtivParDAO->dados());
+            $dados = array("dados"=>$rFuncaoAtivParDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -545,7 +548,7 @@ class BaseDadosCTR {
         
             $turnoDAO = new TurnoDAO();
 
-            $dados = array("dados"=>$turnoDAO->dados());
+            $dados = array("dados"=>$turnoDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;

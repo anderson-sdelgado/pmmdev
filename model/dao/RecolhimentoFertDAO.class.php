@@ -16,7 +16,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
 class RecolhimentoFertDAO extends Conn {
 
     //put your code here
-    public function verifRecolhimentoFert($idBol, $recol) {
+    public function verifRecolhimentoFert($idBol, $recol, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -29,7 +29,7 @@ class RecolhimentoFertDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -42,7 +42,7 @@ class RecolhimentoFertDAO extends Conn {
         return $v;
     }
 
-    public function insRecolhimentoFert($idBol, $recol) {
+    public function insRecolhimentoFert($idBol, $recol, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -63,7 +63,7 @@ class RecolhimentoFertDAO extends Conn {
                 . " , SYSDATE "
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

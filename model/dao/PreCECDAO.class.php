@@ -22,7 +22,7 @@ class PreCECDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function verifPreCEC($precec) {
+    public function verifPreCEC($precec, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -33,7 +33,7 @@ class PreCECDAO extends Conn {
                 . " AND "
                 . " EQUIP = " . $precec->cam . " ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -46,7 +46,7 @@ class PreCECDAO extends Conn {
         return $v;
     }
     
-    public function insPreCEC($precec) {
+    public function insPreCEC($precec, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -80,18 +80,18 @@ class PreCECDAO extends Conn {
                 . " , " . $this->verifValor($precec->libCarr3)
                 . " , null "
                 . " , null "
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataChegCampo)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataChegCampo, $base)
                 . " , TO_DATE('" . $precec->dataChegCampo . "','DD/MM/YYYY HH24:MI')"
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaCampo)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaCampo, $base)
                 . " , TO_DATE('" . $precec->dataSaidaCampo . "','DD/MM/YYYY HH24:MI')"
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaUsina)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaUsina, $base)
                 . " , TO_DATE('" . $precec->dataSaidaUsina . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , " . $precec->moto
                 . " , " . $this->verifValor($precec->turno)
                 . " ) ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($insert);
         $this->Create->execute();
         

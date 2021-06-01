@@ -8,6 +8,6 @@ require_once('../control/AtualAplicCTR.class.php');
 if (isset($info)):
     
    $atualAplicCTR = new AtualAplicCTR();
-   echo $atualAplicCTR->atualAplicECM($versao, $info);
+   echo $atualAplicCTR->atualAplic($versao, $info);
 
 endif;

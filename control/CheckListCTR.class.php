@@ -9,14 +9,15 @@ require_once('../model/dao/EquipDAO.class.php');
 require_once('../model/dao/ItemCheckListDAO.class.php');
 require_once('../model/dao/CabecCheckListDAO.class.php');
 require_once('../model/dao/RespCheckListDAO.class.php');
-require_once('../model/dao/LogDAO.class.php');
+//require_once('../model/dao/LogDAO.class.php');
 /**
  * Description of CheckListCTR
  *
  * @author anderson
  */
 class CheckListCTR {
-    //put your code here
+    
+    private $base = 2;
     
     public function pesq($versao, $info) {
 
@@ -29,10 +30,10 @@ class CheckListCTR {
 
             $nroEquip = $info['dado'];
 
-            $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
+            $dadosEquip = array("dados" => $equipDAO->dados($nroEquip, $this->base));
             $resEquip = json_encode($dadosEquip);
 
-            $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados());
+            $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados($this->base));
             $resItemCheckList = json_encode($dadosItemCheckList);
 
             $itemCheckListDAO->atualCheckList($nroEquip);
@@ -51,7 +52,7 @@ class CheckListCTR {
         
             $itemCheckListDAO = new ItemCheckListDAO();
 
-            $dados = array("dados"=>$itemCheckListDAO->dados());
+            $dados = array("dados"=>$itemCheckListDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -62,12 +63,12 @@ class CheckListCTR {
     
     public function salvarDados($versao, $info, $pagina) {
 
-        $logDAO = new LogDAO();
+//        $logDAO = new LogDAO();
         
         $pagina = $pagina . '-' . $versao;
         
         $dados = $info['dado'];
-        $logDAO->salvarDados($dados, $pagina);
+//        $logDAO->salvarDados($dados, $pagina);
 
         $versao = str_replace("_", ".", $versao);
         
@@ -94,11 +95,11 @@ class CheckListCTR {
     private function salvarBoletim($dadosCab, $dadosItem) {
         $cabecCheckListDAO = new CabecCheckListDAO();
         foreach ($dadosCab as $d) {
-            $v = $cabecCheckListDAO->verifCabecCheckList($d);
+            $v = $cabecCheckListDAO->verifCabecCheckList($d, $this->base);
             if ($v == 0) {
-                $cabecCheckListDAO->insCabecCheckList($d);
+                $cabecCheckListDAO->insCabecCheckList($d, $this->base);
             }
-            $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
+            $idCabec = $cabecCheckListDAO->idCabecCheckList($d, $this->base);
             $this->salvarApont($idCabec, $d->idCabCL, $dadosItem);
         }
     }
@@ -107,9 +108,9 @@ class CheckListCTR {
         $respCheckListDAO = new RespCheckListDAO();
         foreach ($dadosItem as $i) {
             if ($idBolCel == $i->idCabItCL) {
-                $v = $respCheckListDAO->verifRespCheckList($idBolBD, $i);
+                $v = $respCheckListDAO->verifRespCheckList($idBolBD, $i, $this->base);
                 if ($v == 0) {
-                    $respCheckListDAO->insRespCheckList($idBolBD, $i);
+                    $respCheckListDAO->insRespCheckList($idBolBD, $i, $this->base);
                 }
             }
         }

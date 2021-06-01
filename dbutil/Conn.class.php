@@ -16,13 +16,11 @@ class Conn {
      * Conecta com o banco de dados com o pattern singleton.
      * Retorna um objeto PDO!
      */
-    private static function Conectar() {
+    private static function Conectar($base) {
         try {
 
-            $BD = 2;
-
             if (self::$Connect == null) {
-                if ($BD == 1) {
+                if ($base == 1) {
                     $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
                             (CONNECT_DATA =
@@ -36,7 +34,7 @@ class Conn {
                                )
                             )
                           )";
-                } elseif ($BD == 2) {
+                } elseif ($base == 2) {
                     $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
                             (CONNECT_DATA =
@@ -50,7 +48,7 @@ class Conn {
                                )
                             )
                           )";
-                } elseif ($BD == 3) {
+                } elseif ($base == 3) {
                     $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.2.15)(PORT = 1521))
                             (CONNECT_DATA =
@@ -77,8 +75,8 @@ class Conn {
         return self::$Connect;
     }
 
-    protected static function getConn() {
-        return self::Conectar();
+    protected static function getConn($base) {
+        return self::Conectar($base);
     }
 
 }

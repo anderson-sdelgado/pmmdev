@@ -13,11 +13,12 @@ require_once('../model/dao/AtualAplicDAO.class.php');
  */
 class AtualAplicCTR {
     //put your code here
+
+    private $base = 2;
     
     public function atualAplic($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
-        
         $retorno = '';
         
         if(($versao >= 2.00) && ($versao < 3.00)){
@@ -34,42 +35,42 @@ class AtualAplicCTR {
                 $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
-            $v = $atualAplicDAO->verAtual($equip);
+            $v = $atualAplicDAO->verAtual($equip, $this->base);
             if ($v == 0) {
-                $atualAplicDAO->insAtual($equip, $versaoAtual);
+                $atualAplicDAO->insAtual($equip, $versaoAtual, $this->base);
             } else {
-                $result = $atualAplicDAO->retAtual($equip);
+                $result = $atualAplicDAO->retAtual($equip, $this->base);
                 foreach ($result as $item) {
                     $versaoNova = $item['VERSAO_NOVA'];
                     $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
                 if ($versaoAtual != $versaoAtualBD) {
-                    $atualAplicDAO->updAtualNova($equip, $versaoAtual);
+                    $atualAplicDAO->updAtualNova($equip, $versaoAtual, $this->base);
                 } else {
                     if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
-                        $result = $atualAplicDAO->verAtualCheckList($equip);
+                        $result = $atualAplicDAO->verAtualCheckList($equip, $this->base);
                         $versaoAtualBD = '';
                         foreach ($result as $item) {
                             $versaoAtualBD = $item['VERSAO_ATUAL'];
                             $verCheckList = $item['VERIF_CHECKLIST'];
                         }
                         if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                            $atualAplicDAO->updAtual($equip, $versaoAtual);
+                            $atualAplicDAO->updAtual($equip, $versaoAtual, $this->base);
                         } else {
                             if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $checkListBD = $atualAplicDAO->idCheckList($equip);
+                        $checkListBD = $atualAplicDAO->idCheckList($equip, $this->base);
                         if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }
                 }
             }
-            $dthr = $atualAplicDAO->dataHora();
+            $dthr = $atualAplicDAO->dataHora($this->base);
             if (!$retorno == 'S') {
                 $retorno = $retorno . "#" . $dthr;
             }
@@ -83,7 +84,7 @@ class AtualAplicCTR {
             $dados = $jsonObj->dados;
 
             foreach ($dados as $d) {
-                $equip = $d->idEquipAtualizacao;
+                $equip = $d->idEquipAtual;
                 $versaoAtual = $d->versaoAtual;
                 $checkList = $d->idCheckList;
                 $checkListBD = $d->idCheckList;
@@ -94,11 +95,11 @@ class AtualAplicCTR {
             $retFlagLogEnvio = 0;
             $retFlagLogErro = 0;
             
-            $v = $atualAplicDAO->verAtual($equip);
+            $v = $atualAplicDAO->verAtual($equip, $this->base);
             if ($v == 0) {
-                $atualAplicDAO->insAtual($equip, $versaoAtual);
+                $atualAplicDAO->insAtual($equip, $versaoAtual, $this->base);
             } else {
-                $result = $atualAplicDAO->retAtual($equip);
+                $result = $atualAplicDAO->retAtual($equip, $this->base);
                 foreach ($result as $item) {
                     $versaoNova = $item['VERSAO_NOVA'];
                     $versaoAtualBD = $item['VERSAO_ATUAL'];
@@ -106,37 +107,38 @@ class AtualAplicCTR {
                     $retFlagLogErro = $item['FLAG_LOG_ERRO'];
                 }
                 if ($versaoAtual != $versaoAtualBD) {
-                    $atualAplicDAO->updAtualNova($equip, $versaoAtual);
+                    $atualAplicDAO->updAtualNova($equip, $versaoAtual, $this->base);
                 } else {
                     if ($versaoAtual != $versaoNova) {
                         $retAtualApp = 1;
                     } else {
-                        $result = $atualAplicDAO->verAtualCheckList($equip);
+                        $result = $atualAplicDAO->verAtualCheckList($equip, $this->base);
                         $versaoAtualBD = '';
                         foreach ($result as $item) {
                             $versaoAtualBD = $item['VERSAO_ATUAL'];
                             $verCheckList = $item['VERIF_CHECKLIST'];
                         }
                         if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                            $atualAplicDAO->updAtual($equip, $versaoAtual);
+                            $atualAplicDAO->updAtual($equip, $versaoAtual, $this->base);
                         } else {
                             if ($verCheckList == 1) {
                                 $retAtualCheckList = 1;
                             }
                         }
-                        $checkListBD = $atualAplicDAO->idCheckList($equip);
+                        $checkListBD = $atualAplicDAO->idCheckList($equip, $this->base);
                         if ($checkList != $checkListBD) {
                             $retAtualCheckList = 1;
                         }
                     }
                 }
             }
-            $dthr = $atualAplicDAO->dataHora();
+            $dthr = $atualAplicDAO->dataHora($this->base);
             
             $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
-                , "flagLogEnvio" => $retFlagLogEnvio, "flagLogErro" => $retFlagLogErro);
+                , "flagLogEnvio" => $retFlagLogEnvio, "flagLogErro" => $retFlagLogErro
+                , "dthr" => $dthr);
 
-            $retorno = array($dado);
+            $retorno = json_encode(array("dados" => array($dado)));
             
         }
         
@@ -162,42 +164,42 @@ class AtualAplicCTR {
                 $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
-            $v = $atualAplicDAO->verAtualECM($equip);
+            $v = $atualAplicDAO->verAtualECM($equip, $this->base);
             if ($v == 0) {
-                $atualAplicDAO->insAtualECM($equip, $versaoAtual);
+                $atualAplicDAO->insAtualECM($equip, $versaoAtual, $this->base);
             } else {
-                $result = $atualAplicDAO->retAtualECM($equip);
+                $result = $atualAplicDAO->retAtualECM($equip, $this->base);
                 foreach ($result as $item) {
                     $versaoNova = $item['VERSAO_NOVA'];
                     $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
                 if ($versaoAtual != $versaoAtualBD) {
-                    $atualAplicDAO->updAtualNovaECM($equip, $versaoAtual);
+                    $atualAplicDAO->updAtualNovaECM($equip, $versaoAtual, $this->base);
                 } else {
                     if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
-                        $result = $atualAplicDAO->verAtualCheckListECM($equip);
+                        $result = $atualAplicDAO->verAtualCheckListECM($equip, $this->base);
                         $versaoAtualBD = '';
                         foreach ($result as $item) {
                             $versaoAtualBD = $item['VERSAO_ATUAL'];
                             $verCheckList = $item['VERIF_CHECKLIST'];
                         }
                         if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                            $atualAplicDAO->updAtualECM($equip, $versaoAtual);
+                            $atualAplicDAO->updAtualECM($equip, $versaoAtual, $this->base);
                         } else {
                             if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $checkListBD = $atualAplicDAO->idCheckListECM($equip);
+                        $checkListBD = $atualAplicDAO->idCheckListECM($equip, $this->base);
                         if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }
                 }
             }
-            $dthr = $atualAplicDAO->dataHora();
+            $dthr = $atualAplicDAO->dataHora($this->base);
             if ($retorno == 'S') {
                 return $retorno;
             } else {
@@ -226,42 +228,42 @@ class AtualAplicCTR {
                 $checkListBD = $d->idCheckList;
             }
             $retorno = 'N_NAC';
-            $v = $atualAplicDAO->verAtualPCOMP($equip);
+            $v = $atualAplicDAO->verAtualPCOMP($equip, $this->base);
             if ($v == 0) {
-                $atualAplicDAO->insAtualPCOMP($equip, $versaoAtual);
+                $atualAplicDAO->insAtualPCOMP($equip, $versaoAtual, $this->base);
             } else {
-                $result = $atualAplicDAO->retAtualPCOMP($equip);
+                $result = $atualAplicDAO->retAtualPCOMP($equip, $this->base);
                 foreach ($result as $item) {
                     $versaoNova = $item['VERSAO_NOVA'];
                     $versaoAtualBD = $item['VERSAO_ATUAL'];
                 }
                 if ($versaoAtual != $versaoAtualBD) {
-                    $atualAplicDAO->updAtualNovaPCOMP($equip, $versaoAtual);
+                    $atualAplicDAO->updAtualNovaPCOMP($equip, $versaoAtual, $this->base);
                 } else {
                     if ($versaoAtual != $versaoNova) {
                         $retorno = 'S';
                     } else {
-                        $result = $atualAplicDAO->verAtualCheckListPCOMP($equip);
+                        $result = $atualAplicDAO->verAtualCheckListPCOMP($equip, $this->base);
                         $versaoAtualBD = '';
                         foreach ($result as $item) {
                             $versaoAtualBD = $item['VERSAO_ATUAL'];
                             $verCheckList = $item['VERIF_CHECKLIST'];
                         }
                         if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                            $atualAplicDAO->updAtualPCOMP($equip, $versaoAtual);
+                            $atualAplicDAO->updAtualPCOMP($equip, $versaoAtual, $this->base);
                         } else {
                             if ($verCheckList == 1) {
                                 $retorno = 'N_AC';
                             }
                         }
-                        $checkListBD = $atualAplicDAO->idCheckListPCOMP($equip);
+                        $checkListBD = $atualAplicDAO->idCheckListPCOMP($equip, $this->base);
                         if ($checkList != $checkListBD) {
                             $retorno = 'N_AC';
                         }
                     }
                 }
             }
-            $dthr = $atualAplicDAO->dataHora();
+            $dthr = $atualAplicDAO->dataHora($this->base);
             if ($retorno == 'S') {
                 return $retorno;
             } else {

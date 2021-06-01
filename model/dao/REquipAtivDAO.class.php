@@ -20,7 +20,7 @@ class REquipAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($equip) {
+    public function dados($equip, $base) {
 
         $select = " SELECT "
                     . " VE.EQUIP_ID AS \"idEquip\" "
@@ -30,16 +30,16 @@ class REquipAtivDAO extends Conn {
                     . " , V_SIMOVA_MODELO_ATIVAGR VA "
                     . " , V_SIMOVA_ATIVAGR_NEW AA "
                 . " WHERE "
-                . " VE.NRO_EQUIP = " . $equip
-                . " AND "
-                . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID "
-                . " AND "
-                . " VA.ATIVAGR_CD = AA.ATIVAGR_CD "
-                . " AND "
-                . " AA.DESAT = 0 " 
-                . " ORDER BY ROWNUM ASC ";
+                    . " VE.NRO_EQUIP = " . $equip
+                    . " AND "
+                    . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID "
+                    . " AND "
+                    . " VA.ATIVAGR_CD = AA.ATIVAGR_CD "
+                    . " AND "
+                    . " AA.DESAT = 0 " 
+                    . " ORDER BY ROWNUM ASC ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -49,7 +49,7 @@ class REquipAtivDAO extends Conn {
         
     }
     
-    public function verif($equip) {
+    public function verif($equip, $base) {
 
         $select = " SELECT "
                     . " ROWNUM AS \"idEquipAtiv\" "
@@ -70,7 +70,7 @@ class REquipAtivDAO extends Conn {
                 . " ORDER BY ROWNUM ASC "
                 ;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

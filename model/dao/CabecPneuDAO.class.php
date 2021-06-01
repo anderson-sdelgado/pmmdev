@@ -15,7 +15,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
 class CabecPneuDAO extends Conn {
     //put your code here
     
-    public function verifCabecPneu($idApont, $cabPneu) {
+    public function verifCabecPneu($idApont, $cabPneu, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -30,7 +30,7 @@ class CabecPneuDAO extends Conn {
                 . " AND "
                 . " DTHR_CEL = TO_DATE('" . $cabPneu->dthrCabecPneu . "','DD/MM/YYYY HH24:MI') ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -43,7 +43,7 @@ class CabecPneuDAO extends Conn {
         return $v;
     }
 
-    public function idCabecPneu($idApont, $cabPneu) {
+    public function idCabecPneu($idApont, $cabPneu, $base) {
 
         $select = " SELECT "
                 . " ID AS IDBOLPNEU "
@@ -58,7 +58,7 @@ class CabecPneuDAO extends Conn {
                 . " AND "
                 . " DTHR_CEL = TO_DATE('" . $cabPneu->dthrCabecPneu . "','DD/MM/YYYY HH24:MI') ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -69,7 +69,7 @@ class CabecPneuDAO extends Conn {
         return $id;
     }
 
-    public function insCabecPneu($idApont, $cabPneu, $tipo) {
+    public function insCabecPneu($idApont, $cabPneu, $tipo, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -86,15 +86,12 @@ class CabecPneuDAO extends Conn {
                 . " " . $idApont
                 . " , " . $cabPneu->funcCabecPneu
                 . " , " . $cabPneu->equipCabecPneu
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($cabPneu->dthrCabecPneu)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($cabPneu->dthrCabecPneu, $base)
                 . " , TO_DATE('" . $cabPneu->dthrCabecPneu . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " , " . $tipo
                 . " )";
-        $this->Conn = parent::getConn();
-        $this->Create = $this->Conn->prepare($sql);
-        $this->Create->execute();
-
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 

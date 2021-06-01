@@ -20,7 +20,7 @@ class EquipSegDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados() {
+    public function dados($base) {
 
         $select = " SELECT "
                         . " E.EQUIP_ID AS \"idEquip\" "
@@ -44,7 +44,7 @@ class EquipSegDAO extends Conn {
                         . " OR " 
                         . " E.CLASSOPER_CD IN (4, 9, 6, 23, 211, 227)) ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -53,7 +53,7 @@ class EquipSegDAO extends Conn {
         return $result;
     }
     
-    public function dadosECM() {
+    public function dadosECM($base) {
 
         $select = " SELECT "
                         . " E.EQUIP_ID AS \"idEquip\" "
@@ -70,7 +70,7 @@ class EquipSegDAO extends Conn {
                     . " WHERE "
                         . " E.CLASSOPER_CD IN (5, 21, 35, 36, 216) ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

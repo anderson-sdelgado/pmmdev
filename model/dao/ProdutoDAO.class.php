@@ -20,18 +20,18 @@ class ProdutoDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados() {
+    public function dados($base) {
 
         $select = " SELECT "
-                . " PROD_ID AS \"idProduto\" "
-                . " , CD AS \"codProduto\" "
-                . " , DESCR AS \"descProduto\" "
+                    . " PROD_ID AS \"idProduto\" "
+                    . " , CD AS \"codProduto\" "
+                    . " , DESCR AS \"descProduto\" "
                 . " FROM "
-                . " PROD "
+                    . " PROD "
                 . " WHERE "
-                . " CD LIKE 'A500207' OR CD LIKE 'A500055' ";
+                    . " CD LIKE 'A500207' OR CD LIKE 'A500055' ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

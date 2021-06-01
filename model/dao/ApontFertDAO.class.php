@@ -17,7 +17,7 @@ class ApontFertDAO extends Conn {
 
     //put your code here
 
-    public function verifApontFert($idBol, $apont) {
+    public function verifApontFert($idBol, $apont, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -28,7 +28,7 @@ class ApontFertDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -41,7 +41,7 @@ class ApontFertDAO extends Conn {
         return $v;
     }
 
-    public function idApontFert($idBol, $apont) {
+    public function idApontFert($idBol, $apont, $base) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -52,7 +52,7 @@ class ApontFertDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -65,7 +65,7 @@ class ApontFertDAO extends Conn {
         return $id;
     }
 
-    public function insApontFert($idBol, $apont) {
+    public function insApontFert($idBol, $apont, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -109,7 +109,7 @@ class ApontFertDAO extends Conn {
                 . " , " . $apont->osApontFert
                 . " , " . $apont->ativApontFert
                 . " , " . $apont->paradaApontFert
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontFert)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontFert, $base)
                 . " , TO_DATE('" . $apont->dthrApontFert . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , " . $apont->bocalApontFert
@@ -121,12 +121,13 @@ class ApontFertDAO extends Conn {
                 . " , " . $apont->statusConApontFert
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
+        
     }
 
-    public function verifQtdeApontFert($idBol) {
+    public function verifQtdeApontFert($idBol, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -135,7 +136,7 @@ class ApontFertDAO extends Conn {
                 . " WHERE "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

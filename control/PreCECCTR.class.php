@@ -14,7 +14,8 @@ require_once('../model/dao/LogDAO.class.php');
  */
 class PreCECCTR {
 
-    //put your code he
+    private $base = 2;
+    
     public function salvarDados($versao, $info, $pagina) {
 
         $dados = $info['dado'];
@@ -31,9 +32,9 @@ class PreCECCTR {
             $idPreCECArray = array();
             
             foreach ($dadosPreCEC as $precec) {
-                $v = $preCECDAO->verifPreCEC($precec);
+                $v = $preCECDAO->verifPreCEC($precec, $this->base);
                 if ($v == 0) {
-                    $preCECDAO->insPreCEC($precec);
+                    $preCECDAO->insPreCEC($precec, $this->base);
                 }
                 $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
             }
@@ -47,7 +48,7 @@ class PreCECCTR {
     
     private function salvarLog($dados, $pagina) {
         $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina);
+        $logDAO->salvarDados($dados, $pagina, $this->base);
     }
     
 }

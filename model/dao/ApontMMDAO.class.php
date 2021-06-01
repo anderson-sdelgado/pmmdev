@@ -14,18 +14,18 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
  */
 class ApontMMDAO extends Conn {
 
-    public function verifApontMM($idBol, $apont) {
+    public function verifApontMM($idBol, $apont, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
+                    . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " PMM_APONTAMENTO "
+                    . " PMM_APONTAMENTO "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontMM . "','DD/MM/YYYY HH24:MI')"
-                . " AND "
-                . " BOLETIM_ID = " . $idBol;
+                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontMM . "','DD/MM/YYYY HH24:MI')"
+                    . " AND "
+                    . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -38,18 +38,18 @@ class ApontMMDAO extends Conn {
         return $v;
     }
 
-    public function idApontMM($idBol, $apont) {
+    public function idApontMM($idBol, $apont, $base) {
 
         $select = " SELECT "
-                . " ID AS ID "
+                    . " ID AS ID "
                 . " FROM "
-                . " PMM_APONTAMENTO "
+                    . " PMM_APONTAMENTO "
                 . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $apont->dthrApontMM . "','DD/MM/YYYY HH24:MI')"
+                    . " DTHR_CEL = TO_DATE('" . $apont->dthrApontMM . "','DD/MM/YYYY HH24:MI')"
                 . " AND "
-                . " BOLETIM_ID = " . $idBol;
+                    . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -62,7 +62,7 @@ class ApontMMDAO extends Conn {
         return $id;
     }
 
-    public function insApontMM($idBol, $apont) {
+    public function insApontMM($idBol, $apont, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -92,7 +92,7 @@ class ApontMMDAO extends Conn {
                 . " , " . $apont->osApontMM
                 . " , " . $apont->ativApontMM
                 . " , " . $apont->paradaApontMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontMM)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($apont->dthrApontMM, $base)
                 . " , TO_DATE('" . $apont->dthrApontMM . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , " . $apont->transbApontMM
@@ -101,15 +101,13 @@ class ApontMMDAO extends Conn {
                 . " , " . $apont->statusConApontMM
                 . " )";
 
-//        echo $sql;
-      
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
     }
 
-    public function verifQtdeApontMM($idBol) {
+    public function verifQtdeApontMM($idBol, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -118,7 +116,7 @@ class ApontMMDAO extends Conn {
                 . " WHERE "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

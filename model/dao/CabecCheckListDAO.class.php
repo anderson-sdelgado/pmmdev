@@ -14,7 +14,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
  */
 class CabecCheckListDAO extends Conn {
 
-    public function verifCabecCheckList($cab) {
+    public function verifCabecCheckList($cab, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -27,7 +27,7 @@ class CabecCheckListDAO extends Conn {
                 . " AND "
                 . " EQUIP_NRO = " . $cab->equipCabCL;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -40,7 +40,7 @@ class CabecCheckListDAO extends Conn {
         return $v;
     }
 
-    public function idCabecCheckList($cab) {
+    public function idCabecCheckList($cab, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -53,7 +53,7 @@ class CabecCheckListDAO extends Conn {
                 . " AND "
                 . " EQUIP_NRO = " . $cab->equipCabCL;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -66,7 +66,7 @@ class CabecCheckListDAO extends Conn {
         return $id;
     }
 
-    public function insCabecCheckList($cab) {
+    public function insCabecCheckList($cab, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -76,7 +76,7 @@ class CabecCheckListDAO extends Conn {
                 . " USINAS.TURNO_TRAB "
                 . " WHERE TURNOTRAB_ID = " . $cab->turnoCabCL;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -96,7 +96,7 @@ class CabecCheckListDAO extends Conn {
                 . " VALUES ( "
                 . " " . $cab->equipCabCL . " "
                 . " , " . $cab->funcCabCL . ""
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($cab->dtCabCL)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($cab->dtCabCL, $base)
                 . " , TO_DATE('" . $cab->dtCabCL . "','DD/MM/YYYY HH24:MI') "
                 . " , " . $turno . ")";
 

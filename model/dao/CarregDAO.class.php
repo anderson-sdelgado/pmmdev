@@ -19,7 +19,7 @@ class CarregDAO extends Conn {
     /** @var PDO */
     private $Conn;
     
-    public function cancelCarregProd($carreg) {
+    public function cancelCarregProd($carreg, $base) {
         
         $update = " UPDATE "
                     . " USINAS.REG_COMPOSTO "
@@ -29,13 +29,13 @@ class CarregDAO extends Conn {
                     . " FLAG_CARREG = 1 AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function verifCarregProd($carreg) {
+    public function verifCarregProd($carreg, $base) {
         
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -46,7 +46,7 @@ class CarregDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -60,7 +60,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function insCarregProd($carreg) {
+    public function insCarregProd($carreg, $base) {
         
         $select = " SELECT "
                     . " FUNC_ID AS IDFUNC "
@@ -69,7 +69,7 @@ class CarregDAO extends Conn {
                 . " WHERE "
                     . " NRO_CRACHA = " . $carreg->motoCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -103,7 +103,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function cancelCarregComp($carreg) {
+    public function cancelCarregComp($carreg, $base) {
         
         $update = " UPDATE "
                     . " USINAS.REG_COMPOSTO "
@@ -112,13 +112,13 @@ class CarregDAO extends Conn {
                 . " WHERE "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function verifCarregComp($carreg) {
+    public function verifCarregComp($carreg, $base) {
         
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
@@ -129,7 +129,7 @@ class CarregDAO extends Conn {
                 . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -143,7 +143,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function insCarregComp($carreg) {
+    public function insCarregComp($carreg, $base) {
         
         $select = " SELECT "
                     . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
@@ -154,7 +154,7 @@ class CarregDAO extends Conn {
                     . " OS.OS_ID = OA.OS_ID "
                     . " AND OS.OS_ID = " . $carreg->osCarreg;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -208,7 +208,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function updCarregProd($equip) {
+    public function updCarregProd($equip, $base) {
         
         $update = " UPDATE "
                         . " USINAS.REG_COMPOSTO "
@@ -218,13 +218,13 @@ class CarregDAO extends Conn {
                         . " FLAG_CARREG = 1 AND"
                         . " EQUIP_ID = " . $equip;
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function retCarregProd($equip) {
+    public function retCarregProd($equip, $base) {
         
         $result = null;
         
@@ -252,7 +252,7 @@ class CarregDAO extends Conn {
                         . " AND "
                         . " O.ORDCARREG_ID = C.ORDCARREG_ID ";
             
-            $this->Conn = parent::getConn();
+            $this->Conn = parent::getConn($base);
             $this->Read = $this->Conn->prepare($select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
             $this->Read->execute();
@@ -264,7 +264,7 @@ class CarregDAO extends Conn {
         
     }
 
-    public function retCarregComp($equip) {
+    public function retCarregComp($equip, $base) {
         
         $result = null;
         
@@ -292,7 +292,7 @@ class CarregDAO extends Conn {
                         . " AND "
                         . " O.ORDCARREG_ID = C.ORDCARREG_ID ";
             
-            $this->Conn = parent::getConn();
+            $this->Conn = parent::getConn($base);
             $this->Read = $this->Conn->prepare($select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
             $this->Read->execute();
@@ -304,7 +304,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function retLeiraComp($equip, $os) {
+    public function retLeiraComp($equip, $os, $base) {
         
         $idLeira = 0;
         $codLeira = null;
@@ -312,7 +312,7 @@ class CarregDAO extends Conn {
         while (empty($codLeira)) {
             
             $sql = "CALL pk_composto_auto.pkb_ret_leira(?, ?, ?, ?)";
-            $this->Conn = parent::getConn();
+            $this->Conn = parent::getConn($base);
             $stmt = $this->Conn->prepare($sql);
             $stmt->bindParam(1, $equip, PDO::PARAM_INT, 32);
             $stmt->bindParam(2, $os, PDO::PARAM_INT, 32);

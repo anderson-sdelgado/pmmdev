@@ -21,20 +21,20 @@ class RAtivParadaDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados() {
+    public function dados($base) {
 
         $select = " SELECT "
-                . " AA.ATIVAGR_ID AS \"idAtiv\" "
-                . " , MOT.MOTPARADA_ID AS \"idParada\" "
+                    . " AA.ATIVAGR_ID AS \"idAtiv\" "
+                    . " , MOT.MOTPARADA_ID AS \"idParada\" "
                 . " FROM "
-                . " V_SIMOVA_ATIVAGR_NEW AA "
-                . " , USINAS.R_ATIVAGR_MOTPARADA MOT "
+                    . " V_SIMOVA_ATIVAGR_NEW AA "
+                    . " , USINAS.R_ATIVAGR_MOTPARADA MOT "
                 . " WHERE "
-                . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID "
-                . " AND "
-                . " AA.DESAT = 0 ";
+                    . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID "
+                    . " AND "
+                    . " AA.DESAT = 0 ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -44,29 +44,29 @@ class RAtivParadaDAO extends Conn {
         
     }
 
-    public function dadosVersao1($equip) {
+    public function dadosVersao1($equip, $base) {
 
         $select = " SELECT " 
-                    . " ROWNUM AS \"idRAtivParada\" "
-                    . " , AA.ATIVAGR_ID AS \"idAtiv\" "
-                    . " , MOT.MOTPARADA_ID AS \"idParada\" "
+                        . " ROWNUM AS \"idRAtivParada\" "
+                        . " , AA.ATIVAGR_ID AS \"idAtiv\" "
+                        . " , MOT.MOTPARADA_ID AS \"idParada\" "
                     . " FROM " 
-                    . " V_SIMOVA_EQUIP VE " 
-                    . " , V_SIMOVA_MODELO_ATIVAGR VA " 
-                    . " , V_SIMOVA_ATIVAGR_NEW AA " 
-                    . " , USINAS.R_ATIVAGR_MOTPARADA MOT " 
+                        . " V_SIMOVA_EQUIP VE " 
+                        . " , V_SIMOVA_MODELO_ATIVAGR VA " 
+                        . " , V_SIMOVA_ATIVAGR_NEW AA " 
+                        . " , USINAS.R_ATIVAGR_MOTPARADA MOT " 
                     . " WHERE " 
-                    . " VE.NRO_EQUIP = " . $equip
-                    . " AND " 
-                    . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID " 
-                    . " AND " 
-                    . " VA.ATIVAGR_CD = AA.ATIVAGR_CD " 
-                    . " AND " 
-                    . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID " 
-                    . " AND " 
-                    . " AA.DESAT = 0 ";
+                        . " VE.NRO_EQUIP = " . $equip
+                        . " AND " 
+                        . " VE.MODELEQUIP_ID = VA.MODELEQUIP_ID " 
+                        . " AND " 
+                        . " VA.ATIVAGR_CD = AA.ATIVAGR_CD " 
+                        . " AND " 
+                        . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID " 
+                        . " AND " 
+                        . " AA.DESAT = 0 ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -76,7 +76,7 @@ class RAtivParadaDAO extends Conn {
         
     }
     
-    public function verif($equip) {
+    public function verif($equip, $base) {
 
         $select = " SELECT " 
                     . " ROWNUM AS \"idRAtivParada\" "
@@ -98,7 +98,7 @@ class RAtivParadaDAO extends Conn {
                     . " AND " 
                     . " AA.DESAT = 0 ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

@@ -17,9 +17,7 @@ class LogDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function salvarDados($dados, $pagina) {
-
-        $this->Conn = parent::getConn();
+    public function salvarDados($dados, $pagina, $base) {
 
         $sql = "INSERT INTO DADOS_MOBILE ("
                 . " DTHR "
@@ -33,7 +31,8 @@ class LogDAO extends Conn {
                 . " , ?"
                 . " , ?"
                 . " )";
-
+        
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->bindParam(1, $pagina, PDO::PARAM_STR, 30);
         $this->Create->bindParam(2, $dados, PDO::PARAM_STR, 32000);

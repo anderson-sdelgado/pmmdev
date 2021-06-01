@@ -15,7 +15,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
 class ItemPneuDAO extends Conn {
     //put your code here
     
-    public function verifItemPneu($idBolPneu, $itemPneu) {
+    public function verifItemPneu($idBolPneu, $itemPneu, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -28,7 +28,7 @@ class ItemPneuDAO extends Conn {
                 . " AND "
                 . " DTHR_CEL = TO_DATE('" . $itemPneu->dthrItemPneu . "','DD/MM/YYYY HH24:MI')";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +39,7 @@ class ItemPneuDAO extends Conn {
         return $v;
     }
 
-    public function insItemPneu($idBolPneu, $itemPneu) {
+    public function insItemPneu($idBolPneu, $itemPneu, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
         
@@ -59,12 +59,12 @@ class ItemPneuDAO extends Conn {
                 . " , '" . $itemPneu->nroPneuItemPneu . "'"
                 . " , " . $itemPneu->pressaoEncItemPneu
                 . " , " . $itemPneu->pressaoColItemPneu
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemPneu)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($itemPneu->dthrItemPneu, $base)
                 . " , TO_DATE('" . $itemPneu->dthrItemPneu . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

@@ -20,11 +20,14 @@ class DataHoraDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados() {
+    public function dados($base) {
 
-        $select = "  SELECT DISTINCT TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS \"data\" FROM DUAL ";
+        $select = " SELECT "
+                    . " DISTINCT TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS \"data\" "
+                . " FROM "
+                    . " DUAL ";
         
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

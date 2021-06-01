@@ -15,7 +15,7 @@ require_once('../model/dao/AjusteDataHoraDAO.class.php');
  */
 class ImplementoMMDAO extends Conn {
 
-    public function verifImplementoMM($idApont, $imp) {
+    public function verifImplementoMM($idApont, $imp, $base) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -24,9 +24,11 @@ class ImplementoMMDAO extends Conn {
                 . " WHERE "
                 . " APONTAMENTO_ID = " . $idApont
                 . " AND "
+                . " NRO_EQUIP = " . $imp->codEquipImpleMM
+                . " AND "
                 . " DTHR_CEL = TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI') ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +41,7 @@ class ImplementoMMDAO extends Conn {
         return $v;
     }
 
-    public function insImplementoMM($idApont, $imp) {
+    public function insImplementoMM($idApont, $imp, $base) {
 
         $ajusteDataHoraDAO = new AjusteDataHoraDAO();
 
@@ -55,12 +57,12 @@ class ImplementoMMDAO extends Conn {
                 . " " . $idApont
                 . " , " . $imp->codEquipImpleMM
                 . " , " . $imp->posImpleMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($imp->dthrImpleMM)
+                . " , " . $ajusteDataHoraDAO->dataHoraGMT($imp->dthrImpleMM, $base)
                 . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

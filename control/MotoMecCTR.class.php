@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/dao/LogDAO.class.php');
+require_once('../model/dao/LogEnvioDAO.class.php');
 require_once('../model/dao/BoletimMMDAO.class.php');
 require_once('../model/dao/ApontMMDAO.class.php');
 require_once('../model/dao/ImplementoMMDAO.class.php');
@@ -20,17 +20,17 @@ require_once('../model/dao/MotoMecDAO.class.php');
  * @author anderson
  */
 class MotoMecCTR {
+    
+    private $base = 2;
 
     public function salvarBolAberto($versao, $info, $pagina) {
 
         $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
-        $this->salvarLog($dados, $pagina);
-
+        $this->salvarLog($dados, $pagina, $versao);
         $versao = str_replace("_", ".", $versao);
         
         if ($versao >= 2.00) {
-
+            
             $pos1 = strpos($dados, "_") + 1;
             $pos2 = strpos($dados, "|") + 1;
             $pos3 = strpos($dados, "#") + 1;
@@ -64,51 +64,10 @@ class MotoMecCTR {
         }
     }
 
-    public function salvarApont($versao, $info, $pagina) {
-
-        $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
-        $this->salvarLog($dados, $pagina);
-
-        $versao = str_replace("_", ".", $versao);
-
-        if ($versao >= 2.00) {
-
-            $pos1 = strpos($dados, "|") + 1;
-            $pos2 = strpos($dados, "#") + 1;
-            $pos3 = strpos($dados, "?") + 1;
-            $pos4 = strpos($dados, "@") + 1;
-
-            $apontmm = substr($dados, 0, ($pos1 - 1));
-            $imp = substr($dados, $pos1, (($pos2 - 1) - $pos1));
-            $movLeira = substr($dados, $pos2, (($pos3 - 1) - $pos2));
-            $cabecPneu = substr($dados, $pos3, (($pos4 - 1) - $pos3));
-            $itemPneu = substr($dados, $pos4);
-
-            $jsonObjAponta = json_decode($apontmm);
-            $jsonObjImplemento = json_decode($imp);
-            $jsonObjMovLeira = json_decode($movLeira);
-            $jsonObjCabecPneu = json_decode($cabecPneu);
-            $jsonObjItemPneu = json_decode($itemPneu);
-
-            $dadosAponta = $jsonObjAponta->aponta;
-            $dadosImplemento = $jsonObjImplemento->implemento;
-            $dadosMovLeira = $jsonObjMovLeira->movleira;
-            $dadosCabecPneu = $jsonObjCabecPneu->cabecpneu;
-            $dadosItemPneu = $jsonObjItemPneu->itempneu;
-
-            $ret = $this->salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu);
-
-            return $ret;
-        }
-    }
-
     public function salvarBolFechado($versao, $info, $pagina) {
 
         $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
-        $this->salvarLog($dados, $pagina);
-
+        $this->salvarLog($dados, $pagina, $versao);
         $versao = str_replace("_", ".", $versao);
 
         if ($versao >= 2.00) {
@@ -150,82 +109,59 @@ class MotoMecCTR {
         }
     }
 
-    private function salvarLog($dados, $pagina) {
-        $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina);
+    private function salvarLog($dados, $pagina, $versao) {
+        $logEnvioDAO = new LogEnvioDAO();
+        $logEnvioDAO->salvarDados($dados, $pagina, $versao, $this->base);
     }
 
     private function salvarBoletoAberto($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu) {
+        
         $boletimMMDAO = new BoletimMMDAO();
         $idBolMMArray = array();
+        
         foreach ($dadosBoletim as $bol) {
-            $v = $boletimMMDAO->verifBoletimMM($bol);
+            $v = $boletimMMDAO->verifBoletimMM($bol, $this->base);
             if ($v == 0) {
-                $boletimMMDAO->insBoletimMMAberto($bol);
+                $boletimMMDAO->insBoletimMMAberto($bol, $this->base);
             }
-            $idBolBD = $boletimMMDAO->idBoletimMM($bol);
+            $idBolBD = $boletimMMDAO->idBoletimMM($bol, $this->base);
             $retApont = $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu);
             $retMovLeira = $this->salvarMovLeira($idBolBD, $bol->idBolMM, $dadosMovLeira);
             $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "idExtBolMM" => $idBolBD);
         }
+        
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
         return 'BOLABERTOMM_' . $retBol . "|" . $retApont . "#" . $retMovLeira;
+        
     }
 
     private function salvarBoletoFech($dadosBoletim, $dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosRendimento, $dadosCabecPneu, $dadosItemPneu) {
+        
         $boletimMMDAO = new BoletimMMDAO();
         $idBolMMArray = array();
+        
         foreach ($dadosBoletim as $bol) {
-            $v = $boletimMMDAO->verifBoletimMM($bol);
+            $v = $boletimMMDAO->verifBoletimMM($bol, $this->base);
             if ($v == 0) {
-                $boletimMMDAO->insBoletimMMFechado($bol);
-                $idBolBD = $boletimMMDAO->idBoletimMM($bol);
+                $boletimMMDAO->insBoletimMMFechado($bol, $this->base);
+                $idBolBD = $boletimMMDAO->idBoletimMM($bol, $this->base);
             } else {
-                $idBolBD = $boletimMMDAO->idBoletimMM($bol);
-                $boletimMMDAO->updateBoletimMMFechado($idBolBD, $bol);
+                $idBolBD = $boletimMMDAO->idBoletimMM($bol, $this->base);
+                $boletimMMDAO->updateBoletimMMFechado($idBolBD, $bol, $this->base);
             }
             $this->salvarApontBol($idBolBD, $bol->idBolMM, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu);
             $this->salvarRendimento($idBolBD, $bol->idBolMM, $dadosRendimento);
             $this->salvarMovLeira($idBolBD, $bol->idBolMM, $dadosMovLeira);
             $apontMMDAO = new ApontMMDAO();
-            $qtdeApontBolMM = $apontMMDAO->verifQtdeApontMM($idBolBD);
+            $qtdeApontBolMM = $apontMMDAO->verifQtdeApontMM($idBolBD, $this->base);
             $idBolMMArray[] = array("idBolMM" => $bol->idBolMM, "qtdeApontBolMM" => $qtdeApontBolMM);
         }
+        
         $dadoBol = array("boletim"=>$idBolMMArray);
         $retBol = json_encode($dadoBol);
         return 'BOLFECHADOMM_' . $retBol;
-    }
-
-    private function salvarApontExt($dadosAponta, $dadosImplemento, $dadosMovLeira, $dadosCabecPneu, $dadosItemPneu) {
-        $apontMMDAO = new ApontMMDAO();
-        $idApontArray = array();
-        foreach ($dadosAponta as $apont) {
-            $v = $apontMMDAO->verifApontMM($apont->idExtBolApontMM, $apont);
-            if ($v == 0) {
-                $apontMMDAO->insApontMM($apont->idExtBolApontMM, $apont);
-            }
-            $idApont = $apontMMDAO->idApontMM($apont->idExtBolApontMM, $apont);
-            $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
-            $this->salvarCabecPneu($idApont, $apont->idApontMM, $dadosCabecPneu, $dadosItemPneu);
-            $idApontArray[] = array("idApontMM" => $apont->idApontMM);
-        }
-        $dadoApont = array("apont"=>$idApontArray);
-        $retApont = json_encode($dadoApont);
         
-        $movLeiraMMDAO = new MovLeiraMMDAO();
-        $idMovLeiraArray = array();
-        foreach ($dadosMovLeira as $movLeira) {
-            $v = $movLeiraMMDAO->verifMovLeiraMM($movLeira->idExtBolMovLeira, $movLeira);
-            if ($v == 0) {
-                $movLeiraMMDAO->insMovLeiraMM($movLeira->idExtBolMovLeira, $movLeira);
-            }
-            $idMovLeiraArray[] = array("idMovLeira" => $movLeira->idMovLeira);
-        }
-        $dadoMovLeira = array("movLeira"=>$idMovLeiraArray);
-        $retMovLeira = json_encode($dadoMovLeira);
-        
-        return 'APONTMM_' . $retApont . "|" . $retMovLeira;
     }
 
     private function salvarApontBol($idBolBD, $idBolCel, $dadosAponta, $dadosImplemento, $dadosCabecPneu, $dadosItemPneu) {
@@ -233,13 +169,13 @@ class MotoMecCTR {
         $idApontArray = array();
         foreach ($dadosAponta as $apont) {
             if ($idBolCel == $apont->idBolApontMM) {
-                $v = $apontMMDAO->verifApontMM($idBolBD, $apont);
+                $v = $apontMMDAO->verifApontMM($idBolBD, $apont, $this->base);
                 if ($v == 0) {
-                    $apontMMDAO->insApontMM($idBolBD, $apont);
+                    $apontMMDAO->insApontMM($idBolBD, $apont, $this->base);
                 }
-                $idApont = $apontMMDAO->idApontMM($idBolBD, $apont);
-                $this->salvarImplemento($idApont, $apont->idApontMM, $dadosImplemento);
-                $this->salvarCabecPneu($idApont, $apont->idApontMM, $dadosCabecPneu, $dadosItemPneu);
+                $idApontBD = $apontMMDAO->idApontMM($idBolBD, $apont, $this->base);
+                $this->salvarImplemento($idApontBD, $apont->idApontMM, $dadosImplemento);
+                $this->salvarCabecPneu($idApontBD, $apont->idApontMM, $dadosCabecPneu, $dadosItemPneu);
                 $idApontArray[] = array("idApontMM" => $apont->idApontMM);
             }
         }
@@ -251,12 +187,10 @@ class MotoMecCTR {
     private function salvarImplemento($idApontaBD, $idApontaCel, $dadosImplemento) {
         $implementoMMDAO = new ImplementoMMDAO();
         foreach ($dadosImplemento as $imp) {
-            if ($idApontaCel == $imp->idApontImpleMM) {
-                if ($imp->codEquipImpleMM != 0) {
-                    $v = $implementoMMDAO->verifImplementoMM($idApontaBD, $imp);
-                    if ($v == 0) {
-                        $implementoMMDAO->insImplementoMM($idApontaBD, $imp);
-                    }
+            if ($idApontaCel == $imp->idApontMM) {
+                $v = $implementoMMDAO->verifImplementoMM($idApontaBD, $imp, $this->base);
+                if ($v == 0) {
+                    $implementoMMDAO->insImplementoMM($idApontaBD, $imp, $this->base);
                 }
             }
         }
@@ -266,9 +200,9 @@ class MotoMecCTR {
         $cabecPneuDAO = new CabecPneuDAO();
         foreach ($dadosCabecPneu as $cabecPneu) {
             if ($idApontaCel == $cabecPneu->idApontCabecPneu) {
-                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu);
+                $v = $cabecPneuDAO->verifCabecPneu($idApontaBD, $cabecPneu, $this->base);
                 if ($v == 0) {
-                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 1);
+                    $cabecPneuDAO->insCabecPneu($idApontaBD, $cabecPneu, 1, $this->base);
                 }
                 $idCabecPneuBD = $cabecPneuDAO->idCabecPneu($idApontaBD, $cabecPneu);
                 $this->salvarItemPneu($idCabecPneuBD, $cabecPneu->idCabecPneu, $dadosItemPneu);
@@ -280,9 +214,9 @@ class MotoMecCTR {
         $itemPneuDAO = new ItemPneuDAO();
         foreach ($dadosItemPneu as $itemPneu) {
             if ($idCabecPneuCel == $itemPneu->idCabecItemPneu) {
-                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu);
+                $v = $itemPneuDAO->verifItemPneu($idCabecPneuBD, $itemPneu, $this->base);
                 if ($v == 0) {
-                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu);
+                    $itemPneuDAO->insItemPneu($idCabecPneuBD, $itemPneu, $this->base);
                 }
             }
         }
@@ -292,9 +226,9 @@ class MotoMecCTR {
         $rendimentoMMDAO = new RendimentoMMDAO();
         foreach ($dadosRendimento as $rend) {
             if ($idBolCel == $rend->idBolRendMM) {
-                $v = $rendimentoMMDAO->verifRendimentoMM($idBolBD, $rend);
+                $v = $rendimentoMMDAO->verifRendimentoMM($idBolBD, $rend, $this->base);
                 if ($v == 0) {
-                    $rendimentoMMDAO->insRendimentoMM($idBolBD, $rend);
+                    $rendimentoMMDAO->insRendimentoMM($idBolBD, $rend, $this->base);
                 }
             }
         }
@@ -305,9 +239,9 @@ class MotoMecCTR {
         $idMovLeiraArray = array();
         foreach ($dadosMovLeira as $movLeira) {
             if ($idBolCel == $movLeira->idBolMovLeira) {
-                $v = $movLeiraMMDAO->verifMovLeiraMM($idBolBD, $movLeira);
+                $v = $movLeiraMMDAO->verifMovLeiraMM($idBolBD, $movLeira, $this->base);
                 if ($v == 0) {
-                    $movLeiraMMDAO->insMovLeiraMM($idBolBD, $movLeira);
+                    $movLeiraMMDAO->insMovLeiraMM($idBolBD, $movLeira, $this->base);
                 }
                 $idMovLeiraArray[] = array("idMovLeira" => $movLeira->idMovLeira);
             }
@@ -325,7 +259,7 @@ class MotoMecCTR {
         
             $motoMecDAO = new MotoMecDAO();
 
-            $dados = array("dados" => $motoMecDAO->dados());
+            $dados = array("dados" => $motoMecDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;

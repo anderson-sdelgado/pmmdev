@@ -20,7 +20,7 @@ class OSDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($os) {
+    public function dados($os, $base) {
 
         $select = " SELECT DISTINCT "
                     . " OS_ID AS \"idOS\" "
@@ -34,7 +34,7 @@ class OSDAO extends Conn {
                 . " WHERE "
                     . " NRO_OS = " . $os;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -43,7 +43,7 @@ class OSDAO extends Conn {
         return $result;
     }
     
-    public function dadosClear() {
+    public function dadosClear($base) {
 
         $select = " SELECT DISTINCT "
                     . " NRO_OS AS \"nroOS\" "
@@ -53,7 +53,7 @@ class OSDAO extends Conn {
                 . " FROM "
                     . " USINAS.V_PMM_OS ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -62,21 +62,21 @@ class OSDAO extends Conn {
         return $result;
     }
     
-    public function dadosECM($os) {
+    public function dadosECM($os, $base) {
 
         $select = "SELECT " 
                 . " ID_ATIV_OS AS \"idAtivOS\" "
                 . " , NRO_OS AS \"nroOS\" "
                 . " , ID_LIB_OS AS \"idLibOS\" "
                 . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                . " , DESCR_PROPR_AGR AS \"descrProprAgr\" "
+                . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
                 . " , ID_ATIV AS \"idAtiv\" "
                 . " FROM "
                 . " USINAS.V_ECM_OS "
                 . " WHERE "
                 . " NRO_OS = " . $os;
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -85,19 +85,19 @@ class OSDAO extends Conn {
         return $result;
     }
     
-    public function dadosClearECM() {
+    public function dadosClearECM($base) {
 
         $select = "SELECT " 
                 . " ID_ATIV_OS AS \"idAtivOS\" "
                 . " , NRO_OS AS \"nroOS\" "
                 . " , ID_LIB_OS AS \"idLibOS\" "
                 . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                . " , DESCR_PROPR_AGR AS \"descrProprAgr\" "
+                . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
                 . " , ID_ATIV AS \"idAtiv\" "
                 . " FROM "
                 . " USINAS.V_ECM_OS ";
 
-        $this->Conn = parent::getConn();
+        $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
