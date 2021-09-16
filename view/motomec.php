@@ -2,8 +2,8 @@
 
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 
-require_once('../control/MotoMecCTR.class.php');
+require_once('../control/MotoMecFertCTR.class.php');
 
-$motoMecCTR = new MotoMecCTR();
+$motoMecFertCTR = new MotoMecFertCTR();
 
-echo $motoMecCTR->dados($versao);
+echo $motoMecFertCTR->dados($versao);

@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once ('../dbutil/Conn.class.php');
-require_once ('../model/dao/AjusteDataHoraDAO.class.php');
 /**
  * Description of CECDAO
  *
@@ -50,6 +49,7 @@ class CECDAO extends Conn {
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
             $this->Read->execute();
             $result = $this->Read->fetchAll();
+            
         }
 
         return $result;

@@ -33,7 +33,7 @@ class RFuncaoAtivParDAO extends Conn  {
                     . " , CASE WHEN A.INFO_REND = 1 AND ATIVAGR_ID != 768 THEN 1 END AS FLAGRENDIMENTO "
                     . " , DECODE(A.INFO_CARREG, 1, 1) AS FLAGTRANSBORDO "
                     . " , DECODE(A.INFO_IMPL, 1, 1) AS FLAGIMPLEMENTO "
-                    . " , DECODE(A.ATIVAGR_CD, 255, 1) AS FLAGLEIRA "
+                    . " , DECODE(A.ATIVAGR_CD, 176, 1) AS FLAGLEIRA "
                     . " , DECODE(( SELECT 1 "
                         . " FROM "
                         . " USINAS.V_SIMOVA_EQUIP E "

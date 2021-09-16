@@ -20,7 +20,6 @@ class CarregCTR {
         
         $dados = $info['dado'];
         $pagina = $pagina . '-' . $versao;
-        $this->salvarLog($dados, $pagina);
 
         $versao = str_replace("_", ".", $versao);
         
@@ -34,35 +33,68 @@ class CarregCTR {
         
     }
     
+    public function atualLeiraDescarreg($versao, $info, $pagina){
+        
+        $dados = $info['dado'];
+        $pagina = $pagina . '-' . $versao;
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 2.00){
+        
+            $jsonObj = json_decode($dados);
+            $carreg = $jsonObj->carreg;
+            $this->updLeiraDescarreg($carreg);
+        
+        }
+        
+    }
+    
     private function salvarDadosCarreg($carreg) {
         
         $carregDAO = new CarregDAO();
         $idCarregArray = array();
+        $tipo = 0;
         foreach ($carreg as $c) {
+            $tipo = $c->tipoCarreg;
             if ($c->tipoCarreg == 1) {
-                $carregDAO->cancelCarregProd($c, $this->base);
                 $v = $carregDAO->verifCarregProd($c, $this->base);
                 if ($v == 0) {
+                    $carregDAO->cancelCarregProd($c, $this->base);
                     $carregDAO->insCarregProd($c, $this->base);
                 }
             } elseif ($c->tipoCarreg == 2) {
-                $carregDAO->cancelCarregComp($c, $this->base);
                 $v = $carregDAO->verifCarregComp($c, $this->base);
                 if ($v == 0) {
+                    $carregDAO->cancelCarregComp($c, $this->base);
                     $carregDAO->insCarregComp($c, $this->base);
                 }
             }
             $idCarregArray[] = array("idCarreg" => $c->idCarreg);
         }
-        $dadoCarreg = array("carreg"=>$idCarregArray);
+        $dadoCarreg = array("dados"=>$idCarregArray);
         $retCarreg = json_encode($dadoCarreg);
-        echo 'GRAVOU-CARREG_' . $retCarreg;
+        if($tipo == 1){
+            echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
+        } elseif ($tipo == 2) {
+            echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
+        }
+        
         
     }
     
-    private function salvarLog($dados, $pagina) {
-        $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina, $this->base);
+    private function updLeiraDescarreg($carreg) {
+        
+        $carregDAO = new CarregDAO();
+        $idCarregArray = array();
+        foreach ($carreg as $c) {
+            $carregDAO->updLeiraDescarreg($c, $this->base);
+            $idCarregArray[] = array("idCarreg" => $c->idCarreg);
+        }
+        $dadoCarreg = array("dados"=>$idCarregArray);
+        $retCarreg = json_encode($dadoCarreg);
+        echo 'GRAVOU-LEIRADESCARREG_' . $retCarreg;
+        
     }
     
     public function pesqLeiraComp($versao, $info) {
@@ -89,29 +121,14 @@ class CarregCTR {
         
     }
     
-    public function retCarregProd($versao, $info) {
+    public function retCarreg($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
 
         $carregDAO = new CarregDAO();
 
         if ($versao >= 2.00) {
-
-            $retorno = array("dados" => $carregDAO->retCarregProd($info['dado'], $this->base));
-            $carregDAO->updCarregProd($info['dado'], $this->base);
-            $ret = json_encode($retorno);
-            return $ret;
-        }
-    }
-    
-    public function retCarregComp($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-
-        $carregDAO = new CarregDAO();
-
-        if ($versao >= 2.00) {
-            $retorno = array("dados" => $carregDAO->retCarregComp($info['dado'], $this->base));
+            $retorno = array("dados" => $carregDAO->retCarreg($info['dado'], $this->base));
             $ret = json_encode($retorno);
             return $ret;
         }

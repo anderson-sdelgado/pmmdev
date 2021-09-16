@@ -26,6 +26,7 @@ require_once('../model/dao/PerdaDAO.class.php');
 require_once('../model/dao/PneuDAO.class.php');
 require_once('../model/dao/PressaoBocalDAO.class.php');
 require_once('../model/dao/ProdutoDAO.class.php');
+require_once('../model/dao/PropriedadeDAO.class.php');
 require_once('../model/dao/TurnoDAO.class.php');
 /**
  * Description of BaseDadosCTR
@@ -367,13 +368,17 @@ class BaseDadosCTR {
         if($versao >= 2.00){
         
             $osDAO = new OSDAO();
+            $rOSAtivDAO = new ROSAtivDAO();
             
             $dado = $info['dado'];
 
             $dadosOS = array("dados" => $osDAO->dadosECM($dado, $this->base));
             $resOS = json_encode($dadosOS);
+            
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado, $this->base));
+            $resROSAtiv = json_encode($dadosROSAtiv);
 
-            return $resOS;
+            return $resOS . "#" . $resROSAtiv;
         
         }
         
@@ -498,6 +503,23 @@ class BaseDadosCTR {
         if($versao >= 2.00){
         
             $dados = array("dados"=>$produtoDAO->dados($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+    
+    public function dadosPropriedade($versao) {
+        
+        $versao = str_replace("_", ".", $versao);
+        
+        $propriedadeDAO = new PropriedadeDAO();
+        
+        if($versao >= 2.00){
+        
+            $dados = array("dados"=> $propriedadeDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;

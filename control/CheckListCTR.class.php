@@ -9,7 +9,6 @@ require_once('../model/dao/EquipDAO.class.php');
 require_once('../model/dao/ItemCheckListDAO.class.php');
 require_once('../model/dao/CabecCheckListDAO.class.php');
 require_once('../model/dao/RespCheckListDAO.class.php');
-//require_once('../model/dao/LogDAO.class.php');
 /**
  * Description of CheckListCTR
  *

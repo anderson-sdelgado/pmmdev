@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once('../dbutil/Conn.class.php');
-require_once('../model/dao/AjusteDataHoraDAO.class.php');
 /**
  * Description of RendimentoMM
  *
@@ -42,8 +41,6 @@ class RendimentoMMDAO extends Conn {
 
     public function insRendimentoMM($idBol, $rend, $base) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $sql = "INSERT INTO PMM_RENDIMENTO ("
                 . " BOLETIM_ID "
                 . " , OS_NRO "
@@ -56,7 +53,7 @@ class RendimentoMMDAO extends Conn {
                 . " " . $idBol
                 . " , " . $rend->nroOSRendMM
                 . " , " . $rend->valorRendMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($rend->dthrRendMM)
+                . " , TO_DATE('" . $rend->dthrRendMM . "','DD/MM/YYYY HH24:MI') "
                 . " , TO_DATE('" . $rend->dthrRendMM . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";

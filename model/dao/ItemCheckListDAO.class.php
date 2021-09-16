@@ -42,8 +42,10 @@ class ItemCheckListDAO extends Conn {
     public function atualCheckList($equip, $base) {
         
         $sql = " UPDATE USINAS.ATUALIZA_CHECKLIST_MOBILE  "
-                . " SET DT_MOBILE = SYSDATE "
-                . " WHERE EQUIP_NRO = " . $equip;
+                . " SET "
+                . " DT_MOBILE = SYSDATE "
+                . " WHERE "
+                . " EQUIP_NRO = " . $equip;
 
         $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);

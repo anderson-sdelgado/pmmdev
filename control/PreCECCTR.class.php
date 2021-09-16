@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once('../model/dao/PreCECDAO.class.php');
-require_once('../model/dao/LogDAO.class.php');
 /**
  * Description of CecCTR
  *
@@ -20,7 +19,6 @@ class PreCECCTR {
 
         $dados = $info['dado'];
         $pagina = $pagina . '-' . $versao;
-        $this->salvarLog($dados, $pagina);
 
         $versao = str_replace("_", ".", $versao);
 
@@ -32,10 +30,10 @@ class PreCECCTR {
             $idPreCECArray = array();
             
             foreach ($dadosPreCEC as $precec) {
-                $v = $preCECDAO->verifPreCEC($precec, $this->base);
-                if ($v == 0) {
-                    $preCECDAO->insPreCEC($precec, $this->base);
-                }
+//                $v = $preCECDAO->verifPreCEC($precec, $this->base);
+//                if ($v == 0) {
+//                    $preCECDAO->insPreCEC($precec, $this->base);
+//                }
                 $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
             }
             
@@ -45,10 +43,5 @@ class PreCECCTR {
             return 'PRECEC_' . $retPreCEC;
         }
     }
-    
-    private function salvarLog($dados, $pagina) {
-        $logDAO = new LogDAO();
-        $logDAO->salvarDados($dados, $pagina, $this->base);
-    }
-    
+
 }

@@ -42,7 +42,7 @@ class LogErroCTR {
             }
             $idLogArray[] = array("idLog" => $logErro->idLog);
         }
-        $dadoLog = array("logerro"=>$idLogArray);
+        $dadoLog = array("dados"=>$idLogArray);
         $retLog = json_encode($dadoLog);
         
         return 'LOGERRO_' . $retLog;

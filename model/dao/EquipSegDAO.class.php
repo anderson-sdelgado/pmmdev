@@ -33,6 +33,8 @@ class EquipSegDAO extends Conn {
                             . " WHEN E.CLASSOPER_CD IN (4, 23, 227) THEN 2 "
                             . " WHEN E.CLASSOPER_CD IN (9, 6) THEN 3 "
                             . " WHEN E.CLASSOPER_CD = 211 OR R.TP_EQUIP = 2 THEN 4 "
+                            . " WHEN E.CLASSOPER_CD = 35 THEN 5 "
+                            . " WHEN E.CLASSOPER_CD IN (5, 21, 36, 216) THEN 6 "
                         . " END AS \"tipoEquip\" "
                     . " FROM "
                         . " V_EQUIP E "
@@ -42,33 +44,7 @@ class EquipSegDAO extends Conn {
                         . " AND " 
                         . " (R.TP_EQUIP IN (1, 2) "
                         . " OR " 
-                        . " E.CLASSOPER_CD IN (4, 9, 6, 23, 211, 227)) ";
-        
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-    }
-    
-    public function dadosECM($base) {
-
-        $select = " SELECT "
-                        . " E.EQUIP_ID AS \"idEquip\" "
-                        . " , E.NRO_EQUIP AS \"nroEquip\" "
-                        . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
-                        . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
-                        . " , CASE " 
-                            . " WHEN E.CLASSOPER_CD = 35 "
-                            . " THEN 1 "
-                            . " ELSE 2 "
-                        . " END AS \"tipoEquip\" "
-                    . " FROM "
-                        . " V_EQUIP E "
-                    . " WHERE "
-                        . " E.CLASSOPER_CD IN (5, 21, 35, 36, 216) ";
+                        . " E.CLASSOPER_CD IN (4, 5, 9, 6, 21, 23, 35, 36, 211, 216, 227)) ";
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

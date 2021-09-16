@@ -32,7 +32,10 @@ class OSDAO extends Conn {
                 . " FROM "
                     . " USINAS.V_PMM_OS "
                 . " WHERE "
-                    . " NRO_OS = " . $os;
+                    . " NRO_OS = " . $os
+                . " ORDER BY "
+                    . " OS_ID "
+                . " ASC";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -46,12 +49,17 @@ class OSDAO extends Conn {
     public function dadosClear($base) {
 
         $select = " SELECT DISTINCT "
-                    . " NRO_OS AS \"nroOS\" "
+                    . " OS_ID AS \"idOS\" "
+                    . " , NRO_OS AS \"nroOS\" "
                     . " , NVL(PROPRAGR_CD, 0)  AS \"codProprOS\" "
                     . " , NVL(CARACTER(PROPRAGR_DESCR), 'ESTRUTURAL') AS \"descrProprOS\" "
                     . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
+                    . " , SERV_AGR AS \"tipoOS\" "
                 . " FROM "
-                    . " USINAS.V_PMM_OS ";
+                    . " USINAS.V_PMM_OS "
+                . " ORDER BY "
+                    . " OS_ID "
+                . " ASC ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -65,16 +73,20 @@ class OSDAO extends Conn {
     public function dadosECM($os, $base) {
 
         $select = "SELECT " 
-                . " ID_ATIV_OS AS \"idAtivOS\" "
-                . " , NRO_OS AS \"nroOS\" "
-                . " , ID_LIB_OS AS \"idLibOS\" "
-                . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
-                . " , ID_ATIV AS \"idAtiv\" "
+                    . " OS_ID AS \"idOS\" "
+                    . " , ID_ATIV_OS AS \"idAtivOS\" "
+                    . " , NRO_OS AS \"nroOS\" "
+                    . " , ID_LIB_OS AS \"idLibOS\" "
+                    . " , ID_PROPR_AGR AS \"idProprAgr\" "
+                    . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
+                    . " , ID_ATIV AS \"idAtiv\" "
                 . " FROM "
-                . " USINAS.V_ECM_OS "
+                    . " USINAS.V_ECM_OS "
                 . " WHERE "
-                . " NRO_OS = " . $os;
+                    . " NRO_OS = " . $os
+                . " ORDER BY "
+                    . " OS_ID "
+                . " ASC ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -88,14 +100,18 @@ class OSDAO extends Conn {
     public function dadosClearECM($base) {
 
         $select = "SELECT " 
-                . " ID_ATIV_OS AS \"idAtivOS\" "
-                . " , NRO_OS AS \"nroOS\" "
-                . " , ID_LIB_OS AS \"idLibOS\" "
-                . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
-                . " , ID_ATIV AS \"idAtiv\" "
+                    . " OS_ID AS \"idOS\" "
+                    . " , ID_ATIV_OS AS \"idAtivOS\" "
+                    . " , NRO_OS AS \"nroOS\" "
+                    . " , ID_LIB_OS AS \"idLibOS\" "
+                    . " , ID_PROPR_AGR AS \"idProprAgr\" "
+                    . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
+                    . " , ID_ATIV AS \"idAtiv\" "
                 . " FROM "
-                . " USINAS.V_ECM_OS ";
+                    . " USINAS.V_ECM_OS "
+                . " ORDER BY "
+                    . " OS_ID "
+                . " ASC ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

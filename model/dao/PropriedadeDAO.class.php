@@ -7,13 +7,13 @@
  */
 require_once('../dbutil/Conn.class.php');
 /**
- * Description of TurnoDAO
+ * Description of PropriedadeDAO
  *
  * @author anderson
  */
-class TurnoDAO extends Conn {
+class PropriedadeDAO extends Conn {
     //put your code here
-
+    
     /** @var PDOStatement */
     private $Read;
 
@@ -22,13 +22,11 @@ class TurnoDAO extends Conn {
 
     public function dados($base) {
 
-        $select = " SELECT "
-                . " TURNOTRAB_ID AS \"idTurno\" "
-                . " , TPTUREQUIP_CD AS \"codTurno\" "
-                . " , NRO_TURNO AS \"nroTurno\" "
-                . " , 'TURNO ' || NRO_TURNO || ': ' || HR_INI || ' - ' || HR_FIM AS \"descTurno\" "
+        $select = " SELECT DISTINCT "
+                . " ID_PROPR_AGR AS \"idPropriedade\" "
+                . " , DESCR_PROPR_AGR AS \"descrPropriedade\" "
                 . " FROM "
-                . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW ";
+                . " USINAS.V_ECM_OS ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -37,7 +35,6 @@ class TurnoDAO extends Conn {
         $result = $this->Read->fetchAll();
 
         return $result;
-        
     }
-
+    
 }

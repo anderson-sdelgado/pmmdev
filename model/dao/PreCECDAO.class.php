@@ -6,8 +6,6 @@
  * and open the template in the editor.
  */
 require_once('../dbutil/Conn.class.php');
-require_once('../model/dao/AjusteDataHoraDAO.class.php');
-
 /**
  * Description of InsMotoMecDAO
  *
@@ -48,8 +46,6 @@ class PreCECDAO extends Conn {
     
     public function insPreCEC($precec, $base) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $insert = " INSERT INTO "
                 . " ECM_PRE_CEC_CANA "
                 . " ( ID, EQUIP, LIB_EQUIP, COLHED_EQUIP, OPER_COLHED_EQUIP, COLABORADOR "
@@ -80,11 +76,11 @@ class PreCECDAO extends Conn {
                 . " , " . $this->verifValor($precec->libCarr3)
                 . " , null "
                 . " , null "
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataChegCampo, $base)
                 . " , TO_DATE('" . $precec->dataChegCampo . "','DD/MM/YYYY HH24:MI')"
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaCampo, $base)
+                . " , TO_DATE('" . $precec->dataChegCampo . "','DD/MM/YYYY HH24:MI')"
                 . " , TO_DATE('" . $precec->dataSaidaCampo . "','DD/MM/YYYY HH24:MI')"
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($precec->dataSaidaUsina, $base)
+                . " , TO_DATE('" . $precec->dataSaidaCampo . "','DD/MM/YYYY HH24:MI')"
+                . " , TO_DATE('" . $precec->dataSaidaUsina . "','DD/MM/YYYY HH24:MI')"
                 . " , TO_DATE('" . $precec->dataSaidaUsina . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " , " . $precec->moto

@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once('../dbutil/Conn.class.php');
-require_once('../model/dao/AjusteDataHoraDAO.class.php');
 
 /**
  * Description of RecolhimentoFertDAO
@@ -44,8 +43,6 @@ class RecolhimentoFertDAO extends Conn {
 
     public function insRecolhimentoFert($idBol, $recol, $base) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $sql = "INSERT INTO PMM_RECOLHIMENTO_FERT ("
                 . " BOLETIM_ID "
                 . " , OS_NRO "
@@ -58,7 +55,7 @@ class RecolhimentoFertDAO extends Conn {
                 . " " . $idBol
                 . " , " . $recol->nroOSRecolhFert
                 . " , " . $recol->valorRecolhFert
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($recol->dthrRecolhFert)
+                . " , TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " , TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
                 . " )";

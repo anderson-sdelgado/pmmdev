@@ -3,11 +3,12 @@
 $versao = filter_input(INPUT_GET, 'versao', FILTER_DEFAULT);
 $info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-require_once('../control/MotoMecCTR.class.php');
+require('../control/CarregCTR.class.php');
+
+$carregCTR = new CarregCTR();
 
 if (isset($info)):
 
-    $motoMecCTR = new MotoMecCTR();
-    echo $motoMecCTR->salvarApont($versao, $info, "inserirapontmm");
+    echo $carregCTR->retCarreg($versao, $info);
     
 endif;

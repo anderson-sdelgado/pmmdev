@@ -54,11 +54,11 @@ class LogEnvioDAO extends Conn {
             $idEquip = 0;
             $flag = 0;
             
-            if(($pagina == 'inserirbolabertomm') || ($pagina == 'inserirbolfechadomm')){
+            if(($pagina == 'inserirbolabertommfert') || ($pagina == 'inserirbolfechadommfert')){
                 
                 foreach ($dadosBoletim as $bol) {
 
-                    $idEquip = $bol->idEquipBolMM;
+                    $idEquip = $bol->idEquipBolMMFert;
                     $result = $this->dadoAtual($idEquip, $base);
                     foreach ($result as $item) {
                         $flag = $item['FLAG_LOG_ENVIO'];

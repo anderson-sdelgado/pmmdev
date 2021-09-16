@@ -8,6 +8,6 @@ require_once('../control/CarregCTR.class.php');
 if (isset($info)):
 
     $carregCTR = new CarregCTR();
-    echo $carregCTR->salvarDados($versao, $info, "inserircarreginsumo");
+    echo $carregCTR->atualLeiraDescarreg($versao, $info, "inserirleiradescarreg");
     
 endif;

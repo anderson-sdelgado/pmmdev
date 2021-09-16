@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 require_once('../dbutil/Conn.class.php');
-require_once('../model/dao/AjusteDataHoraDAO.class.php');
 
 /**
  * Description of ImplementoDAO
@@ -43,8 +42,6 @@ class ImplementoMMDAO extends Conn {
 
     public function insImplementoMM($idApont, $imp, $base) {
 
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-
         $sql = "INSERT INTO PMM_IMPLEMENTO ("
                 . " APONTAMENTO_ID "
                 . " , NRO_EQUIP "
@@ -57,8 +54,8 @@ class ImplementoMMDAO extends Conn {
                 . " " . $idApont
                 . " , " . $imp->codEquipImpleMM
                 . " , " . $imp->posImpleMM
-                . " , " . $ajusteDataHoraDAO->dataHoraGMT($imp->dthrImpleMM, $base)
-                . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI') "
+                . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI')"
+                . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
                 . " )";
 
