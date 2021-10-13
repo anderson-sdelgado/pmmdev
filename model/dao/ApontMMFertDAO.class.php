@@ -141,28 +141,6 @@ class ApontMMFertDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
-
-    public function verifQtdeApontMM($idBol, $base) {
-
-        $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_APONTAMENTO "
-                . " WHERE "
-                . " BOLETIM_ID = " . $idBol;
-
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        foreach ($result as $item) {
-            $v = $item['QTDE'];
-        }
-
-        return $v;
-    }
     
     public function verifApontFert($idBol, $apont, $base) {
 
@@ -270,28 +248,6 @@ class ApontMMFertDAO extends Conn {
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         
-    }
-    
-    public function verifQtdeApontFert($idBol, $base) {
-
-        $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_APONTAMENTO_FERT "
-                . " WHERE "
-                . " BOLETIM_ID = " . $idBol;
-
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        foreach ($result as $item) {
-            $v = $item['QTDE'];
-        }
-
-        return $v;
     }
     
 }

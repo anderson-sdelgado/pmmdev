@@ -22,11 +22,9 @@ class RecolhimentoFertDAO extends Conn {
                 . " FROM "
                 . " PMM_RECOLHIMENTO_FERT "
                 . " WHERE "
-                . " OS_NRO = " . $recol->nroOSRecolhFert
+                . " BOLETIM_ID = " . $idBol
                 . " AND "
-                . " DTHR_CEL = TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " BOLETIM_ID = " . $idBol;
+                . " ID_CEL = " . $recol->idRecolhFert;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -49,7 +47,8 @@ class RecolhimentoFertDAO extends Conn {
                 . " , MANGUEIRA_REC "
                 . " , DTHR "
                 . " , DTHR_CEL "
-                . " , DTHR_TRANS "
+                . " , DTHR_TRANS"
+                . " , ID_CEL "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -58,6 +57,7 @@ class RecolhimentoFertDAO extends Conn {
                 . " , TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " , TO_DATE('" . $recol->dthrRecolhFert . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
+                . " , " . $recol->idRecolhFert
                 . " )";
 
         $this->Conn = parent::getConn($base);

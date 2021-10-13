@@ -23,9 +23,7 @@ class ImplementoMMDAO extends Conn {
                 . " WHERE "
                 . " APONTAMENTO_ID = " . $idApont
                 . " AND "
-                . " NRO_EQUIP = " . $imp->codEquipImpleMM
-                . " AND "
-                . " DTHR_CEL = TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI') ";
+                . " ID_CEL = " . $imp->idApontImpleMM;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -49,6 +47,7 @@ class ImplementoMMDAO extends Conn {
                 . " , DTHR "
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
+                . " , ID_CEL "
                 . " ) "
                 . " VALUES ("
                 . " " . $idApont
@@ -57,6 +56,7 @@ class ImplementoMMDAO extends Conn {
                 . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI')"
                 . " , TO_DATE('" . $imp->dthrImpleMM . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
+                . " , " . $imp->idApontImpleMM
                 . " )";
 
         $this->Conn = parent::getConn($base);

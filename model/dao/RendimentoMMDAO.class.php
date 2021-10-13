@@ -20,11 +20,9 @@ class RendimentoMMDAO extends Conn {
                 . " FROM "
                 . " PMM_RENDIMENTO "
                 . " WHERE "
-                . " OS_NRO = " . $rend->nroOSRendMM
+                . " BOLETIM_ID = " . $idBol
                 . " AND "
-                . " DTHR_CEL = TO_DATE('" . $rend->dthrRendMM . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " BOLETIM_ID = " . $idBol;
+                . " ID_CEL = " . $rend->idRendMM;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -48,6 +46,7 @@ class RendimentoMMDAO extends Conn {
                 . " , DTHR "
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
+                . " , ID_CEL "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -56,6 +55,7 @@ class RendimentoMMDAO extends Conn {
                 . " , TO_DATE('" . $rend->dthrRendMM . "','DD/MM/YYYY HH24:MI') "
                 . " , TO_DATE('" . $rend->dthrRendMM . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
+                . " , " . $rend->idRendMM
                 . " )";
 
         $this->Conn = parent::getConn($base);

@@ -140,7 +140,6 @@ class MotoMecFertCTR {
         $idBolMMArray = array();
         
         foreach ($dadosBoletim as $bol) {
-
             if($bol->tipoBolMMFert === 1){
                 $v = $boletimMMFertDAO->verifBoletimMM($bol, $this->base);
                 if ($v == 0) {
@@ -153,8 +152,6 @@ class MotoMecFertCTR {
                 $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento);
                 $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $this->salvarRendMM($idBolBD, $bol->idBolMMFert, $dadosRendimento);
-                $apontMMFertDAO = new ApontMMFertDAO();
-                $qtdeApontBolMMFert = $apontMMFertDAO->verifQtdeApontMM($idBolBD, $this->base);
             }
             else{
                 $v = $boletimMMFertDAO->verifBoletimFert($bol, $this->base);
@@ -167,10 +164,8 @@ class MotoMecFertCTR {
                 }
                 $this->salvarApontFert($idBolBD, $bol->idBolMMFert, $dadosApont);
                 $this->salvarRecolhFert($idBolBD, $bol->idBolMMFert, $dadosRecolhimento);
-                $apontMMFertDAO = new ApontMMFertDAO();
-                $qtdeApontBolMMFert = $apontMMFertDAO->verifQtdeApontFert($idBolBD, $this->base);
             }
-            $idBolMMArray[] = array("idBolMMFert" => $bol->idBolMMFert, "qtdeApontBolMMFert" => $qtdeApontBolMMFert);
+            $idBolMMArray[] = array("idBolMMFert" => $bol->idBolMMFert);
         }
         
         $dadoBol = array("boletim"=>$idBolMMArray);

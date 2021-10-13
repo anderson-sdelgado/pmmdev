@@ -27,13 +27,9 @@ class LeiraDAO extends Conn {
                 . " FROM "
                 . " PMM_MOV_LEIRA "
                 . " WHERE "
-                . " TIPO = " . $movLeira->tipoMovLeira
+                . " BOLETIM_ID = " . $idBol
                 . " AND "
-                . " LEIRA_ID = " . $movLeira->idLeiraMovLeira
-                . " AND "
-                . " DTHR_CEL = TO_DATE('" . $movLeira->dthrMovLeira . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " BOLETIM_ID = " . $idBol;
+                . " ID_CEL = " . $movLeira->idMovLeira;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -58,6 +54,7 @@ class LeiraDAO extends Conn {
                 . " , DTHR "
                 . " , DTHR_CEL "
                 . " , DTHR_TRANS "
+                . " , ID_CEL "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -66,6 +63,7 @@ class LeiraDAO extends Conn {
                 . " , TO_DATE('" . $movLeira->dthrMovLeira . "','DD/MM/YYYY HH24:MI')"
                 . " , TO_DATE('" . $movLeira->dthrMovLeira . "','DD/MM/YYYY HH24:MI')"
                 . " , SYSDATE "
+                . " , " . $movLeira->idMovLeira
                 . " )";
 
         $this->Conn = parent::getConn($base);

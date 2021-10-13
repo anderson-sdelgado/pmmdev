@@ -24,6 +24,7 @@ class PropriedadeDAO extends Conn {
 
         $select = " SELECT DISTINCT "
                 . " ID_PROPR_AGR AS \"idPropriedade\" "
+                . " , COD_PROPR_AGR AS \"codPropriedade\" "
                 . " , DESCR_PROPR_AGR AS \"descrPropriedade\" "
                 . " FROM "
                 . " USINAS.V_ECM_OS ";
