@@ -30,10 +30,10 @@ class PreCECCTR {
             $idPreCECArray = array();
             
             foreach ($dadosPreCEC as $precec) {
-//                $v = $preCECDAO->verifPreCEC($precec, $this->base);
-//                if ($v == 0) {
-//                    $preCECDAO->insPreCEC($precec, $this->base);
-//                }
+                $v = $preCECDAO->verifPreCEC($precec, $this->base);
+                if ($v == 0) {
+                    $preCECDAO->insPreCEC($precec, $this->base);
+                }
                 $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
             }
             
