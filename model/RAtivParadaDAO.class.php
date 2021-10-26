@@ -24,15 +24,15 @@ class RAtivParadaDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                    . " AA.ATIVAGR_ID AS \"idAtiv\" "
-                    . " , MOT.MOTPARADA_ID AS \"idParada\" "
-                . " FROM "
-                    . " V_SIMOVA_ATIVAGR_NEW AA "
-                    . " , USINAS.R_ATIVAGR_MOTPARADA MOT "
-                . " WHERE "
-                    . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID "
-                    . " AND "
-                    . " AA.DESAT = 0 ";
+                        . " AA.ATIVAGR_ID AS \"idAtiv\" "
+                        . " , MOT.MOTPARADA_ID AS \"idParada\" "
+                    . " FROM "
+                        . " V_SIMOVA_ATIVAGR_NEW AA "
+                        . " , USINAS.R_ATIVAGR_MOTPARADA MOT "
+                    . " WHERE "
+                        . " MOT.ATIVAGR_ID = AA.ATIVAGR_ID "
+                        . " AND "
+                        . " AA.DESAT = 0 ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

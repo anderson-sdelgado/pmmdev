@@ -44,17 +44,9 @@ class BaseDadosCTR {
         
         $atividadeDAO = new AtividadeDAO();
         
-        if(($versao >= 2.00) && ($versao < 2.01)){
-        
-            $dados = array("dados" => $atividadeDAO->dadosComFlag($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
+        if($versao >= 4.00){
             
-        }
-        elseif($versao >= 2.01){
-            
-            $dados = array("dados" => $atividadeDAO->dadosSemFlag($this->base));
+            $dados = array("dados" => $atividadeDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -67,30 +59,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if(($versao >= 2.00) && ($versao < 2.01)){
-            
-            $rEquipAtivDAO = new REquipAtivDAO();
-            $rOSAtivDAO = new ROSAtivDAO();
-            $atividadeDAO = new AtividadeDAO();
-
-            $dados = $info['dado'];
-            $pos1 = strpos($dados, "_") + 1;
-            $os = substr($dados, 0, ($pos1 - 1));
-            $equip = substr($dados, $pos1);
-
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
-            $resEquipAtiv = json_encode($dadosEquipAtiv);
-
-            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os, $this->base));
-            $resOSAtiv = json_encode($dadosOSAtiv);
-
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag($this->base));
-            $resAtividade = json_encode($dadosAtividade);
-
-            return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade;
-        
-        }
-        elseif($versao >= 2.01){
+        if($versao >= 4.00){
             
             $rEquipAtivDAO = new REquipAtivDAO();
             $rOSAtivDAO = new ROSAtivDAO();
@@ -124,7 +93,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 3.01){
+        if($versao >= 4.00){
             
             $rEquipAtivDAO = new REquipAtivDAO();
             $osDAO = new OSDAO();
@@ -154,7 +123,7 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $bocalDAO = new BocalDAO();
 
@@ -171,7 +140,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $equipDAO = new EquipDAO();
             $rEquipAtivDAO = new REquipAtivDAO();
@@ -198,7 +167,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $equipDAO = new EquipDAO();
             $rEquipAtivDAO = new REquipAtivDAO();
@@ -225,7 +194,7 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
 
             $equipSegDAO = new EquipSegDAO();
 
@@ -242,7 +211,7 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
 
             $equipSegDAO = new EquipSegDAO();
 
@@ -259,7 +228,7 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $frenteDAO = new FrenteDAO();
 
@@ -276,7 +245,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $funcionarioDAO = new FuncionarioDAO();
 
@@ -293,7 +262,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.02){
+        if($versao >= 4.00){
         
             $dado = $info['dado'];
 
@@ -325,7 +294,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $leiraDAO = new LeiraDAO();
 
@@ -342,7 +311,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $osDAO = new OSDAO();
             $rOSAtivDAO = new ROSAtivDAO();
@@ -365,7 +334,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $osDAO = new OSDAO();
             $rOSAtivDAO = new ROSAtivDAO();
@@ -388,7 +357,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $osDAO = new OSDAO();
             
@@ -405,7 +374,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $paradaDAO = new ParadaDAO();
 
@@ -422,7 +391,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
             
             $rAtivParadaDAO = new RAtivParadaDAO();
             $paradaDAO = new ParadaDAO();
@@ -443,7 +412,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $dado = $info['dado'];
 
@@ -462,7 +431,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $pneuDAO = new PneuDAO();
 
@@ -481,7 +450,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
 
             $pressaoBocalDAO = new PressaoBocalDAO();
 
@@ -498,7 +467,7 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $produtoDAO = new ProdutoDAO();
             
@@ -517,7 +486,7 @@ class BaseDadosCTR {
         
         $propriedadeDAO = new PropriedadeDAO();
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $dados = array("dados"=> $propriedadeDAO->dados($this->base));
             $json_str = json_encode($dados);
@@ -532,7 +501,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $rAtivParadaDAO = new RAtivParadaDAO();
 
@@ -549,7 +518,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
@@ -566,7 +535,7 @@ class BaseDadosCTR {
 
         $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
+        if($versao >= 4.00){
         
             $turnoDAO = new TurnoDAO();
 

@@ -23,28 +23,28 @@ class PerdaDAO extends Conn {
     public function dados($matric, $base) {
 
         $select = " SELECT " 
-                    . " TO_CHAR(P.DT_REF, 'DD/MM/YYYY') AS \"dthrPerda\" "
-                    . " , P.TOLETE AS \"toletePerda\" "
-                    . " , P.LASCA AS \"lascaPerda\" "
-                    . " , P.TOCO AS \"tocoPerda\" "
-                    . " , P.PONTEIRO AS \"ponteiroPerda\" "
-                    . " , P.CANAINTEIRA AS \"canaInteiraPerda\" "
-                    . " , P.PEDACO AS \"pedacoPerda\" "
-                    . " , P.REPIQUE AS \"repiquePerda\" "
-                    . " , P.SOQUEIRA AS \"soqueiraPerda\" "
-                    . " , P.NROSOQUEIRA AS \"nroSoqueiraPerda\" "
-                    . " , P.TOTAL AS \"totalPerda\" "
-                . " FROM " 
-                    . " VMB_PERDA_FRENTE P "
-                    . " , VMB_FUNC_FRENTE FF "
-                    . " , FUNC F "
-                . " WHERE "
-                    . " F.CD = " . $matric
-                    . " AND "
-                    . " P.FRENTE_ID = FF.FRENTE_ID "
-                    . " AND "
-                    . " FF.FUNC_ID = F.FUNC_ID "
-                . " FETCH FIRST 1 ROWS ONLY ";
+                        . " TO_CHAR(P.DT_REF, 'DD/MM/YYYY') AS \"dthrPerda\" "
+                        . " , P.TOLETE AS \"toletePerda\" "
+                        . " , P.LASCA AS \"lascaPerda\" "
+                        . " , P.TOCO AS \"tocoPerda\" "
+                        . " , P.PONTEIRO AS \"ponteiroPerda\" "
+                        . " , P.CANAINTEIRA AS \"canaInteiraPerda\" "
+                        . " , P.PEDACO AS \"pedacoPerda\" "
+                        . " , P.REPIQUE AS \"repiquePerda\" "
+                        . " , P.SOQUEIRA AS \"soqueiraPerda\" "
+                        . " , P.NROSOQUEIRA AS \"nroSoqueiraPerda\" "
+                        . " , P.TOTAL AS \"totalPerda\" "
+                    . " FROM " 
+                        . " VMB_PERDA_FRENTE P "
+                        . " , VMB_FUNC_FRENTE FF "
+                        . " , FUNC F "
+                    . " WHERE "
+                        . " F.CD = " . $matric
+                        . " AND "
+                        . " P.FRENTE_ID = FF.FRENTE_ID "
+                        . " AND "
+                        . " FF.FUNC_ID = F.FUNC_ID "
+                    . " FETCH FIRST 1 ROWS ONLY ";
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

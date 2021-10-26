@@ -39,13 +39,13 @@ class CarregDAO extends Conn {
     public function verifCarregProd($carreg, $base) {
         
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
+                    . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " USINAS.REG_COMPOSTO "
+                    . " USINAS.REG_COMPOSTO "
                 . " WHERE "
-                . " DT = TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " EQUIP_ID = " . $carreg->equipCarreg;
+                    . " DT = TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
+                    . " AND "
+                    . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

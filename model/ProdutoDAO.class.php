@@ -23,13 +23,13 @@ class ProdutoDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                    . " PROD_ID AS \"idProduto\" "
-                    . " , CD AS \"codProduto\" "
-                    . " , DESCR AS \"descProduto\" "
-                . " FROM "
-                    . " PROD "
-                . " WHERE "
-                    . " CD LIKE 'A500207' OR CD LIKE 'A500055' ";
+                        . " PROD_ID AS \"idProduto\" "
+                        . " , CD AS \"codProduto\" "
+                        . " , DESCR AS \"descProduto\" "
+                    . " FROM "
+                        . " PROD "
+                    . " WHERE "
+                        . " CD LIKE 'A500207' OR CD LIKE 'A500055' ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

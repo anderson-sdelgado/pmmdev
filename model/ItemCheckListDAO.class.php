@@ -24,11 +24,11 @@ class ItemCheckListDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                . " ITMANPREV_ID AS \"idItemCheckList\" "
-                . " , PLMANPREV_ID AS \"idCheckList\" "
-                . " , CARACTER(PROC_OPER) AS \"descrItemCheckList\" "
-                . " FROM "
-                . " V_ITEM_PLANO_CHECK ";
+                        . " ITMANPREV_ID AS \"idItemCheckList\" "
+                        . " , PLMANPREV_ID AS \"idCheckList\" "
+                        . " , CARACTER(PROC_OPER) AS \"descrItemCheckList\" "
+                    . " FROM "
+                        . " V_ITEM_PLANO_CHECK ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

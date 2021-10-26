@@ -23,12 +23,12 @@ class TurnoDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                . " TURNOTRAB_ID AS \"idTurno\" "
-                . " , TPTUREQUIP_CD AS \"codTurno\" "
-                . " , NRO_TURNO AS \"nroTurno\" "
-                . " , 'TURNO ' || NRO_TURNO || ': ' || HR_INI || ' - ' || HR_FIM AS \"descTurno\" "
-                . " FROM "
-                . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW ";
+                        . " TURNOTRAB_ID AS \"idTurno\" "
+                        . " , TPTUREQUIP_CD AS \"codTurno\" "
+                        . " , NRO_TURNO AS \"nroTurno\" "
+                        . " , 'TURNO ' || NRO_TURNO || ': ' || HR_INI || ' - ' || HR_FIM AS \"descTurno\" "
+                    . " FROM "
+                        . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

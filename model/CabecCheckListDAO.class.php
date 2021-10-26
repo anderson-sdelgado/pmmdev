@@ -16,13 +16,13 @@ class CabecCheckListDAO extends Conn {
     public function verifCabecCheckList($cab, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
+                    . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " BOLETIM_CHECK "
+                    . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DTHR_CELULAR = TO_DATE('" . $cab->dtCabCL . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " EQUIP_NRO = " . $cab->equipCabCL;
+                    . " DTHR_CELULAR = TO_DATE('" . $cab->dtCabCL . "','DD/MM/YYYY HH24:MI') "
+                    . " AND "
+                    . " EQUIP_NRO = " . $cab->equipCabCL;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -40,13 +40,13 @@ class CabecCheckListDAO extends Conn {
     public function idCabecCheckList($cab, $base) {
 
         $select = " SELECT "
-                . " ID_BOLETIM AS ID "
+                    . " ID_BOLETIM AS ID "
                 . " FROM "
-                . " BOLETIM_CHECK "
+                    . " BOLETIM_CHECK "
                 . " WHERE "
-                . " DTHR_CELULAR  = TO_DATE('" . $cab->dtCabCL . "','DD/MM/YYYY HH24:MI') "
-                . " AND "
-                . " EQUIP_NRO = " . $cab->equipCabCL;
+                    . " DTHR_CELULAR  = TO_DATE('" . $cab->dtCabCL . "','DD/MM/YYYY HH24:MI') "
+                    . " AND "
+                    . " EQUIP_NRO = " . $cab->equipCabCL;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -64,10 +64,11 @@ class CabecCheckListDAO extends Conn {
     public function insCabecCheckList($cab, $base) {
 
         $select = " SELECT "
-                . " NRO_TURNO "
+                    . " NRO_TURNO "
                 . " FROM "
-                . " USINAS.TURNO_TRAB "
-                . " WHERE TURNOTRAB_ID = " . $cab->turnoCabCL;
+                    . " USINAS.TURNO_TRAB "
+                . " WHERE "
+                    . " TURNOTRAB_ID = " . $cab->turnoCabCL;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

@@ -23,12 +23,12 @@ class PressaoBocalDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                . " BOCALPRESS_ID AS \"idPressaoBocal\" "
-                . " , BOCALBOMBA_ID AS \"idBocal\" "
-                . " , PRESSAO_KGF_CM2 AS \"valorPressao\" "
-                . " , VELOC_MH AS \"valorVeloc\" "
-                . " FROM " 
-                . " USINAS.VMB_BOCAL_BOMBA ";
+                        . " BOCALPRESS_ID AS \"idPressaoBocal\" "
+                        . " , BOCALBOMBA_ID AS \"idBocal\" "
+                        . " , PRESSAO_KGF_CM2 AS \"valorPressao\" "
+                        . " , VELOC_MH AS \"valorVeloc\" "
+                    . " FROM " 
+                        . " USINAS.VMB_BOCAL_BOMBA ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

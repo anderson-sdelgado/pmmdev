@@ -22,12 +22,12 @@ class PneuDAO extends Conn {
     public function dados($valor, $base) {
         
         $select = " SELECT "
-                . " EQUIPCOMPO_ID AS \"idPneu\" "
-                . " , CD AS \"codPneu\" "
-                . " FROM "
-                . " VMB_PNEU "
-                . " WHERE "
-                . " CD LIKE '" . $valor . "'";
+                        . " EQUIPCOMPO_ID AS \"idPneu\" "
+                        . " , CD AS \"codPneu\" "
+                    . " FROM "
+                        . " VMB_PNEU "
+                    . " WHERE "
+                        . " CD LIKE '" . $valor . "'";
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

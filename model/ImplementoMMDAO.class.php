@@ -17,13 +17,13 @@ class ImplementoMMDAO extends Conn {
     public function verifImplementoMM($idApont, $imp, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_IMPLEMENTO "
-                . " WHERE "
-                . " APONTAMENTO_ID = " . $idApont
-                . " AND "
-                . " ID_CEL = " . $imp->idApontImpleMM;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " PMM_IMPLEMENTO "
+                    . " WHERE "
+                        . " APONTAMENTO_ID = " . $idApont
+                        . " AND "
+                        . " ID_CEL = " . $imp->idApontImpleMM;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

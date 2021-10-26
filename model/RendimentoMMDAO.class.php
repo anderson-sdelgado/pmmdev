@@ -16,13 +16,13 @@ class RendimentoMMDAO extends Conn {
     public function verifRendimentoMM($idBol, $rend, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_RENDIMENTO "
-                . " WHERE "
-                . " BOLETIM_ID = " . $idBol
-                . " AND "
-                . " ID_CEL = " . $rend->idRendMM;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " PMM_RENDIMENTO "
+                    . " WHERE "
+                        . " BOLETIM_ID = " . $idBol
+                        . " AND "
+                        . " ID_CEL = " . $rend->idRendMM;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

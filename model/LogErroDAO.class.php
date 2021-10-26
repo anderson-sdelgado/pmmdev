@@ -17,15 +17,15 @@ class LogErroDAO extends Conn {
     public function verifLogErro($erro, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_LOG_ERRO "
-                . " WHERE "
-                . " DTHR_CEL = TO_DATE('" . $erro->dthr . "','DD/MM/YYYY HH24:MI')"
-                . " AND "
-                . " EQUIP_ID = " . $erro->idEquip
-                . " AND "
-                . " CEL_ID = " . $erro->idLog;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " PMM_LOG_ERRO "
+                    . " WHERE "
+                        . " DTHR_CEL = TO_DATE('" . $erro->dthr . "','DD/MM/YYYY HH24:MI')"
+                        . " AND "
+                        . " EQUIP_ID = " . $erro->idEquip
+                        . " AND "
+                        . " CEL_ID = " . $erro->idLog;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

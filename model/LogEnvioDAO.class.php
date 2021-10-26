@@ -97,17 +97,17 @@ class LogEnvioDAO extends Conn {
     public function dadoAtual($equip, $base) {
 
         $select = " SELECT "
-                . " A.VERSAO_NOVA "
-                . " , A.VERSAO_ATUAL "
-                . " , A.FLAG_LOG_ENVIO "
-                . " , A.FLAG_LOG_ERRO "
-                . " FROM "
-                . " PMM_ATUALIZACAO A "
-                . " , EQUIP E "
-                . " WHERE "
-                . " A.EQUIP_ID = E.NRO_EQUIP "
-                . " AND"
-                . " E.EQUIP_ID = " . $equip;
+                        . " A.VERSAO_NOVA "
+                        . " , A.VERSAO_ATUAL "
+                        . " , A.FLAG_LOG_ENVIO "
+                        . " , A.FLAG_LOG_ERRO "
+                    . " FROM "
+                        . " PMM_ATUALIZACAO A "
+                        . " , EQUIP E "
+                    . " WHERE "
+                        . " A.EQUIP_ID = E.NRO_EQUIP "
+                        . " AND"
+                        . " E.EQUIP_ID = " . $equip;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

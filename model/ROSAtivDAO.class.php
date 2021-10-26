@@ -23,12 +23,12 @@ class ROSAtivDAO extends Conn {
     public function dados($os, $base) {
 
         $select = " SELECT "
-                . " NRO_OS AS \"nroOS\" "
-                . " , ATIVAGR_ID AS \"idAtiv\" "
-                . " FROM "
-                . " USINAS.V_PMM_OS "
-                . " WHERE "
-                . " NRO_OS = " . $os;
+                        . " NRO_OS AS \"nroOS\" "
+                        . " , ATIVAGR_ID AS \"idAtiv\" "
+                    . " FROM "
+                        . " USINAS.V_PMM_OS "
+                    . " WHERE "
+                        . " NRO_OS = " . $os;
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -43,12 +43,12 @@ class ROSAtivDAO extends Conn {
      public function verif($os, $base) {
 
         $select = " SELECT "
-                . " NRO_OS AS \"nroOS\" "
-                . " , ATIVAGR_CD AS \"codAtiv\" "
-                . " FROM "
-                . " USINAS.V_PMM_OS "
-                . " WHERE "
-                . " NRO_OS = " . $os;
+                        . " NRO_OS AS \"nroOS\" "
+                        . " , ATIVAGR_CD AS \"codAtiv\" "
+                    . " FROM "
+                        . " USINAS.V_PMM_OS "
+                    . " WHERE "
+                        . " NRO_OS = " . $os;
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -63,13 +63,13 @@ class ROSAtivDAO extends Conn {
     public function atual($os, $base) {
 
         $select = " SELECT "
-                . " ROWNUM AS \"idROSAtiv\" "
-                . " , NRO_OS AS \"nroOS\" "
-                . " , ATIVAGR_CD AS \"codAtiv\" "
-                . " FROM "
-                . " USINAS.V_SIMOVA_OS "
-                . " WHERE "
-                . " NRO_OS = " . $os;
+                        . " ROWNUM AS \"idROSAtiv\" "
+                        . " , NRO_OS AS \"nroOS\" "
+                        . " , ATIVAGR_CD AS \"codAtiv\" "
+                    . " FROM "
+                        . " USINAS.V_SIMOVA_OS "
+                    . " WHERE "
+                        . " NRO_OS = " . $os;
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

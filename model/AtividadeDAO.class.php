@@ -20,25 +20,7 @@ class AtividadeDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dadosComFlag($base) {
-
-        $select = " SELECT "
-                        . " A.ATIVAGR_ID AS \"idAtiv\" "
-                        . " , A.ATIVAGR_CD AS \"codAtiv\" "
-                        . " , CARACTER(A.ATIVAGR_DESCR) AS \"descrAtiv\" "
-                . " FROM "
-                    . " USINAS.VMB_ATIVAGR_MECAN A ";
-
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-    }
-    
-    public function dadosSemFlag($base) {
+    public function dados($base) {
 
         $select = " SELECT "
                         . " A.ATIVAGR_ID AS \"idAtiv\" "

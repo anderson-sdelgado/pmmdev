@@ -23,11 +23,11 @@ class PropriedadeDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT DISTINCT "
-                . " ID_PROPR_AGR AS \"idPropriedade\" "
-                . " , COD_PROPR_AGR AS \"codPropriedade\" "
-                . " , DESCR_PROPR_AGR AS \"descrPropriedade\" "
-                . " FROM "
-                . " USINAS.V_ECM_OS ";
+                        . " ID_PROPR_AGR AS \"idPropriedade\" "
+                        . " , COD_PROPR_AGR AS \"codPropriedade\" "
+                        . " , DESCR_PROPR_AGR AS \"descrPropriedade\" "
+                    . " FROM "
+                        . " USINAS.V_ECM_OS ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

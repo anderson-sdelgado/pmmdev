@@ -16,13 +16,13 @@ class RespCheckListDAO extends Conn {
     public function verifRespCheckList($idCab, $i, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " ITEM_BOLETIM_CHECK "
-                . " WHERE "
-                . " ID_BOLETIM = " . $idCab
-                . " AND "
-                . " ITMANPREV_ID = " . $i->idItBDItCL;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " ITEM_BOLETIM_CHECK "
+                    . " WHERE "
+                        . " ID_BOLETIM = " . $idCab
+                        . " AND "
+                        . " ITMANPREV_ID = " . $i->idItBDItCL;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -43,16 +43,16 @@ class RespCheckListDAO extends Conn {
         $questao = '';
 
         $select = " SELECT "
-                . " VIPC.ITMANPREV_ID AS ID, "
-                . " CARACTER(VIPC.PROC_OPER) AS QUESTAO, "
-                . " CARACTER(VCC.DESCR) AS GRUPO "
-                . " FROM "
-                . " V_ITEM_PLANO_CHECK VIPC "
-                . " , V_COMPONENTE_CHECK VCC "
-                . " WHERE "
-                . " VIPC.ITMANPREV_ID = " . $i->idItBDItCL . " "
-                . " AND "
-                . " VIPC.COMPONENTE_ID = VCC.COMPONENTE_ID ";
+                        . " VIPC.ITMANPREV_ID AS ID, "
+                        . " CARACTER(VIPC.PROC_OPER) AS QUESTAO, "
+                        . " CARACTER(VCC.DESCR) AS GRUPO "
+                    . " FROM "
+                        . " V_ITEM_PLANO_CHECK VIPC "
+                        . " , V_COMPONENTE_CHECK VCC "
+                    . " WHERE "
+                        . " VIPC.ITMANPREV_ID = " . $i->idItBDItCL . " "
+                        . " AND "
+                        . " VIPC.COMPONENTE_ID = VCC.COMPONENTE_ID ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

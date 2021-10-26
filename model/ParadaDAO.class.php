@@ -23,14 +23,14 @@ class ParadaDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                    . " MOTPARADA_ID AS \"idParada\" "
-                    . " , CD AS \"codParada\" "
-                    . " , CARACTER(DESCR) AS \"descrParada\" "
-                . " FROM "
-                    . " USINAS.MOTIVO_PARADA "
-                . " ORDER BY "
-                    . " MOTPARADA_ID "
-                . " ASC ";
+                        . " MOTPARADA_ID AS \"idParada\" "
+                        . " , CD AS \"codParada\" "
+                        . " , CARACTER(DESCR) AS \"descrParada\" "
+                    . " FROM "
+                        . " USINAS.MOTIVO_PARADA "
+                    . " ORDER BY "
+                        . " MOTPARADA_ID "
+                    . " ASC ";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

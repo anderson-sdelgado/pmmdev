@@ -23,13 +23,13 @@ class LeiraDAO extends Conn {
     public function verifMovLeiraMM($idBol, $movLeira, $base) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMM_MOV_LEIRA "
-                . " WHERE "
-                . " BOLETIM_ID = " . $idBol
-                . " AND "
-                . " ID_CEL = " . $movLeira->idMovLeira;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " PMM_MOV_LEIRA "
+                    . " WHERE "
+                        . " BOLETIM_ID = " . $idBol
+                        . " AND "
+                        . " ID_CEL = " . $movLeira->idMovLeira;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -78,7 +78,8 @@ class LeiraDAO extends Conn {
                     . " LEIRA_ID AS \"idLeira\" "
                     . " , CD AS \"codLeira\" "
                     . " , 0 AS \"statusLeira\" "
-                  . " FROM USINAS.LEIRA";
+                  . " FROM "
+                    . " USINAS.LEIRA";
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

@@ -17,15 +17,15 @@ class REquipPneuDAO extends Conn {
     public function dados($equip, $base) {
 
         $select = " SELECT " 
-                    . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
-                    . " , VEP.POS_PNEU AS \"posPneu\" "
+                        . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
+                        . " , VEP.POS_PNEU AS \"posPneu\" "
                     . " FROM " 
-                    . " VMB_EQUIP_PNEU VEP "
-                    . " , EQUIP E"
+                        . " VMB_EQUIP_PNEU VEP "
+                        . " , EQUIP E"
                     . " WHERE"
-                    . " E.NRO_EQUIP = " . $equip
-                    . " AND "
-                    . " VEP.EQUIP_ID = E.EQUIP_ID ";
+                        . " E.NRO_EQUIP = " . $equip
+                        . " AND "
+                        . " VEP.EQUIP_ID = E.EQUIP_ID ";
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

@@ -23,18 +23,18 @@ class FrenteDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                    . " FRENTE_ID AS \"idFrente\" "
-                    . " , CD AS \"codFrente\" "
-                    . " , DESCR AS \"descrFrente\" "
-                . " FROM "
-                    . " USINAS.FRENTE "
-                . " WHERE "
-                    . " ATIVO = 1 "
-                    . " AND "
-                    . " TP_FRENTE = 3 "
-                . " ORDER BY "
-                    . " CD "
-                . " DESC ";
+                        . " FRENTE_ID AS \"idFrente\" "
+                        . " , CD AS \"codFrente\" "
+                        . " , DESCR AS \"descrFrente\" "
+                    . " FROM "
+                        . " USINAS.FRENTE "
+                    . " WHERE "
+                        . " ATIVO = 1 "
+                        . " AND "
+                        . " TP_FRENTE = 3 "
+                    . " ORDER BY "
+                        . " CD "
+                    . " DESC ";
         
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

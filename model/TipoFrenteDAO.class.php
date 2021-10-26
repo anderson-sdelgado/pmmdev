@@ -25,20 +25,20 @@ class TipoFrenteDAO extends Conn {
         $tipoFrente = 0;
         
         $select = " SELECT " 
-                    . " FR.TP_FRENTE AS TIPO_FRENTE"
+                        . " FR.TP_FRENTE AS TIPO_FRENTE"
                     . " FROM "
-                    . " VMB_FUNC_FRENTE FF "
-                    . " , FUNC F "
-                    . " , CORR C "
-                    . " , FRENTE FR "
+                        . " VMB_FUNC_FRENTE FF "
+                        . " , FUNC F "
+                        . " , CORR C "
+                        . " , FRENTE FR "
                     . " WHERE "
-                    . " F.CD = " . $matric
-                    . " AND "
-                    . " FF.FRENTE_ID = FR.FRENTE_ID " 
-                    . " AND "
-                    . " FF.FUNC_ID = F.FUNC_ID "
-                    . " AND "
-                    . " F.CORR_ID = C.CORR_ID ";
+                        . " F.CD = " . $matric
+                        . " AND "
+                        . " FF.FRENTE_ID = FR.FRENTE_ID " 
+                        . " AND "
+                        . " FF.FUNC_ID = F.FUNC_ID "
+                        . " AND "
+                        . " F.CORR_ID = C.CORR_ID ";
     
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
