@@ -5,10 +5,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/dao/EquipDAO.class.php');
-require_once('../model/dao/ItemCheckListDAO.class.php');
-require_once('../model/dao/CabecCheckListDAO.class.php');
-require_once('../model/dao/RespCheckListDAO.class.php');
+require_once('../model/EquipDAO.class.php');
+require_once('../model/ItemCheckListDAO.class.php');
+require_once('../model/CabecCheckListDAO.class.php');
+require_once('../model/RespCheckListDAO.class.php');
 /**
  * Description of CheckListCTR
  *

@@ -5,14 +5,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/dao/LogEnvioDAO.class.php');
-require_once('../model/dao/BoletimMMFertDAO.class.php');
-require_once('../model/dao/ApontMMFertDAO.class.php');
-require_once('../model/dao/ImplementoMMDAO.class.php');
-require_once('../model/dao/LeiraDAO.class.php');
-require_once('../model/dao/RendimentoMMDAO.class.php');
-require_once('../model/dao/RecolhimentoFertDAO.class.php');
-require_once('../model/dao/MotoMecDAO.class.php');
+require_once('../model/LogEnvioDAO.class.php');
+require_once('../model/BoletimMMFertDAO.class.php');
+require_once('../model/ApontMMFertDAO.class.php');
+require_once('../model/ImplementoMMDAO.class.php');
+require_once('../model/LeiraDAO.class.php');
+require_once('../model/RendimentoMMDAO.class.php');
+require_once('../model/RecolhimentoFertDAO.class.php');
+require_once('../model/MotoMecDAO.class.php');
 /**
  * Description of MotoMecFert
  *

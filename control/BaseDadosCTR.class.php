@@ -5,29 +5,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/dao/AtividadeDAO.class.php');
-require_once('../model/dao/BocalDAO.class.php');
-require_once('../model/dao/EquipDAO.class.php');
-require_once('../model/dao/EquipSegDAO.class.php');
-require_once('../model/dao/FrenteDAO.class.php');
-require_once('../model/dao/FuncionarioDAO.class.php');
-require_once('../model/dao/REquipAtivDAO.class.php');
-require_once('../model/dao/REquipPneuDAO.class.php');
-require_once('../model/dao/ROSAtivDAO.class.php');
-require_once('../model/dao/RFuncaoAtivParDAO.class.php');
-require_once('../model/dao/OSDAO.class.php');
-require_once('../model/dao/TipoFrenteDAO.class.php');
-require_once('../model/dao/PlantioDAO.class.php');
-require_once('../model/dao/PerdaDAO.class.php');
-require_once('../model/dao/LeiraDAO.class.php');
-require_once('../model/dao/RAtivParadaDAO.class.php');
-require_once('../model/dao/ParadaDAO.class.php');
-require_once('../model/dao/PerdaDAO.class.php');
-require_once('../model/dao/PneuDAO.class.php');
-require_once('../model/dao/PressaoBocalDAO.class.php');
-require_once('../model/dao/ProdutoDAO.class.php');
-require_once('../model/dao/PropriedadeDAO.class.php');
-require_once('../model/dao/TurnoDAO.class.php');
+require_once('../model/AtividadeDAO.class.php');
+require_once('../model/BocalDAO.class.php');
+require_once('../model/EquipDAO.class.php');
+require_once('../model/EquipSegDAO.class.php');
+require_once('../model/FrenteDAO.class.php');
+require_once('../model/FuncionarioDAO.class.php');
+require_once('../model/REquipAtivDAO.class.php');
+require_once('../model/REquipPneuDAO.class.php');
+require_once('../model/ROSAtivDAO.class.php');
+require_once('../model/RFuncaoAtivParDAO.class.php');
+require_once('../model/OSDAO.class.php');
+require_once('../model/TipoFrenteDAO.class.php');
+require_once('../model/PlantioDAO.class.php');
+require_once('../model/PerdaDAO.class.php');
+require_once('../model/LeiraDAO.class.php');
+require_once('../model/RAtivParadaDAO.class.php');
+require_once('../model/ParadaDAO.class.php');
+require_once('../model/PerdaDAO.class.php');
+require_once('../model/PneuDAO.class.php');
+require_once('../model/PressaoBocalDAO.class.php');
+require_once('../model/ProdutoDAO.class.php');
+require_once('../model/PropriedadeDAO.class.php');
+require_once('../model/TurnoDAO.class.php');
 /**
  * Description of BaseDadosCTR
  *
@@ -498,10 +498,10 @@ class BaseDadosCTR {
         
         $versao = str_replace("_", ".", $versao);
         
-        $produtoDAO = new ProdutoDAO();
-        
         if($versao >= 2.00){
         
+            $produtoDAO = new ProdutoDAO();
+            
             $dados = array("dados"=>$produtoDAO->dados($this->base));
             $json_str = json_encode($dados);
 
