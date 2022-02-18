@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/LogDAO.class.php');
 require_once('../model/CarregDAO.class.php');
 /**
  * Description of CarregCTR
@@ -93,7 +92,8 @@ class CarregCTR {
         }
         $dadoCarreg = array("dados"=>$idCarregArray);
         $retCarreg = json_encode($dadoCarreg);
-        echo 'GRAVOU-LEIRADESCARREG_' . $retCarreg;
+        echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
+//        echo 'GRAVOU-LEIRADESCARREG_' . $retCarreg;
         
     }
     

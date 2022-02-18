@@ -160,9 +160,7 @@ class CarregDAO extends Conn {
     }
     
     public function insCarregComp($carreg, $base) {
-        
-        $ajusteDataHoraDAO = new AjusteDataHoraDAO();
-        
+
         $select = " SELECT "
                     . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
                 . " FROM "

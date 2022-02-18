@@ -77,7 +77,7 @@ class BaseDadosCTR {
             $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os, $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosSemFlag($this->base));
+            $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
             $resAtividade = json_encode($dadosAtividade);
             
             $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados($this->base));
@@ -110,7 +110,7 @@ class BaseDadosCTR {
             $dadosOSAtiv = array("dados" => $osDAO->dadosECM($os, $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dadosComFlag($this->base));
+            $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
             $resAtividade = json_encode($dadosAtividade);
 
             return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade;
