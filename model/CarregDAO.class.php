@@ -111,6 +111,8 @@ class CarregDAO extends Conn {
                 . " SET "
                     . " CANCEL = 1 "
                 . " WHERE "
+                    . " CANCEL = 0 "
+                    . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
         $this->Conn = parent::getConn($base);

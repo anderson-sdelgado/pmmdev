@@ -57,12 +57,13 @@ class CarregCTR {
         foreach ($carreg as $c) {
             $tipo = $c->tipoCarreg;
             if ($c->tipoCarreg == 1) {
+                echo "teste1";
                 $v = $carregDAO->verifCarregProd($c, $this->base);
                 if ($v == 0) {
                     $carregDAO->cancelCarregProd($c, $this->base);
                     $carregDAO->insCarregProd($c, $this->base);
                 }
-            } elseif ($c->tipoCarreg == 2) {
+            } else {
                 $v = $carregDAO->verifCarregComp($c, $this->base);
                 if ($v == 0) {
                     $carregDAO->cancelCarregComp($c, $this->base);
@@ -75,10 +76,9 @@ class CarregCTR {
         $retCarreg = json_encode($dadoCarreg);
         if($tipo == 1){
             echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
-        } elseif ($tipo == 2) {
+        } else {
             echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
         }
-        
         
     }
     
@@ -93,7 +93,6 @@ class CarregCTR {
         $dadoCarreg = array("dados"=>$idCarregArray);
         $retCarreg = json_encode($dadoCarreg);
         echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
-//        echo 'GRAVOU-LEIRADESCARREG_' . $retCarreg;
         
     }
     

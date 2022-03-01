@@ -9,5 +9,6 @@ if (isset($info)):
 
     $carregCTR = new CarregCTR();
     echo $carregCTR->salvarDados($versao, $info, "inserircarreginsumo");
+
     
 endif;
