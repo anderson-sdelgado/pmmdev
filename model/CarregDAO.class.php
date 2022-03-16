@@ -26,7 +26,7 @@ class CarregDAO extends Conn {
                 . " SET "
                     . " FLAG_CARREG = 2, CANCEL = 1 "
                 . " WHERE "
-                    . " FLAG_CARREG = 1 "
+                    . " CANCEL = 0 "
                     . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         

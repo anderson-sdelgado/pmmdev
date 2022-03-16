@@ -57,7 +57,6 @@ class CarregCTR {
         foreach ($carreg as $c) {
             $tipo = $c->tipoCarreg;
             if ($c->tipoCarreg == 1) {
-                echo "teste1";
                 $v = $carregDAO->verifCarregProd($c, $this->base);
                 if ($v == 0) {
                     $carregDAO->cancelCarregProd($c, $this->base);

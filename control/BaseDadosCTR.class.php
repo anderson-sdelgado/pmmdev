@@ -7,26 +7,29 @@
  */
 require_once('../model/AtividadeDAO.class.php');
 require_once('../model/BocalDAO.class.php');
+require_once('../model/ComponenteDAO.class.php');
 require_once('../model/EquipDAO.class.php');
 require_once('../model/EquipSegDAO.class.php');
 require_once('../model/FrenteDAO.class.php');
 require_once('../model/FuncionarioDAO.class.php');
-require_once('../model/REquipAtivDAO.class.php');
-require_once('../model/REquipPneuDAO.class.php');
-require_once('../model/ROSAtivDAO.class.php');
-require_once('../model/RFuncaoAtivParDAO.class.php');
-require_once('../model/OSDAO.class.php');
-require_once('../model/TipoFrenteDAO.class.php');
-require_once('../model/PlantioDAO.class.php');
-require_once('../model/PerdaDAO.class.php');
+require_once('../model/ItemOSMecanDAO.class.php');
 require_once('../model/LeiraDAO.class.php');
-require_once('../model/RAtivParadaDAO.class.php');
+require_once('../model/OSDAO.class.php');
+require_once('../model/OSMecanDAO.class.php');
 require_once('../model/ParadaDAO.class.php');
 require_once('../model/PerdaDAO.class.php');
+require_once('../model/PlantioDAO.class.php');
 require_once('../model/PneuDAO.class.php');
 require_once('../model/PressaoBocalDAO.class.php');
 require_once('../model/ProdutoDAO.class.php');
 require_once('../model/PropriedadeDAO.class.php');
+require_once('../model/RAtivParadaDAO.class.php');
+require_once('../model/REquipAtivDAO.class.php');
+require_once('../model/REquipPneuDAO.class.php');
+require_once('../model/ROSAtivDAO.class.php');
+require_once('../model/RFuncaoAtivParDAO.class.php');
+require_once('../model/ServicoDAO.class.php');
+require_once('../model/TipoFrenteDAO.class.php');
 require_once('../model/TurnoDAO.class.php');
 /**
  * Description of BaseDadosCTR
@@ -47,9 +50,9 @@ class BaseDadosCTR {
         if($versao >= 4.00){
             
             $dados = array("dados" => $atividadeDAO->dados($this->base));
-            $json_str = json_encode($dados);
+            $retJson = json_encode($dados);
 
-            return $json_str;
+            return $retJson;
             
         }
         
@@ -128,6 +131,23 @@ class BaseDadosCTR {
             $bocalDAO = new BocalDAO();
 
             $dados = array("dados"=>$bocalDAO->dados($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+        
+    public function dadosComponente($versao) {
+        
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 4.00){
+        
+            $componenteDAO = new ComponenteDAO();
+
+            $dados = array("dados"=>$componenteDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -330,6 +350,29 @@ class BaseDadosCTR {
         
     }
     
+    public function dadosOSMecan($versao, $info) {
+
+        $versao = str_replace("_", ".", $versao);
+       
+        if($versao >= 2.00){
+        
+            $osMecanDAO = new OSMecanDAO();
+            $itemOSMecanDAO = new ItemOSMecanDAO();
+
+            $dado = $info['dado'];
+
+            $osDados = array("dados" => $osMecanDAO->dados($dado, $this->base));
+            $resOS = json_encode($osDados);
+
+            $dadosItemOS = array("dados" => $itemOSMecanDAO->dados($dado, $this->base));
+            $resItemOS = json_encode($dadosItemOS);
+
+            return $resOS . "#" . $resItemOS;
+
+        }
+        
+    }
+    
     public function pesqECMOS($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
@@ -523,6 +566,23 @@ class BaseDadosCTR {
             $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
             $dados = array("dados"=>$rFuncaoAtivParDAO->dados($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+            
+    public function dadosServico($versao) {
+        
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 4.00){
+        
+            $servicoDAO = new ServicoDAO();
+
+            $dados = array("dados"=>$servicoDAO->dados($this->base));
             $json_str = json_encode($dados);
 
             return $json_str;

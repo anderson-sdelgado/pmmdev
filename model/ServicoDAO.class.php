@@ -5,14 +5,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../dbutil/Conn.class.php');
+require_once ('../dbutil/Conn.class.php');
 /**
- * Description of MotoristaDAO
+ * Description of ServicoDAO
  *
  * @author anderson
  */
-class FuncionarioDAO extends Conn {
-    
+class ServicoDAO extends Conn {
+
     /** @var PDOStatement */
     private $Read;
 
@@ -22,14 +22,15 @@ class FuncionarioDAO extends Conn {
     public function dados($base) {
 
         $select = " SELECT "
-                    . " NRO_CRACHA AS \"matricFunc\" "
-                    . " , FUNC_NOME AS \"nomeFunc\" "
+                . " SERVICO_ID AS \"idServico\" "
+                . " , CD AS \"codServico\" "
+                . " , DESCR AS \"descrServico\" "
                 . " FROM "
-                    . " USINAS.V_SIMOVA_FUNC "
+                . " VMB_SERVICO_AUTO "
                 . " ORDER BY "
-                    . " NRO_CRACHA "
+                . " CD "
                 . " ASC ";
-        
+
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -37,7 +38,6 @@ class FuncionarioDAO extends Conn {
         $result = $this->Read->fetchAll();
 
         return $result;
-        
     }
-    
+
 }
