@@ -15,7 +15,6 @@ require_once('../model/FuncionarioDAO.class.php');
 require_once('../model/ItemOSMecanDAO.class.php');
 require_once('../model/LeiraDAO.class.php');
 require_once('../model/OSDAO.class.php');
-require_once('../model/OSMecanDAO.class.php');
 require_once('../model/ParadaDAO.class.php');
 require_once('../model/PerdaDAO.class.php');
 require_once('../model/PlantioDAO.class.php');
@@ -69,15 +68,12 @@ class BaseDadosCTR {
             $atividadeDAO = new AtividadeDAO();
             $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-            $dados = $info['dado'];
-            $pos1 = strpos($dados, "_") + 1;
-            $os = substr($dados, 0, ($pos1 - 1));
-            $equip = substr($dados, $pos1);
-
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
+            $array = explode("_", $info);
+            
+            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
             $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosOSAtiv = array("dados" => $rOSAtivDAO->dados($os, $this->base));
+            $dadosOSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0], $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
             $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
@@ -86,7 +82,7 @@ class BaseDadosCTR {
             $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados($this->base));
             $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
 
-            return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade . "#" . $resRFuncaoAtivPar;
+            return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
             
         }
         
@@ -102,21 +98,18 @@ class BaseDadosCTR {
             $osDAO = new OSDAO();
             $atividadeDAO = new AtividadeDAO();
 
-            $dados = $info['dado'];
-            $pos1 = strpos($dados, "_") + 1;
-            $os = substr($dados, 0, ($pos1 - 1));
-            $equip = substr($dados, $pos1);
-
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($equip, $this->base));
+            $array = explode("_", $info);
+            
+            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
             $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosOSAtiv = array("dados" => $osDAO->dadosECM($os, $this->base));
+            $dadosOSAtiv = array("dados" => $osDAO->dadosECM($array[0], $this->base));
             $resOSAtiv = json_encode($dadosOSAtiv);
 
             $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
             $resAtividade = json_encode($dadosAtividade);
 
-            return $resEquipAtiv . "_" . $resOSAtiv . "|" . $resAtividade;
+            return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade;
         
         }
         
@@ -177,7 +170,7 @@ class BaseDadosCTR {
             $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
             $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
-            return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
+            return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
         
         }
         
@@ -204,7 +197,7 @@ class BaseDadosCTR {
             $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
             $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
-            return $resEquip . "#" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
+            return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
         
         }
         
@@ -304,8 +297,25 @@ class BaseDadosCTR {
                 $retorno = "";
             }
 
-            return "tipo=" . $tipoFrente . "_" . $retorno;
+            return $tipoFrente . "_" . $retorno;
         
+        }
+        
+    }
+    
+    public function dadosItemOSMecan($versao) {
+
+        $versao = str_replace("_", ".", $versao);
+       
+        if($versao >= 2.00){
+
+            $itemOSMecanDAO = new ItemOSMecanDAO();
+
+            $dados = array("dados"=>$itemOSMecanDAO->dados($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+
         }
         
     }
@@ -327,7 +337,7 @@ class BaseDadosCTR {
         
     }
     
-    public function dadosOS($versao, $info) {
+    public function pesqOS($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
         
@@ -338,65 +348,43 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosOS = array("dados" => $osDAO->dados($dado, $this->base));
+            $dadosOS = array("dados" => $osDAO->pesq($dado, $this->base));
             $resOS = json_encode($dadosOS);
 
-            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado, $this->base));
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($dado, $this->base));
             $resROSAtiv = json_encode($dadosROSAtiv);
 
-            return $resOS . "#" . $resROSAtiv;
+            return $resOS . "_" . $resROSAtiv;
         
         }
         
     }
-    
-    public function dadosOSMecan($versao, $info) {
+        
+    public function pesqOSMecan($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);
-       
-        if($versao >= 2.00){
         
-            $osMecanDAO = new OSMecanDAO();
+        if($versao >= 4.00){
+            
+            $osDAO = new OSDAO();
             $itemOSMecanDAO = new ItemOSMecanDAO();
 
             $dado = $info['dado'];
-
-            $osDados = array("dados" => $osMecanDAO->dados($dado, $this->base));
-            $resOS = json_encode($osDados);
-
-            $dadosItemOS = array("dados" => $itemOSMecanDAO->dados($dado, $this->base));
-            $resItemOS = json_encode($dadosItemOS);
-
-            return $resOS . "#" . $resItemOS;
-
-        }
-        
-    }
-    
-    public function pesqECMOS($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $osDAO = new OSDAO();
-            $rOSAtivDAO = new ROSAtivDAO();
+            $array = explode("_", $dado);
             
-            $dado = $info['dado'];
-
-            $dadosOS = array("dados" => $osDAO->dadosECM($dado, $this->base));
+            $dadosOS = array("dados" => $osDAO->pesqMecan($array[0], $array[1], $this->base));
             $resOS = json_encode($dadosOS);
-            
-            $dadosROSAtiv = array("dados" => $rOSAtivDAO->dados($dado, $this->base));
-            $resROSAtiv = json_encode($dadosROSAtiv);
 
-            return $resOS . "#" . $resROSAtiv;
-        
+            $dadosItemOSMecan = array("dados" => $itemOSMecanDAO->pesq($array[0], $array[1], $this->base));
+            $resItemOSMecan = json_encode($dadosItemOSMecan);
+
+            return $resOS . "_" . $resItemOSMecan;
+            
         }
         
     }
     
-    public function dadosECMOS($versao) {
+    public function dadosOS($versao) {
 
         $versao = str_replace("_", ".", $versao);
         
@@ -404,7 +392,7 @@ class BaseDadosCTR {
         
             $osDAO = new OSDAO();
             
-            $dadosOS = array("dados" => $osDAO->dadosClearECM($this->base));
+            $dadosOS = array("dados" => $osDAO->dados($this->base));
             $resOS = json_encode($dadosOS);
 
             return $resOS;
@@ -470,8 +458,25 @@ class BaseDadosCTR {
         
     }
     
-    public function dadosPneu($versao, $info) {
+    public function dadosPneu($versao) {
 
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 4.00){
+
+            $pneuDAO = new PneuDAO();
+
+            $dados = array("dados" => $pneuDAO->dados($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+    
+    public function pesqPneu($versao, $info) {
+        
         $versao = str_replace("_", ".", $versao);
         
         if($versao >= 4.00){
@@ -480,7 +485,7 @@ class BaseDadosCTR {
 
             $dado = $info['dado'];
 
-            $dadosPneu = array("dados" => $pneuDAO->dados($dado, $this->base));
+            $dadosPneu = array("dados" => $pneuDAO->pesq($dado, $this->base));
             $resPneu = json_encode($dadosPneu);
 
             return $resPneu;
@@ -573,7 +578,24 @@ class BaseDadosCTR {
         }
         
     }
-            
+                
+    public function dadosROSAtiv($versao) {
+
+        $versao = str_replace("_", ".", $versao);
+        
+        if($versao >= 4.00){
+        
+            $rOSAtivDAO = new ROSAtivDAO();
+
+            $dados = array("dados"=>$rOSAtivDAO->dadosECM($this->base));
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+    
     public function dadosServico($versao) {
         
         $versao = str_replace("_", ".", $versao);

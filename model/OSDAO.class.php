@@ -12,21 +12,38 @@ require_once('../dbutil/Conn.class.php');
  * @author anderson
  */
 class OSDAO extends Conn {
-    //put your code here
-
+    
     /** @var PDOStatement */
     private $Read;
 
     /** @var PDO */
     private $Conn;
 
-    public function dados($os, $base) {
+        
+    public function dados($base) {
+
+        $select = "SELECT DISTINCT "
+                        . " OS_ID AS \"idOS\" "
+                        . " , NRO_OS AS \"nroOS\" "
+                        . " , ID_LIB_OS AS \"idLibOS\" "
+                        . " , ID_PROPR_AGR AS \"idProprAgr\" "
+                    . " FROM "
+                        . " USINAS.V_ECM_OS ";
+
+        $this->Conn = parent::getConn($base);
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    public function pesq($os, $base) {
 
         $select = " SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
                         . " , NRO_OS AS \"nroOS\" "
-                        . " , PROPRAGR_CD AS \"codProprOS\" "
-                        . " , CARACTER(PROPRAGR_DESCR) AS \"descrProprOS\" "
                         . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
                         . " , SERV_AGR AS \"tipoOS\" "
                     . " FROM "
@@ -45,73 +62,19 @@ class OSDAO extends Conn {
 
         return $result;
     }
-    
-    public function dadosClear($base) {
 
-        $select = " SELECT DISTINCT "
+    public function pesqMecan($os, $equip, $base) {
+
+        $select = " SELECT "
                     . " OS_ID AS \"idOS\" "
-                    . " , NRO_OS AS \"nroOS\" "
-                    . " , NVL(PROPRAGR_CD, 0)  AS \"codProprOS\" "
-                    . " , NVL(CARACTER(PROPRAGR_DESCR), 'ESTRUTURAL') AS \"descrProprOS\" "
-                    . " , NVL(AREA_PROGR, 10) AS \"areaProgrOS\" "
-                    . " , SERV_AGR AS \"tipoOS\" "
+                    . " , NRO AS \"nroOS\" "
+                    . " , EQUIP_ID AS \"idEquip\" "
                 . " FROM "
-                    . " USINAS.V_PMM_OS "
-                . " ORDER BY "
-                    . " OS_ID "
-                . " ASC ";
-
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-    }
-    
-    public function dadosECM($os, $base) {
-
-        $select = "SELECT " 
-                    . " OS_ID AS \"idOS\" "
-                    . " , ID_ATIV_OS AS \"idAtivOS\" "
-                    . " , NRO_OS AS \"nroOS\" "
-                    . " , ID_LIB_OS AS \"idLibOS\" "
-                    . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                    . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
-                    . " , ID_ATIV AS \"idAtiv\" "
-                . " FROM "
-                    . " USINAS.V_ECM_OS "
+                    . " VMB_OS_AUTO "
                 . " WHERE "
-                    . " NRO_OS = " . $os
-                . " ORDER BY "
-                    . " OS_ID "
-                . " ASC ";
-
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-    }
-    
-    public function dadosClearECM($base) {
-
-        $select = "SELECT " 
-                    . " OS_ID AS \"idOS\" "
-                    . " , ID_ATIV_OS AS \"idAtivOS\" "
-                    . " , NRO_OS AS \"nroOS\" "
-                    . " , ID_LIB_OS AS \"idLibOS\" "
-                    . " , ID_PROPR_AGR AS \"idProprAgr\" "
-                    . " , CARACTER(DESCR_PROPR_AGR) AS \"descrProprAgr\" "
-                    . " , ID_ATIV AS \"idAtiv\" "
-                . " FROM "
-                    . " USINAS.V_ECM_OS "
-                . " ORDER BY "
-                    . " OS_ID "
-                . " ASC ";
+                    . " NRO = " . $os
+                    . " AND "
+                    . " EQUIP_ID = " . $equip;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);

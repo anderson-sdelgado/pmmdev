@@ -20,10 +20,28 @@ class ROSAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($os, $base) {
+    public function dadosECM($base) {
 
-        $select = " SELECT "
-                        . " NRO_OS AS \"nroOS\" "
+        $select = " SELECT DISTINCT "
+                        . " OS_ID AS \"idOS\" "
+                        . " , ID_ATIV AS \"idAtiv\" "
+                    . " FROM "
+                        . " USINAS.V_ECM_OS ";
+        
+        $this->Conn = parent::getConn($base);
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+        
+    }
+    
+    public function pesq($os, $base) {
+
+        $select = " SELECT DISTINCT "
+                        . " OS_ID AS \"idOS\" "
                         . " , ATIVAGR_ID AS \"idAtiv\" "
                     . " FROM "
                         . " USINAS.V_PMM_OS "
@@ -39,46 +57,5 @@ class ROSAtivDAO extends Conn {
         return $result;
         
     }
-    
-     public function verif($os, $base) {
 
-        $select = " SELECT "
-                        . " NRO_OS AS \"nroOS\" "
-                        . " , ATIVAGR_CD AS \"codAtiv\" "
-                    . " FROM "
-                        . " USINAS.V_PMM_OS "
-                    . " WHERE "
-                        . " NRO_OS = " . $os;
-        
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-        
-    }
-    
-    public function atual($os, $base) {
-
-        $select = " SELECT "
-                        . " ROWNUM AS \"idROSAtiv\" "
-                        . " , NRO_OS AS \"nroOS\" "
-                        . " , ATIVAGR_CD AS \"codAtiv\" "
-                    . " FROM "
-                        . " USINAS.V_SIMOVA_OS "
-                    . " WHERE "
-                        . " NRO_OS = " . $os;
-        
-        $this->Conn = parent::getConn($base);
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-        
-    }
-    
 }

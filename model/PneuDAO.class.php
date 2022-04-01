@@ -19,7 +19,30 @@ class PneuDAO extends Conn {
     /** @var PDO */
     private $Conn;
     
-    public function dados($valor, $base) {
+    public function dados($base) {
+        
+        $select = " SELECT "
+                        . " EQUIPCOMPO_ID AS \"idPneu\" "
+                        . " , CD AS \"nroPneu\" "
+                    . " FROM "
+                        . " VMB_PNEU"
+                    . " WHERE "
+                        . " CD NOT LIKE '12043' "
+                    . " ORDER BY "
+                        . " EQUIPCOMPO_ID "
+                    . " ASC ";
+        
+        $this->Conn = parent::getConn($base);
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+        
+        return $result;
+        
+    }
+    
+    public function pesq($valor, $base) {
         
         $select = " SELECT "
                         . " EQUIPCOMPO_ID AS \"idPneu\" "

@@ -6,4 +6,4 @@ require_once('../control/BaseDadosCTR.class.php');
 
 $baseDadosCTR = new BaseDadosCTR();
 
-echo $baseDadosCTR->dadosECMOS($versao);
+echo $baseDadosCTR->dadosOS($versao);

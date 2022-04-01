@@ -62,12 +62,9 @@ class CheckListCTR {
     
     public function salvarDados($versao, $info, $pagina) {
 
-//        $logDAO = new LogDAO();
-        
         $pagina = $pagina . '-' . $versao;
         
         $dados = $info['dado'];
-//        $logDAO->salvarDados($dados, $pagina);
 
         $versao = str_replace("_", ".", $versao);
         
