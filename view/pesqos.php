@@ -8,6 +8,6 @@ require_once('../control/BaseDadosCTR.class.php');
 if (isset($info)):
     
     $baseDadosCTR = new BaseDadosCTR();
-    echo $baseDadosCTR->pesqECMOS($versao, $info);
+    echo $baseDadosCTR->dadosOS($versao, $info);
 
 endif;
