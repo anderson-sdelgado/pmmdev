@@ -23,7 +23,7 @@ class ItemMedPneuDAO extends Conn {
                 . " WHERE "
                 . " BOLETIM_ID = " . $idBolPneu
                 . " AND "
-                . " CEL_ID = " . $itemPneu->idItemMedPneu;
+                . " CEL_ID = " . $itemPneu->idItemCalibPneu;
 
         $this->Conn = parent::getConn($base);
         $this->Read = $this->Conn->prepare($select);
@@ -51,17 +51,17 @@ class ItemMedPneuDAO extends Conn {
                 . " , DTHR_TRANS "
                 . " , CEL_ID "
                 . " ) "
-                . " VALUES ("
+                . " VALUES ( "
                 . " " . $idBolPneu
-                . " , " . $itemPneu->idPosConfPneu
-                . " , '" . $itemPneu->nroPneuItemMedPneu . "'"
-                . " , " . $itemPneu->pressaoEncItemMedPneu
-                . " , " . $itemPneu->pressaoColItemMedPneu
-                . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
-                . " , TO_DATE('" . $itemPneu->dthrItemMedPneu . "','DD/MM/YYYY HH24:MI') "
+                . " , " . $itemPneu->idPosConfItemCalibPneu
+                . " , '" . $itemPneu->nroPneuItemCalibPneu . "'"
+                . " , " . $itemPneu->pressaoEncItemCalibPneu
+                . " , " . $itemPneu->pressaoColItemCalibPneu
+                . " , TO_DATE('" . $itemPneu->dthrItemCalibPneu . "','DD/MM/YYYY HH24:MI') "
+                . " , TO_DATE('" . $itemPneu->dthrItemCalibPneu . "','DD/MM/YYYY HH24:MI') "
                 . " , SYSDATE "
-                . " , " . $itemPneu->idItemMedPneu
-                . " )";
+                . " , " . $itemPneu->idItemCalibPneu
+                . " ) ";
 
         $this->Conn = parent::getConn($base);
         $this->Create = $this->Conn->prepare($sql);

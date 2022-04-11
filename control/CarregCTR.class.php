@@ -24,9 +24,9 @@ class CarregCTR {
         
         if($versao >= 2.00){
         
-            $jsonObj = json_decode($dados);
-            $carreg = $jsonObj->carreg;
-            $this->salvarDadosCarreg($carreg);
+            $jsonObjCarreg  = json_decode($dados);
+            $dadosCarreg = $jsonObjCarreg->carreg;
+            $this->salvarDadosCarregInsumo($dadosCarreg);
         
         }
         
@@ -49,76 +49,23 @@ class CarregCTR {
         
     }
     
-    private function salvarDadosCarreg($carreg) {
-        
+    private function salvarDadosCarregInsumo($dadosCarreg) {
         $carregDAO = new CarregDAO();
         $idCarregArray = array();
-        $tipo = 0;
-        foreach ($carreg as $c) {
-            $tipo = $c->tipoCarreg;
-            if ($c->tipoCarreg == 1) {
-                $v = $carregDAO->verifCarregProd($c, $this->base);
-                if ($v == 0) {
-                    $carregDAO->cancelCarregProd($c, $this->base);
-                    $carregDAO->insCarregProd($c, $this->base);
-                }
-            } else {
-                $v = $carregDAO->verifCarregComp($c, $this->base);
-                if ($v == 0) {
-                    $carregDAO->cancelCarregComp($c, $this->base);
-                    $carregDAO->insCarregComp($c, $this->base);
-                }
+        foreach ($dadosCarreg as $carreg) {
+            $v = $carregDAO->verifCarregProd($carreg, $this->base);
+            if ($v == 0) {
+                $carregDAO->cancelCarregProd($carreg, $this->base);
+                $carregDAO->insCarregProd($carreg, $this->base);
             }
-            $idCarregArray[] = array("idCarreg" => $c->idCarreg);
+            $idCarregArray[] = array("idCarreg" => $carreg->idCarreg);
         }
         $dadoCarreg = array("dados"=>$idCarregArray);
         $retCarreg = json_encode($dadoCarreg);
-        if($tipo == 1){
-            echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
-        } else {
-            echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
-        }
-        
-    }
-    
-    private function updLeiraDescarreg($carreg) {
-        
-        $carregDAO = new CarregDAO();
-        $idCarregArray = array();
-        foreach ($carreg as $c) {
-            $carregDAO->updLeiraDescarreg($c, $this->base);
-            $idCarregArray[] = array("idCarreg" => $c->idCarreg);
-        }
-        $dadoCarreg = array("dados"=>$idCarregArray);
-        $retCarreg = json_encode($dadoCarreg);
-        echo 'GRAVOU-CARREGCOMPOSTO_' . $retCarreg;
-        
-    }
-    
-    public function pesqLeiraComp($versao, $info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        $carregDAO = new CarregDAO();
-        
-        if ($versao >= 2.00) {
-        
-            $jsonObj = json_decode($info['dado']);
-            $dados = $jsonObj->dados;
-
-            foreach ($dados as $d) {
-                $equip = $d->equipCarreg;
-                $os = $d->osCarreg;
-            }
-
-            $retorno = array("dados" => $carregDAO->retLeiraComp($equip, $os, $this->base));
-            $ret = json_encode($retorno);
-            return $ret;
-        
-        }
-        
+        echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
     }
-    
+
     public function retCarreg($versao, $info) {
 
         $versao = str_replace("_", ".", $versao);

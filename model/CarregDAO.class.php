@@ -146,12 +146,13 @@ class CarregDAO extends Conn {
         
     }
     
-    public function updLeiraDescarreg($carreg, $base) {
+    public function updDescarregProd($idApontBD, $carreg, $base) {
         
         $update = " UPDATE "
                         . " USINAS.REG_COMPOSTO "
                     . " SET "
                         . " LEIRA_ID_DESCARGA = " . $carreg->idLeiraCarreg
+                        . " , APONTAMENTO_ID = " . $idApontBD
                     . " WHERE "
                         . " REGCOMPOST_ID = " . $carreg->idRegCompostoCarreg;
         
@@ -161,7 +162,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function insCarregComp($carreg, $base) {
+    public function insCarregComp($idApontBD, $carreg, $base) {
 
         $select = " SELECT "
                     . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
@@ -210,6 +211,7 @@ class CarregDAO extends Conn {
                 . " , OSAGRICOLA_ID "
                 . " , FLAG_CARREG "
                 . " , PROD_ID "
+                . " , APONTAMENTO_ID "
                 . " ) "
                 . " VALUES ("
                 . " 1 "
@@ -219,7 +221,8 @@ class CarregDAO extends Conn {
                 . " , " . $carreg->idLeiraCarreg
                 . " , " . $os
                 . " , 2 "
-                . " , 76271 "
+                . " , 76271"
+                . " , " . $idApontBD
                 . " )";
         
         $this->Create = $this->Conn->prepare($insert);
