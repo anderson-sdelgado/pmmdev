@@ -176,33 +176,6 @@ class BaseDadosCTR {
         
     }
     
-    public function dadosECMEquip($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $equipDAO = new EquipDAO();
-            $rEquipAtivDAO = new REquipAtivDAO();
-            $rEquipPneuDAO = new REquipPneuDAO();
-
-            $dado = $info['dado'];
-
-            $dadosEquip = array("dados" => $equipDAO->dadosECM($dado, $this->base));
-            $resEquip = json_encode($dadosEquip);
-
-            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado, $this->base));
-            $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
-            
-            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
-            $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
-
-            return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
-        
-        }
-        
-    }
-    
     public function dadosEquipSeg($versao) {
         
         $versao = str_replace("_", ".", $versao);
