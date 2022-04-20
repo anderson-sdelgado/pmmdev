@@ -33,7 +33,7 @@ class EquipDAO extends Conn {
                         . " , CASE WHEN E.CLASSOPER_CD = 211 AND R.TP_EQUIP IS NULL THEN 4  "
                         . " ELSE NVL(R.TP_EQUIP, 0) END AS \"tipoEquipFert\" "
                         . " , NVL(PBH.HOD_HOR_FINAL, 0) AS \"horimetroEquip\" "
-                        . " , CASE WHEN E.CLASSOPER_CD = 4 THEN 1  "
+                        . " , CASE WHEN E.CLASSOPER_CD IN ( 2, 25, 200, 4) THEN 1  "
                         . " ELSE 0 END AS \"flagApontMecan\" "
                     . " FROM "
                         . " V_EQUIP E "
