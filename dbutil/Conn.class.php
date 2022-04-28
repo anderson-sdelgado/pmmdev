@@ -61,8 +61,8 @@ class Conn {
         return self::$Connect;
     }
 
-    protected static function getConn($base) {
-        return self::Conectar($base);
+    protected static function getConn() {
+        return self::Conectar();
     }
 
 }
