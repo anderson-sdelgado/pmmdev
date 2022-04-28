@@ -15,9 +15,7 @@ require_once('../model/RespCheckListDAO.class.php');
  * @author anderson
  */
 class CheckListCTR {
-    
-    private $base = 2;
-    
+
     public function pesq($info) {
 
         $nroEquip = $info['dado'];

@@ -137,7 +137,7 @@ class ApontMMFertDAO extends Conn {
                 . " AND "
                 . " OS_NRO IS NULL";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

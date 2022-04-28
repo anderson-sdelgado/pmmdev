@@ -103,7 +103,7 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function verAtualCheckList($equip, $base) {
+    public function verAtualCheckList($equip) {
 
         $select = " SELECT "
                 . " PA.VERSAO_ATUAL"
@@ -147,7 +147,7 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function idCheckList($equip, $base) {
+    public function idCheckList($equip) {
 
         $select = " SELECT "
                 . " NVL(C.PLMANPREV_ID, 0) AS IDCHECKLIST "
@@ -171,7 +171,7 @@ class AtualAplicDAO extends Conn {
         return $cla;
     }
 
-    public function dataHora($base) {
+    public function dataHora() {
 
         $select = " SELECT "
                 . " TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS DTHR "

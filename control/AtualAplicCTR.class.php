@@ -65,7 +65,7 @@ class AtualAplicCTR {
                 }
             }
         }
-        $dthr = $atualAplicDAO->dataHora($this->base);
+        $dthr = $atualAplicDAO->dataHora();
 
         $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
             , "dthr" => $dthr);

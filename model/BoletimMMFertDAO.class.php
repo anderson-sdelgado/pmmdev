@@ -197,7 +197,7 @@ class BoletimMMFertDAO extends Conn {
                 . " AND "
                 . " OS_NRO IS NULL ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
@@ -213,7 +213,7 @@ class BoletimMMFertDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

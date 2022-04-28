@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once('../model/LogEnvioDAO.class.php');
 require_once('../model/BoletimMMFertDAO.class.php');
 require_once('../model/ApontMMFertDAO.class.php');
 require_once('../model/ApontMecanDAO.class.php');
