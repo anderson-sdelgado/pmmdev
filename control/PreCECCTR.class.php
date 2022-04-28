@@ -15,33 +15,27 @@ class PreCECCTR {
 
     private $base = 2;
     
-    public function salvarDados($versao, $info, $pagina) {
+    public function salvarDados($info) {
 
         $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
+        $jsonObjPreCEC = json_decode($dados);
+        $dadosPreCEC = $jsonObjPreCEC->precec;
+        $preCECDAO = new PreCECDAO();
+        $idPreCECArray = array();
 
-        $versao = str_replace("_", ".", $versao);
-
-        if ($versao >= 2.00) {
-
-            $jsonObjPreCEC = json_decode($dados);
-            $dadosPreCEC = $jsonObjPreCEC->precec;
-            $preCECDAO = new PreCECDAO();
-            $idPreCECArray = array();
-            
-            foreach ($dadosPreCEC as $precec) {
-                $v = $preCECDAO->verifPreCEC($precec, $this->base);
-                if ($v == 0) {
-                    $preCECDAO->insPreCEC($precec, $this->base);
-                }
-                $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
+        foreach ($dadosPreCEC as $precec) {
+            $v = $preCECDAO->verifPreCEC($precec, $this->base);
+            if ($v == 0) {
+                $preCECDAO->insPreCEC($precec, $this->base);
             }
-            
-            $dadoPreCEC = array("precec"=>$idPreCECArray);
-            $retPreCEC = json_encode($dadoPreCEC);
-            
-            return 'PRECEC_' . $retPreCEC;
+            $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
         }
+
+        $dadoPreCEC = array("precec"=>$idPreCECArray);
+        $retPreCEC = json_encode($dadoPreCEC);
+
+        return 'PRECEC_' . $retPreCEC;
+        
     }
 
 }

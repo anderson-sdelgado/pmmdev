@@ -18,74 +18,54 @@ class CheckListCTR {
     
     private $base = 2;
     
-    public function pesq($versao, $info) {
+    public function pesq($info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 2.00){
-        
-            $equipDAO = new EquipDAO();
-            $itemCheckListDAO = new ItemCheckListDAO();
+        $nroEquip = $info['dado'];
 
-            $nroEquip = $info['dado'];
+        $equipDAO = new EquipDAO();
+        $itemCheckListDAO = new ItemCheckListDAO();
 
-            $dadosEquip = array("dados" => $equipDAO->dados($nroEquip, $this->base));
-            $resEquip = json_encode($dadosEquip);
+        $dadosEquip = array("dados" => $equipDAO->dados($nroEquip, $this->base));
+        $resEquip = json_encode($dadosEquip);
 
-            $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados($this->base));
-            $resItemCheckList = json_encode($dadosItemCheckList);
+        $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados($this->base));
+        $resItemCheckList = json_encode($dadosItemCheckList);
 
-            $itemCheckListDAO->atualCheckList($nroEquip);
-            
-            return $resEquip . "_" . $resItemCheckList;
-        
-        }
+        $itemCheckListDAO->atualCheckList($nroEquip);
+
+        return $resEquip . "_" . $resItemCheckList;
+
+    }
+    
+    public function dadosItem() {
+
+        $itemCheckListDAO = new ItemCheckListDAO();
+
+        $dados = array("dados"=>$itemCheckListDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
         
     }
     
-    public function dadosItem($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 2.00){
-        
-            $itemCheckListDAO = new ItemCheckListDAO();
+    public function salvarDados($info, $pagina) {
 
-            $dados = array("dados"=>$itemCheckListDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-        
-        }
-        
-    }
-    
-    public function salvarDados($versao, $info, $pagina) {
-
-        $pagina = $pagina . '-' . $versao;
-        
         $dados = $info['dado'];
-
-        $versao = str_replace("_", ".", $versao);
         
-        if($versao >= 2.00){
-        
-            $posicao = strpos($dados, "_") + 1;
-            $cabec = substr($dados, 0, ($posicao - 1));
-            $item = substr($dados, $posicao);
+        $posicao = strpos($dados, "_") + 1;
+        $cabec = substr($dados, 0, ($posicao - 1));
+        $item = substr($dados, $posicao);
 
-            $jsonObjCabec = json_decode($cabec);
-            $jsonObjItem = json_decode($item);
+        $jsonObjCabec = json_decode($cabec);
+        $jsonObjItem = json_decode($item);
 
-            $dadosCab = $jsonObjCabec->cabecalho;
-            $dadosItem = $jsonObjItem->item;
+        $dadosCab = $jsonObjCabec->cabecalho;
+        $dadosItem = $jsonObjItem->item;
 
-            $this->salvarBoletim($dadosCab, $dadosItem);
+        $this->salvarBoletim($dadosCab, $dadosItem);
 
-            return 'GRAVOU-CHECKLIST';
-        
-        }
-        
+        return 'GRAVOU-CHECKLIST';
+                
     }
     
     private function salvarBoletim($dadosCab, $dadosItem) {

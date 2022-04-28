@@ -15,21 +15,16 @@ class LogErroCTR {
     
     private $base = 2;
     
-    public function salvarLog($versao, $info) {
+    public function salvarLog($info) {
 
         $dados = $info['dado'];
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 3.00){
-        
-            $jsonObj = json_decode($dados);
-            $logErro = $jsonObj->logerro;
-            $ret = $this->salvarLogErro($logErro);
-            
-            return $ret;
-        
-        }
-        
+
+        $jsonObj = json_decode($dados);
+        $logErro = $jsonObj->logerro;
+        $ret = $this->salvarLogErro($logErro);
+
+        return $ret;
+
     }
     
     private function salvarLogErro($dadosLogErro) {

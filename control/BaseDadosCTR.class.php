@@ -40,567 +40,393 @@ class BaseDadosCTR {
     
     private $base = 2;
     
-    public function dadosAtiv($versao) {
+    public function dadosAtiv() {
 
-        $versao = str_replace("_", ".", $versao);
-        
         $atividadeDAO = new AtividadeDAO();
-        
-        if($versao >= 4.00){
-            
-            $dados = array("dados" => $atividadeDAO->dados($this->base));
-            $retJson = json_encode($dados);
 
-            return $retJson;
-            
-        }
-        
+        $dados = array("dados" => $atividadeDAO->dados($this->base));
+        $retJson = json_encode($dados);
+
+        return $retJson;
+
     }
     
-    public function pesqAtiv($versao, $info) {
+    public function pesqAtiv($info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-            
-            $rEquipAtivDAO = new REquipAtivDAO();
-            $rOSAtivDAO = new ROSAtivDAO();
-            $atividadeDAO = new AtividadeDAO();
-            $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        $rEquipAtivDAO = new REquipAtivDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
+        $atividadeDAO = new AtividadeDAO();
+        $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-            $array = explode("_", $info);
-            
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
-            $resEquipAtiv = json_encode($dadosEquipAtiv);
+        $array = explode("_", $info);
 
-            $dadosOSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0], $this->base));
-            $resOSAtiv = json_encode($dadosOSAtiv);
+        $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
+        $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
-            $resAtividade = json_encode($dadosAtividade);
-            
-            $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados($this->base));
-            $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+        $dadosOSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0], $this->base));
+        $resOSAtiv = json_encode($dadosOSAtiv);
 
-            return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
-            
-        }
-        
+        $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
+        $resAtividade = json_encode($dadosAtividade);
+
+        $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados($this->base));
+        $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+
+        return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+  
     }
 
-    public function pesqECMAtiv($versao, $info) {
+    public function pesqECMAtiv($info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-            
-            $rEquipAtivDAO = new REquipAtivDAO();
-            $osDAO = new OSDAO();
-            $atividadeDAO = new AtividadeDAO();
+        $rEquipAtivDAO = new REquipAtivDAO();
+        $osDAO = new OSDAO();
+        $atividadeDAO = new AtividadeDAO();
 
-            $array = explode("_", $info);
-            
-            $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
-            $resEquipAtiv = json_encode($dadosEquipAtiv);
+        $array = explode("_", $info);
 
-            $dadosOSAtiv = array("dados" => $osDAO->dadosECM($array[0], $this->base));
-            $resOSAtiv = json_encode($dadosOSAtiv);
+        $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1], $this->base));
+        $resEquipAtiv = json_encode($dadosEquipAtiv);
 
-            $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
-            $resAtividade = json_encode($dadosAtividade);
+        $dadosOSAtiv = array("dados" => $osDAO->dadosECM($array[0], $this->base));
+        $resOSAtiv = json_encode($dadosOSAtiv);
 
-            return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade;
-        
-        }
-        
+        $dadosAtividade = array("dados" => $atividadeDAO->dados($this->base));
+        $resAtividade = json_encode($dadosAtividade);
+
+        return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade;
+
     }
     
-    public function dadosBocal($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $bocalDAO = new BocalDAO();
+    public function dadosBocal() {
 
-            $dados = array("dados"=>$bocalDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $bocalDAO = new BocalDAO();
 
-            return $json_str;
-        
-        }
-        
+        $dados = array("dados"=>$bocalDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
     }
         
-    public function dadosComponente($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $componenteDAO = new ComponenteDAO();
+    public function dadosComponente() {
 
-            $dados = array("dados"=>$componenteDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $componenteDAO = new ComponenteDAO();
 
-            return $json_str;
-        
-        }
-        
+        $dados = array("dados"=>$componenteDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
     }
     
-    public function dadosEquip($versao, $info) {
+    public function dadosEquip($info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $equipDAO = new EquipDAO();
-            $rEquipAtivDAO = new REquipAtivDAO();
-            $rEquipPneuDAO = new REquipPneuDAO();
+        $equipDAO = new EquipDAO();
+        $rEquipAtivDAO = new REquipAtivDAO();
+        $rEquipPneuDAO = new REquipPneuDAO();
 
-            $dado = $info['dado'];
+        $dado = $info['dado'];
 
-            $dadosEquip = array("dados" => $equipDAO->dados($dado, $this->base));
-            $resEquip = json_encode($dadosEquip);
+        $dadosEquip = array("dados" => $equipDAO->dados($dado, $this->base));
+        $resEquip = json_encode($dadosEquip);
 
-            $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado, $this->base));
-            $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
-            
-            $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
-            $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
+        $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado, $this->base));
+        $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-            return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
-        
-        }
-        
+        $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado, $this->base));
+        $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
+
+        return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
+
     }
     
-    public function dadosEquipSeg($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
+    public function dadosEquipSeg() {
 
-            $equipSegDAO = new EquipSegDAO();
+        $equipSegDAO = new EquipSegDAO();
 
-            $dados = array("dados" => $equipSegDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados" => $equipSegDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
-    public function dadosECMEquipSeg($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
+    public function dadosECMEquipSeg() {
 
-            $equipSegDAO = new EquipSegDAO();
+        $equipSegDAO = new EquipSegDAO();
 
-            $dados = array("dados" => $equipSegDAO->dadosECM($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados" => $equipSegDAO->dadosECM($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
-    public function dadosFrente($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $frenteDAO = new FrenteDAO();
+    public function dadosFrente() {
 
-            $dados = array("dados"=>$frenteDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $frenteDAO = new FrenteDAO();
 
-            return $json_str;
-        
-        }
-        
+        $dados = array("dados"=>$frenteDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
     }
     
-    public function dadosFunc($versao) {
+    public function dadosFunc() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $funcionarioDAO = new FuncionarioDAO();
+        $funcionarioDAO = new FuncionarioDAO();
 
-            $dados = array("dados" => $funcionarioDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados" => $funcionarioDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
-    public function dadosInfor($versao, $info) {
+    public function dadosInfor($info) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $dado = $info['dado'];
+        $dado = $info['dado'];
 
-            $tipoFrenteDAO = new TipoFrenteDAO();
-            $plantioDAO = new PlantioDAO();
-            $perdaDAO = new PerdaDAO();
-            
-            $tipoFrente = $tipoFrenteDAO->dados($dado, $this->base);
-            
-            if($tipoFrente == 1) {
-                $dadosPlantio = array("dados" => $plantioDAO->dados($dado, $this->base));
-                $retorno = json_encode($dadosPlantio);
-            }
-            else if($tipoFrente == 3) {
-                $dadosPerda = array("dados" => $perdaDAO->dados($dado, $this->base));
-                $retorno = json_encode($dadosPerda);
-            }
-            else{
-                $retorno = "";
-            }
+        $tipoFrenteDAO = new TipoFrenteDAO();
+        $plantioDAO = new PlantioDAO();
+        $perdaDAO = new PerdaDAO();
 
-            return $tipoFrente . "_" . $retorno;
-        
+        $tipoFrente = $tipoFrenteDAO->dados($dado, $this->base);
+
+        if($tipoFrente == 1) {
+            $dadosPlantio = array("dados" => $plantioDAO->dados($dado, $this->base));
+            $retorno = json_encode($dadosPlantio);
         }
-        
-    }
-    
-    public function dadosItemOSMecan($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-       
-        if($versao >= 2.00){
-
-            $itemOSMecanDAO = new ItemOSMecanDAO();
-
-            $dados = array("dados"=>$itemOSMecanDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-
-        }
-        
-    }
-    
-    public function dadosLeira($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $leiraDAO = new LeiraDAO();
-
-            $dados = array("dados"=>$leiraDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-            
-        }
-        
-    }
-    
-    public function pesqOS($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $osDAO = new OSDAO();
-            $rOSAtivDAO = new ROSAtivDAO();
-
-            $dado = $info['dado'];
-
-            $dadosOS = array("dados" => $osDAO->pesq($dado, $this->base));
-            $resOS = json_encode($dadosOS);
-
-            $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($dado, $this->base));
-            $resROSAtiv = json_encode($dadosROSAtiv);
-
-            return $resOS . "_" . $resROSAtiv;
-        
-        }
-        
-    }
-        
-    public function pesqOSMecan($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-            
-            $osDAO = new OSDAO();
-            $itemOSMecanDAO = new ItemOSMecanDAO();
-
-            $dado = $info['dado'];
-            $array = explode("_", $dado);
-            
-            $dadosOS = array("dados" => $osDAO->pesqMecan($array[0], $array[1], $this->base));
-            $resOS = json_encode($dadosOS);
-
-            $dadosItemOSMecan = array("dados" => $itemOSMecanDAO->pesq($array[0], $array[1], $this->base));
-            $resItemOSMecan = json_encode($dadosItemOSMecan);
-
-            return $resOS . "_" . $resItemOSMecan;
-            
-        }
-        
-    }
-    
-    public function dadosOS($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $osDAO = new OSDAO();
-            
-            $dadosOS = array("dados" => $osDAO->dados($this->base));
-            $resOS = json_encode($dadosOS);
-
-            return $resOS;
-        
-        }
-        
-    }
-    
-    public function dadosParada($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $paradaDAO = new ParadaDAO();
-
-            $dados = array("dados" => $paradaDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-        
-        }
-        
-    }
-    
-    public function atualParada($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-            
-            $rAtivParadaDAO = new RAtivParadaDAO();
-            $paradaDAO = new ParadaDAO();
-
-            $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados($this->base));
-            $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
-
-            $dadosParada = array("dados" => $paradaDAO->dados($this->base));
-            $resParada = json_encode($dadosParada);
-
-            return $resRAtivParadaDAO . "_" . $resParada;
-        
-        }
-                
-    }
-    
-    public function dadosPerda($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $dado = $info['dado'];
-
-            $perdaDAO = new PerdaDAO();
-            
+        else if($tipoFrente == 3) {
             $dadosPerda = array("dados" => $perdaDAO->dados($dado, $this->base));
-            $resPerda = json_encode($dadosPerda);
-
-            return $resPerda;
-        
+            $retorno = json_encode($dadosPerda);
         }
+        else{
+            $retorno = "";
+        }
+
+        return $tipoFrente . "_" . $retorno;
+
+    }
+    
+    public function dadosItemOSMecan() {
+
+        $itemOSMecanDAO = new ItemOSMecanDAO();
+
+        $dados = array("dados"=>$itemOSMecanDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
+    }
+    
+    public function dadosLeira() {
+
+        $leiraDAO = new LeiraDAO();
+
+        $dados = array("dados"=>$leiraDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
+    }
+    
+    public function pesqOS($info) {
+
+        $osDAO = new OSDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
+
+        $dado = $info['dado'];
+
+        $dadosOS = array("dados" => $osDAO->pesq($dado, $this->base));
+        $resOS = json_encode($dadosOS);
+
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($dado, $this->base));
+        $resROSAtiv = json_encode($dadosROSAtiv);
+
+        return $resOS . "_" . $resROSAtiv;
+        
+    }
+        
+    public function pesqOSMecan($info) {
+
+        $osDAO = new OSDAO();
+        $itemOSMecanDAO = new ItemOSMecanDAO();
+
+        $dado = $info['dado'];
+        $array = explode("_", $dado);
+
+        $dadosOS = array("dados" => $osDAO->pesqMecan($array[0], $array[1], $this->base));
+        $resOS = json_encode($dadosOS);
+
+        $dadosItemOSMecan = array("dados" => $itemOSMecanDAO->pesq($array[0], $array[1], $this->base));
+        $resItemOSMecan = json_encode($dadosItemOSMecan);
+
+        return $resOS . "_" . $resItemOSMecan;
+
+    }
+    
+    public function dadosOS() {
+
+        $osDAO = new OSDAO();
+
+        $dadosOS = array("dados" => $osDAO->dados($this->base));
+        $resOS = json_encode($dadosOS);
+
+        return $resOS;
+
+    }
+    
+    public function dadosParada() {
+
+        $paradaDAO = new ParadaDAO();
+
+        $dados = array("dados" => $paradaDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
+    }
+    
+    public function atualParada() {
+
+        $rAtivParadaDAO = new RAtivParadaDAO();
+        $paradaDAO = new ParadaDAO();
+
+        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados($this->base));
+        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
+
+        $dadosParada = array("dados" => $paradaDAO->dados($this->base));
+        $resParada = json_encode($dadosParada);
+
+        return $resRAtivParadaDAO . "_" . $resParada;
+ 
+    }
+    
+    public function dadosPerda($info) {
+
+        $dado = $info['dado'];
+
+        $perdaDAO = new PerdaDAO();
+
+        $dadosPerda = array("dados" => $perdaDAO->dados($dado, $this->base));
+        $resPerda = json_encode($dadosPerda);
+
+        return $resPerda;
+
+    }
+    
+    public function dadosPneu() {
+
+        $pneuDAO = new PneuDAO();
+
+        $dados = array("dados" => $pneuDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
+    }
+    
+    public function pesqPneu($info) {
+
+        $pneuDAO = new PneuDAO();
+
+        $dado = $info['dado'];
+
+        $dadosPneu = array("dados" => $pneuDAO->pesq($dado, $this->base));
+        $resPneu = json_encode($dadosPneu);
+
+        return $resPneu;
+
+    }
+    
+    public function dadosPressaoBocal() {
+
+        $pressaoBocalDAO = new PressaoBocalDAO();
+
+        $dados = array("dados" => $pressaoBocalDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
         
     }
     
-    public function dadosPneu($versao) {
+    public function dadosProduto() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
+        $produtoDAO = new ProdutoDAO();
 
-            $pneuDAO = new PneuDAO();
+        $dados = array("dados"=>$produtoDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            $dados = array("dados" => $pneuDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        return $json_str;
 
-            return $json_str;
-        
-        }
-        
     }
     
-    public function pesqPneu($versao, $info) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $pneuDAO = new PneuDAO();
+    public function dadosPropriedade() {
 
-            $dado = $info['dado'];
-
-            $dadosPneu = array("dados" => $pneuDAO->pesq($dado, $this->base));
-            $resPneu = json_encode($dadosPneu);
-
-            return $resPneu;
-        
-        }
-        
-    }
-    
-    public function dadosPressaoBocal($versao) {
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-
-            $pressaoBocalDAO = new PressaoBocalDAO();
-
-            $dados = array("dados" => $pressaoBocalDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-        
-        }
-    
-    }
-    
-    public function dadosProduto($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $produtoDAO = new ProdutoDAO();
-            
-            $dados = array("dados"=>$produtoDAO->dados($this->base));
-            $json_str = json_encode($dados);
-
-            return $json_str;
-        
-        }
-        
-    }
-    
-    public function dadosPropriedade($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
         $propriedadeDAO = new PropriedadeDAO();
-        
-        if($versao >= 4.00){
-        
-            $dados = array("dados"=> $propriedadeDAO->dados($this->base));
-            $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        $dados = array("dados"=> $propriedadeDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
     }
     
-    public function dadosRAtivParada($versao) {
+    public function dadosRAtivParada() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $rAtivParadaDAO = new RAtivParadaDAO();
+        $rAtivParadaDAO = new RAtivParadaDAO();
 
-            $dados = array("dados"=>$rAtivParadaDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados"=>$rAtivParadaDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
-    public function dadosRFuncaoAtivPar($versao) {
+    public function dadosRFuncaoAtivPar() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-            $dados = array("dados"=>$rFuncaoAtivParDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados"=>$rFuncaoAtivParDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
                 
-    public function dadosROSAtiv($versao) {
+    public function dadosROSAtiv() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $rOSAtivDAO = new ROSAtivDAO();
+        $rOSAtivDAO = new ROSAtivDAO();
 
-            $dados = array("dados"=>$rOSAtivDAO->dadosECM($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados"=>$rOSAtivDAO->dadosECM($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
-    public function dadosServico($versao) {
-        
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $servicoDAO = new ServicoDAO();
+    public function dadosServico() {
 
-            $dados = array("dados"=>$servicoDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $servicoDAO = new ServicoDAO();
 
-            return $json_str;
-        
-        }
-        
+        $dados = array("dados"=>$servicoDAO->dados($this->base));
+        $json_str = json_encode($dados);
+
+        return $json_str;
+
     }
     
     public function dadosTurno($versao) {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 4.00){
-        
-            $turnoDAO = new TurnoDAO();
+        $turnoDAO = new TurnoDAO();
 
-            $dados = array("dados"=>$turnoDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados"=>$turnoDAO->dados($this->base));
+        $json_str = json_encode($dados);
 
-            return $json_str;
-            
-        }
-        
+        return $json_str;
+
     }
     
 }

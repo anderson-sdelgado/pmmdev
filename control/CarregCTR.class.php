@@ -15,38 +15,30 @@ class CarregCTR {
     
     private $base = 2;
     
-    public function salvarDados($versao, $info, $pagina) {
-        
+    public function salvarDados($info) {
         $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
-
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 2.00){
-        
-            $jsonObjCarreg  = json_decode($dados);
-            $dadosCarreg = $jsonObjCarreg->carreg;
-            $this->salvarDadosCarregInsumo($dadosCarreg);
-        
-        }
-        
+        $jsonObjCarreg  = json_decode($dados);
+        $dadosCarreg = $jsonObjCarreg->carreg;
+        $this->salvarDadosCarregInsumo($dadosCarreg);
     }
     
-    public function atualLeiraDescarreg($versao, $info, $pagina){
+    public function atualLeiraDescarreg($info){
         
         $dados = $info['dado'];
-        $pagina = $pagina . '-' . $versao;
+        $jsonObj = json_decode($dados);
+        $carreg = $jsonObj->carreg;
+        $this->updLeiraDescarreg($carreg);
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 2.00){
-        
-            $jsonObj = json_decode($dados);
-            $carreg = $jsonObj->carreg;
-            $this->updLeiraDescarreg($carreg);
-        
-        }
-        
+    }
+    
+    public function retCarreg($info) {
+
+        $carregDAO = new CarregDAO();
+
+        $retorno = array("dados" => $carregDAO->retCarreg($info['dado'], $this->base));
+        $ret = json_encode($retorno);
+        return $ret;
+
     }
     
     private function salvarDadosCarregInsumo($dadosCarreg) {
@@ -64,19 +56,6 @@ class CarregCTR {
         $retCarreg = json_encode($dadoCarreg);
 
         echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
-    }
-
-    public function retCarreg($versao, $info) {
-
-        $versao = str_replace("_", ".", $versao);
-
-        $carregDAO = new CarregDAO();
-
-        if ($versao >= 2.00) {
-            $retorno = array("dados" => $carregDAO->retCarreg($info['dado'], $this->base));
-            $ret = json_encode($retorno);
-            return $ret;
-        }
     }
    
 }

@@ -16,29 +16,24 @@ class CECCTR {
 
     private $base = 2;
     
-    public function buscarCEC($versao, $info) {
+    public function buscarCEC($info) {
 
         $dados = $info['dado'];
-        $versao = str_replace("_", ".", $versao);
+        $pos1 = strpos($dados, "_") + 1;
 
-        if ($versao >= 2.00) {
+        $equip = substr($dados, 0, ($pos1 - 1));
+        $precec = substr($dados, $pos1);
 
-            $pos1 = strpos($dados, "_") + 1;
+        $jsonObjEquip = json_decode($equip);
+        $jsonObjPreCEC = json_decode($precec);
 
-            $equip = substr($dados, 0, ($pos1 - 1));
-            $precec = substr($dados, $pos1);
+        $dadosEquip = $jsonObjEquip->equip;
+        $dadosPreCEC = $jsonObjPreCEC->precec;
 
-            $jsonObjEquip = json_decode($equip);
-            $jsonObjPreCEC = json_decode($precec);
+        $ret = $this->pesquisar($dadosEquip, $dadosPreCEC);
 
-            $dadosEquip = $jsonObjEquip->equip;
-            $dadosPreCEC = $jsonObjPreCEC->precec;
+        return $ret;
 
-            $ret = $this->pesquisar($dadosEquip, $dadosPreCEC);
-            
-            return $ret;
-        }
-        
     }
 
     private function pesquisar($dadosEquip, $dadosPreCEC){

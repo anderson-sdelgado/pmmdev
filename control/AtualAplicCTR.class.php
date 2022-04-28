@@ -16,7 +16,7 @@ class AtualAplicCTR {
 
     private $base = 2;
     
-    public function atualAplic($versao, $info) {
+    public function atualAplic($info) {
 
         $atualAplicDAO = new AtualAplicDAO();
 
