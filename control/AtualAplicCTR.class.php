@@ -12,9 +12,6 @@ require_once('../model/AtualAplicDAO.class.php');
  * @author anderson
  */
 class AtualAplicCTR {
-    //put your code here
-
-    private $base = 2;
     
     public function atualAplic($info) {
 
@@ -33,35 +30,35 @@ class AtualAplicCTR {
         $retAtualApp = 0;
         $retAtualCheckList = 0;
 
-        $v = $atualAplicDAO->verAtual($equip, $this->base);
+        $v = $atualAplicDAO->verAtual($equip);
         if ($v == 0) {
-            $atualAplicDAO->insAtual($equip, $versaoAtual, $this->base);
+            $atualAplicDAO->insAtual($equip, $versaoAtual);
         } else {
-            $result = $atualAplicDAO->retAtual($equip, $this->base);
+            $result = $atualAplicDAO->retAtual($equip);
             foreach ($result as $item) {
                 $versaoNova = $item['VERSAO_NOVA'];
                 $versaoAtualBD = $item['VERSAO_ATUAL'];
             }
             if ($versaoAtual != $versaoAtualBD) {
-                $atualAplicDAO->updAtualNova($equip, $versaoAtual, $this->base);
+                $atualAplicDAO->updAtualNova($equip, $versaoAtual);
             } else {
                 if ($versaoAtual != $versaoNova) {
                     $retAtualApp = 1;
                 } else {
-                    $result = $atualAplicDAO->verAtualCheckList($equip, $this->base);
+                    $result = $atualAplicDAO->verAtualCheckList($equip);
                     $versaoAtualBD = '';
                     foreach ($result as $item) {
                         $versaoAtualBD = $item['VERSAO_ATUAL'];
                         $verCheckList = $item['VERIF_CHECKLIST'];
                     }
                     if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                        $atualAplicDAO->updAtual($equip, $versaoAtual, $this->base);
+                        $atualAplicDAO->updAtual($equip, $versaoAtual);
                     } else {
                         if ($verCheckList == 1) {
                             $retAtualCheckList = 1;
                         }
                     }
-                    $checkListBD = $atualAplicDAO->idCheckList($equip, $this->base);
+                    $checkListBD = $atualAplicDAO->idCheckList($equip);
                     if ($checkList != $checkListBD) {
                         $retAtualCheckList = 1;
                     }

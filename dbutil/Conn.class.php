@@ -16,25 +16,12 @@ class Conn {
      * Conecta com o banco de dados com o pattern singleton.
      * Retorna um objeto PDO!
      */
-    private static function Conectar($base) {
+    private static function Conectar() {
+
         try {
 
             if (self::$Connect == null) {
-                if ($base == 1) {
-                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
-                            (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
-                            (CONNECT_DATA =
-                              (SERVER = DEDICATED)
-                              (SERVICE_NAME = STAFE)
-                              (FAILOVER_MODE =
-                                (TYPE = SELECT)
-                                (METHOD = BASIC)
-                                (RETRIES = 180)
-                                (DELAY = 5)
-                               )
-                            )
-                          )";
-                } elseif ($base == 2) {
+
                     $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
                             (ADDRESS = (PROTOCOL = TCP)(HOST = stafe-scan)(PORT = 1521))
                             (CONNECT_DATA =
@@ -48,21 +35,20 @@ class Conn {
                                )
                             )
                           )";
-                } elseif ($base == 3) {
-                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
-                            (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.2.15)(PORT = 1521))
-                            (CONNECT_DATA =
-                              (SERVER = DEDICATED)
-                              (SERVICE_NAME = STAFEDEV)
-                              (FAILOVER_MODE =
-                                (TYPE = SELECT)
-                                (METHOD = BASIC)
-                                (RETRIES = 180)
-                                (DELAY = 5)
-                               )
-                            )
-                          )";
-                }
+                    
+//                    $tns = "(DESCRIPTION = (ENABLE = BROKEN)(FAILOVER = ON)(LOAD_BALANCE = YES)
+//                            (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.2.15)(PORT = 1521))
+//                            (CONNECT_DATA =
+//                              (SERVER = DEDICATED)
+//                              (SERVICE_NAME = STAFEDEV)
+//                              (FAILOVER_MODE =
+//                                (TYPE = SELECT)
+//                                (METHOD = BASIC)
+//                                (RETRIES = 180)
+//                                (DELAY = 5)
+//                               )
+//                            )
+//                          )";
 
                 self::$Connect = new PDO("oci:dbname=" . $tns . ';charset=utf8', 'INTERFACE', 'FGBNY946');
             }

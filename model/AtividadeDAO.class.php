@@ -20,7 +20,7 @@ class AtividadeDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " A.ATIVAGR_ID AS \"idAtiv\" "
@@ -29,7 +29,7 @@ class AtividadeDAO extends Conn {
                 . " FROM "
                     . " USINAS.VMB_ATIVAGR_MECAN A ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

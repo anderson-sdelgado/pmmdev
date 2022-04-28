@@ -20,7 +20,7 @@ class PropriedadeDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT DISTINCT "
                         . " ID_PROPR_AGR AS \"idPropriedade\" "
@@ -29,7 +29,7 @@ class PropriedadeDAO extends Conn {
                     . " FROM "
                         . " USINAS.V_ECM_OS ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

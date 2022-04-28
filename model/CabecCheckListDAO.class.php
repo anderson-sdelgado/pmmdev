@@ -13,7 +13,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class CabecCheckListDAO extends Conn {
 
-    public function verifCabecCheckList($cab, $base) {
+    public function verifCabecCheckList($cab) {
 
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
@@ -24,7 +24,7 @@ class CabecCheckListDAO extends Conn {
                     . " AND "
                     . " EQUIP_NRO = " . $cab->equipCabCL;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class CabecCheckListDAO extends Conn {
         return $v;
     }
 
-    public function idCabecCheckList($cab, $base) {
+    public function idCabecCheckList($cab) {
 
         $select = " SELECT "
                     . " ID_BOLETIM AS ID "
@@ -48,7 +48,7 @@ class CabecCheckListDAO extends Conn {
                     . " AND "
                     . " EQUIP_NRO = " . $cab->equipCabCL;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -61,7 +61,7 @@ class CabecCheckListDAO extends Conn {
         return $id;
     }
 
-    public function insCabecCheckList($cab, $base) {
+    public function insCabecCheckList($cab) {
 
         $select = " SELECT "
                     . " NRO_TURNO "
@@ -70,7 +70,7 @@ class CabecCheckListDAO extends Conn {
                 . " WHERE "
                     . " TURNOTRAB_ID = " . $cab->turnoCabCL;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

@@ -13,7 +13,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class ApontMMFertDAO extends Conn {
 
-    public function verifApontMM($idBol, $apont, $base) {
+    public function verifApontMM($idBol, $apont) {
 
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
@@ -24,7 +24,7 @@ class ApontMMFertDAO extends Conn {
                     . " AND "
                     . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class ApontMMFertDAO extends Conn {
         return $v;
     }
 
-    public function idApontMM($idBol, $apont, $base) {
+    public function idApontMM($idBol, $apont) {
 
         $select = " SELECT "
                     . " ID AS ID "
@@ -48,7 +48,7 @@ class ApontMMFertDAO extends Conn {
                 . " AND "
                     . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -61,7 +61,7 @@ class ApontMMFertDAO extends Conn {
         return $id;
     }
 
-    public function insApontMM($idBol, $apont, $base) {
+    public function insApontMM($idBol, $apont) {
 
         if ($apont->transbApontMMFert == 0) {
             $apont->transbApontMMFert = "null";
@@ -120,13 +120,13 @@ class ApontMMFertDAO extends Conn {
                 . " , " . $apont->idProprApontMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
 
     }
     
-    public function updateApontMMOSAtiv($idBol, $apont, $base) {
+    public function updateApontMMOSAtiv($idBol, $apont) {
 
         $sql = "UPDATE PMM_APONTAMENTO "
                 . " SET "
@@ -142,7 +142,7 @@ class ApontMMFertDAO extends Conn {
         $this->Create->execute();
     }
     
-    public function verifApontFert($idBol, $apont, $base) {
+    public function verifApontFert($idBol, $apont) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -153,7 +153,7 @@ class ApontMMFertDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -166,7 +166,7 @@ class ApontMMFertDAO extends Conn {
         return $v;
     }
 
-    public function idApontFert($idBol, $apont, $base) {
+    public function idApontFert($idBol, $apont) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -177,7 +177,7 @@ class ApontMMFertDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -190,7 +190,7 @@ class ApontMMFertDAO extends Conn {
         return $id;
     }
 
-    public function insApontFert($idBol, $apont, $base) {
+    public function insApontFert($idBol, $apont) {
 
         $raio = "null";
 
@@ -244,7 +244,7 @@ class ApontMMFertDAO extends Conn {
                 . " , " . $apont->statusConApontMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         

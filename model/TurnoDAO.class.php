@@ -20,7 +20,7 @@ class TurnoDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " TURNOTRAB_ID AS \"idTurno\" "
@@ -30,7 +30,7 @@ class TurnoDAO extends Conn {
                     . " FROM "
                         . " USINAS.V_SIMOVA_TURNO_EQUIP_NEW ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

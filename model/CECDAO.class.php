@@ -19,7 +19,7 @@ class CECDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function pesqCEC($cam, $base) {
+    public function pesqCEC($cam) {
 
         $result = null;
 
@@ -43,7 +43,7 @@ class CECDAO extends Conn {
                     . " WHERE "
                         . " CAMINHAO = " . $cam;
 
-            $this->Conn = parent::getConn($base);
+            $this->Conn = parent::getConn();
             $this->Read = $this->Conn->prepare($select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
             $this->Read->execute();
@@ -54,10 +54,10 @@ class CECDAO extends Conn {
         return $result;
     }
 
-    public function deleteCEC($cam, $base) {
+    public function deleteCEC($cam) {
 
         $sql = " call pk_integra_balanca.pkb_apaga_ultviagem(?)";
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $stmt = $this->Conn->prepare($sql);
         $stmt->bindParam(1, $cam, PDO::PARAM_INT, 32);
 

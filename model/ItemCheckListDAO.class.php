@@ -21,7 +21,7 @@ class ItemCheckListDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " ITMANPREV_ID AS \"idItemCheckList\" "
@@ -30,7 +30,7 @@ class ItemCheckListDAO extends Conn {
                     . " FROM "
                         . " V_ITEM_PLANO_CHECK ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +39,7 @@ class ItemCheckListDAO extends Conn {
         return $result;
     }
 
-    public function atualCheckList($equip, $base) {
+    public function atualCheckList($equip) {
         
         $sql = " UPDATE USINAS.ATUALIZA_CHECKLIST_MOBILE  "
                 . " SET "
@@ -47,7 +47,7 @@ class ItemCheckListDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_NRO = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         

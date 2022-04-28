@@ -14,7 +14,7 @@ require_once('../dbutil/Conn.class.php');
 class REquipPneuDAO extends Conn {
     //put your code here
     
-    public function dados($equip, $base) {
+    public function dados($equip) {
 
         $select = " SELECT " 
                         . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
@@ -27,7 +27,7 @@ class REquipPneuDAO extends Conn {
                         . " AND "
                         . " VEP.EQUIP_ID = E.EQUIP_ID ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

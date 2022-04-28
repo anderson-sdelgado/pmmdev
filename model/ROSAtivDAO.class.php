@@ -20,7 +20,7 @@ class ROSAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dadosECM($base) {
+    public function dadosECM() {
 
         $select = " SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
@@ -28,7 +28,7 @@ class ROSAtivDAO extends Conn {
                     . " FROM "
                         . " USINAS.V_ECM_OS ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -38,7 +38,7 @@ class ROSAtivDAO extends Conn {
         
     }
     
-    public function pesq($os, $base) {
+    public function pesq($os) {
 
         $select = " SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
@@ -48,7 +48,7 @@ class ROSAtivDAO extends Conn {
                     . " WHERE "
                         . " NRO_OS = " . $os;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

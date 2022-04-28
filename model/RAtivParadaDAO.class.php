@@ -21,7 +21,7 @@ class RAtivParadaDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " AA.ATIVAGR_ID AS \"idAtiv\" "
@@ -34,7 +34,7 @@ class RAtivParadaDAO extends Conn {
                         . " AND "
                         . " AA.DESAT = 0 ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -44,7 +44,7 @@ class RAtivParadaDAO extends Conn {
         
     }
 
-    public function dadosVersao1($equip, $base) {
+    public function dadosVersao1($equip) {
 
         $select = " SELECT " 
                         . " ROWNUM AS \"idRAtivParada\" "
@@ -66,7 +66,7 @@ class RAtivParadaDAO extends Conn {
                         . " AND " 
                         . " AA.DESAT = 0 ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -76,7 +76,7 @@ class RAtivParadaDAO extends Conn {
         
     }
     
-    public function verif($equip, $base) {
+    public function verif($equip) {
 
         $select = " SELECT " 
                     . " ROWNUM AS \"idRAtivParada\" "
@@ -98,7 +98,7 @@ class RAtivParadaDAO extends Conn {
                     . " AND " 
                     . " AA.DESAT = 0 ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

@@ -21,7 +21,7 @@ class AtualAplicDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function verAtual($equip, $base) {
+    public function verAtual($equip) {
 
         $select = "SELECT "
                 . " COUNT(*) AS QTDE "
@@ -30,7 +30,7 @@ class AtualAplicDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -43,7 +43,7 @@ class AtualAplicDAO extends Conn {
         return $v;
     }
 
-    public function insAtual($equip, $va, $base) {
+    public function insAtual($equip, $va) {
 
         $sql = "INSERT INTO PMM_ATUALIZACAO ("
                 . " EQUIP_ID "
@@ -62,12 +62,12 @@ class AtualAplicDAO extends Conn {
                 . " , SYSDATE "
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function retAtual($equip, $base) {
+    public function retAtual($equip) {
 
         $select = " SELECT "
                 . " VERSAO_NOVA "
@@ -79,7 +79,7 @@ class AtualAplicDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -88,7 +88,7 @@ class AtualAplicDAO extends Conn {
         return $result;
     }
 
-    public function updAtualNova($equip, $va, $base) {
+    public function updAtualNova($equip, $va) {
 
         $sql = "UPDATE PMM_ATUALIZACAO "
                 . " SET "
@@ -98,7 +98,7 @@ class AtualAplicDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
@@ -124,7 +124,7 @@ class AtualAplicDAO extends Conn {
                 . " AND "
                 . " PA.EQUIP_ID = ACM.EQUIP_NRO(+) ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -133,7 +133,7 @@ class AtualAplicDAO extends Conn {
         return $result;
     }
 
-    public function updAtual($equip, $va, $base) {
+    public function updAtual($equip, $va) {
 
         $sql = "UPDATE PMM_ATUALIZACAO "
                 . " SET "
@@ -142,7 +142,7 @@ class AtualAplicDAO extends Conn {
                 . " WHERE "
                 . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
@@ -158,7 +158,7 @@ class AtualAplicDAO extends Conn {
                 . " E.NRO_EQUIP = " . $equip
                 . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -178,7 +178,7 @@ class AtualAplicDAO extends Conn {
                 . " FROM "
                 . " DUAL ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

@@ -12,7 +12,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class BoletimPneuDAO extends Conn {
 
-    public function verifBoletimPneu($idApont, $bolPneu, $base) {
+    public function verifBoletimPneu($idApont, $bolPneu) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -23,7 +23,7 @@ class BoletimPneuDAO extends Conn {
                 . " AND "
                 . " CEL_ID = " . $bolPneu->idBolPneu;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class BoletimPneuDAO extends Conn {
         
     }
 
-    public function idBoletimPneu($idApont, $bolPneu, $base) {
+    public function idBoletimPneu($idApont, $bolPneu) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -48,7 +48,7 @@ class BoletimPneuDAO extends Conn {
                 . " AND "
                 . " CEL_ID = " . $bolPneu->idBolPneu;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -62,7 +62,7 @@ class BoletimPneuDAO extends Conn {
         
     }
 
-    public function insBoletimPneu($idApont, $bolPneu, $tipoAplic, $base) {
+    public function insBoletimPneu($idApont, $bolPneu, $tipoAplic) {
 
         $select = " SELECT "
             . " FUNC_ID "
@@ -71,7 +71,7 @@ class BoletimPneuDAO extends Conn {
         . " WHERE "
             . " CD = " . $bolPneu->matricFuncBolPneu;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -102,7 +102,7 @@ class BoletimPneuDAO extends Conn {
                 . " , " . $bolPneu->idBolPneu
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         

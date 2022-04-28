@@ -20,7 +20,7 @@ class PressaoBocalDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " BOCALPRESS_ID AS \"idPressaoBocal\" "
@@ -30,7 +30,7 @@ class PressaoBocalDAO extends Conn {
                     . " FROM " 
                         . " USINAS.VMB_BOCAL_BOMBA ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

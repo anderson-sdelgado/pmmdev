@@ -13,7 +13,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class RendimentoMMDAO extends Conn {
 
-    public function verifRendimentoMM($idBol, $rend, $base) {
+    public function verifRendimentoMM($idBol, $rend) {
 
         $select = " SELECT "
                         . " COUNT(*) AS QTDE "
@@ -24,7 +24,7 @@ class RendimentoMMDAO extends Conn {
                         . " AND "
                         . " ID_CEL = " . $rend->idRendMM;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class RendimentoMMDAO extends Conn {
         return $v;
     }
 
-    public function insRendimentoMM($idBol, $rend, $base) {
+    public function insRendimentoMM($idBol, $rend) {
 
         $sql = "INSERT INTO PMM_RENDIMENTO ("
                 . " BOLETIM_ID "
@@ -58,7 +58,7 @@ class RendimentoMMDAO extends Conn {
                 . " , " . $rend->idRendMM
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

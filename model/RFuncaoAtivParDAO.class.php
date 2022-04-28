@@ -20,7 +20,7 @@ class RFuncaoAtivParDAO extends Conn  {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT " 
                         . " ATIVAGR_ID AS \"idAtivPar\" "
@@ -90,7 +90,7 @@ class RFuncaoAtivParDAO extends Conn  {
                         . " (FLAGCHECKLIST, FLAGIMPLEMENTO, FLAGCALIBPNEU, FLAGTROCAMOTORISTA) "
                         . " )";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

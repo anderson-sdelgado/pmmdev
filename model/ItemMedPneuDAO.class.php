@@ -14,7 +14,7 @@ class ItemMedPneuDAO extends Conn {
     //put your code here
     
     
-    public function verifItemMedPneu($idBolPneu, $itemPneu, $base) {
+    public function verifItemMedPneu($idBolPneu, $itemPneu) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -25,7 +25,7 @@ class ItemMedPneuDAO extends Conn {
                 . " AND "
                 . " CEL_ID = " . $itemPneu->idItemCalibPneu;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -38,7 +38,7 @@ class ItemMedPneuDAO extends Conn {
         return $v;
     }
 
-    public function insItemMedPneu($idBolPneu, $itemPneu, $base) {
+    public function insItemMedPneu($idBolPneu, $itemPneu) {
 
         $sql = "INSERT INTO PMP_ITEM_MED ("
                 . " BOLETIM_ID "
@@ -63,7 +63,7 @@ class ItemMedPneuDAO extends Conn {
                 . " , " . $itemPneu->idItemCalibPneu
                 . " ) ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         

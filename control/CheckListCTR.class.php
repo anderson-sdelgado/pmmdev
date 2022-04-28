@@ -25,10 +25,10 @@ class CheckListCTR {
         $equipDAO = new EquipDAO();
         $itemCheckListDAO = new ItemCheckListDAO();
 
-        $dadosEquip = array("dados" => $equipDAO->dados($nroEquip, $this->base));
+        $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
         $resEquip = json_encode($dadosEquip);
 
-        $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados($this->base));
+        $dadosItemCheckList = array("dados" => $itemCheckListDAO->dados());
         $resItemCheckList = json_encode($dadosItemCheckList);
 
         $itemCheckListDAO->atualCheckList($nroEquip);
@@ -41,14 +41,14 @@ class CheckListCTR {
 
         $itemCheckListDAO = new ItemCheckListDAO();
 
-        $dados = array("dados"=>$itemCheckListDAO->dados($this->base));
+        $dados = array("dados"=>$itemCheckListDAO->dados());
         $json_str = json_encode($dados);
 
         return $json_str;
         
     }
     
-    public function salvarDados($info, $pagina) {
+    public function salvarDados($info) {
 
         $dados = $info['dado'];
         
@@ -71,11 +71,11 @@ class CheckListCTR {
     private function salvarBoletim($dadosCab, $dadosItem) {
         $cabecCheckListDAO = new CabecCheckListDAO();
         foreach ($dadosCab as $d) {
-            $v = $cabecCheckListDAO->verifCabecCheckList($d, $this->base);
+            $v = $cabecCheckListDAO->verifCabecCheckList($d);
             if ($v == 0) {
-                $cabecCheckListDAO->insCabecCheckList($d, $this->base);
+                $cabecCheckListDAO->insCabecCheckList($d);
             }
-            $idCabec = $cabecCheckListDAO->idCabecCheckList($d, $this->base);
+            $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
             $this->salvarApont($idCabec, $d->idCabCL, $dadosItem);
         }
     }
@@ -84,9 +84,9 @@ class CheckListCTR {
         $respCheckListDAO = new RespCheckListDAO();
         foreach ($dadosItem as $i) {
             if ($idBolCel == $i->idCabItCL) {
-                $v = $respCheckListDAO->verifRespCheckList($idBolBD, $i, $this->base);
+                $v = $respCheckListDAO->verifRespCheckList($idBolBD, $i);
                 if ($v == 0) {
-                    $respCheckListDAO->insRespCheckList($idBolBD, $i, $this->base);
+                    $respCheckListDAO->insRespCheckList($idBolBD, $i);
                 }
             }
         }

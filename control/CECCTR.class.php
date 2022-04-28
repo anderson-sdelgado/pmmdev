@@ -14,8 +14,6 @@ require_once('../model/PreCECDAO.class.php');
  */
 class CECCTR {
 
-    private $base = 2;
-    
     public function buscarCEC($info) {
 
         $dados = $info['dado'];
@@ -43,9 +41,9 @@ class CECCTR {
 
         $ver = true;
         foreach ($dadosPreCEC as $precec) {
-            $v = $preCECDAO->verifPreCEC($precec, $this->base);
+            $v = $preCECDAO->verifPreCEC($precec);
             if ($v == 0) {
-                $preCECDAO->insPreCEC($precec, $this->base);
+                $preCECDAO->insPreCEC($precec);
             }
             $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
             $ver = false;
@@ -60,8 +58,8 @@ class CECCTR {
         
         foreach ($dadosEquip as $equip) {
             $cecDAO = new CECDAO();
-            $dadoCEC = $cecDAO->pesqCEC($equip->nroEquip, $this->base);
-            $cecDAO->deleteCEC($equip->nroEquip, $this->base);
+            $dadoCEC = $cecDAO->pesqCEC($equip->nroEquip);
+            $cecDAO->deleteCEC($equip->nroEquip);
         }
         
         $dadosCEC = array("cec" => $dadoCEC);

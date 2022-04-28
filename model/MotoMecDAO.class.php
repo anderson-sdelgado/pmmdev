@@ -20,7 +20,7 @@ class MotoMecDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
                 $select = "SELECT " 
                                 . " OP.ID AS \"idMotoMec\" "
@@ -51,7 +51,7 @@ class MotoMecDAO extends Conn {
                                 . " , OP.POSICAO "
                             . " ASC ";
   
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

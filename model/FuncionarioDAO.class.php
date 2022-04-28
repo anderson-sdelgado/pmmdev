@@ -19,7 +19,7 @@ class FuncionarioDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                     . " NRO_CRACHA AS \"matricFunc\" "
@@ -30,7 +30,7 @@ class FuncionarioDAO extends Conn {
                     . " NRO_CRACHA "
                 . " ASC ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

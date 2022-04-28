@@ -13,7 +13,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class BoletimMMFertDAO extends Conn {
 
-    public function verifBoletimMM($bol, $base) {
+    public function verifBoletimMM($bol) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -24,7 +24,7 @@ class BoletimMMFertDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -37,7 +37,7 @@ class BoletimMMFertDAO extends Conn {
         return $v;
     }
 
-    public function idBoletimMM($bol, $base) {
+    public function idBoletimMM($bol) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -48,7 +48,7 @@ class BoletimMMFertDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -61,7 +61,7 @@ class BoletimMMFertDAO extends Conn {
         return $id;
     }
 
-    public function insBoletimMMAberto($bol, $base) {
+    public function insBoletimMMAberto($bol) {
 
         if ($bol->hodometroInicialBolMMFert > 9999999) {
             $bol->hodometroInicialBolMMFert = 0;
@@ -102,12 +102,12 @@ class BoletimMMFertDAO extends Conn {
                 . " , " . $bol->statusConBolMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function insBoletimMMFechado($bol, $base) {
+    public function insBoletimMMFechado($bol) {
 
         if ($bol->hodometroInicialBolMMFert > 9999999) {
             $bol->hodometroInicialBolMMFert = 0;
@@ -160,12 +160,12 @@ class BoletimMMFertDAO extends Conn {
                 . " , " . $bol->statusConBolMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function updateBoletimMMFechado($idBol, $bol, $base) {
+    public function updateBoletimMMFechado($idBol, $bol) {
 
         if ($bol->hodometroFinalBolMMFert > 9999999) {
             $bol->hodometroFinalBolMMFert = 0;
@@ -181,12 +181,12 @@ class BoletimMMFertDAO extends Conn {
                 . " WHERE "
                 . " ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
     
-    public function updateBoletimMMOSAtiv($idBol, $apont, $base) {
+    public function updateBoletimMMOSAtiv($idBol, $apont) {
 
         $sql = "UPDATE PMM_BOLETIM "
                 . " SET "
@@ -202,7 +202,7 @@ class BoletimMMFertDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function verifBoletimFert($bol, $base) {
+    public function verifBoletimFert($bol) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -226,7 +226,7 @@ class BoletimMMFertDAO extends Conn {
         return $v;
     }
 
-    public function idBoletimFert($bol, $base) {
+    public function idBoletimFert($bol) {
 
         $select = " SELECT "
                 . " ID AS ID "
@@ -237,7 +237,7 @@ class BoletimMMFertDAO extends Conn {
                 . " AND "
                 . " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -250,7 +250,7 @@ class BoletimMMFertDAO extends Conn {
         return $id;
     }
 
-    public function insBoletimFertAberto($bol, $base) {
+    public function insBoletimFertAberto($bol) {
 
         if ($bol->hodometroInicialBolMMFert > 9999999) {
             $bol->hodometroInicialBolMMFert = 0;
@@ -292,12 +292,12 @@ class BoletimMMFertDAO extends Conn {
                 . " , " . $bol->statusConBolMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function insBoletimFertFechado($bol, $base) {
+    public function insBoletimFertFechado($bol) {
 
         if ($bol->hodometroInicialBolMMFert > 9999999) {
             $bol->hodometroInicialBolMMFert = 0;
@@ -344,12 +344,12 @@ class BoletimMMFertDAO extends Conn {
                 . " , " . $bol->statusConBolMMFert
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function updateBoletimFertFechado($idBol, $bol, $base) {
+    public function updateBoletimFertFechado($idBol, $bol) {
 
         if ($bol->hodometroFinalBolMMFert > 9999999) {
             $bol->hodometroFinalBolMMFert = 0;
@@ -365,7 +365,7 @@ class BoletimMMFertDAO extends Conn {
                 . " WHERE "
                 . " ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

@@ -19,7 +19,7 @@ class ItemOSMecanDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                         . " I.ITOSMECAN_ID AS \"idItemOS\" "
@@ -33,7 +33,7 @@ class ItemOSMecanDAO extends Conn {
                     . " WHERE "
                         . " I.OS_ID = OS.OS_ID ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -42,7 +42,7 @@ class ItemOSMecanDAO extends Conn {
         return $result;
     }
     
-    public function pesq($os, $equip, $base) {
+    public function pesq($os, $equip) {
 
         $select = " SELECT "
                         . " I.ITOSMECAN_ID AS \"idItemOS\" "
@@ -60,7 +60,7 @@ class ItemOSMecanDAO extends Conn {
                         . " AND "
                         . " I.OS_ID = OS.OS_ID ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

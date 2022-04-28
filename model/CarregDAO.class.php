@@ -19,7 +19,7 @@ class CarregDAO extends Conn {
     /** @var PDO */
     private $Conn;
     
-    public function cancelCarregProd($carreg, $base) {
+    public function cancelCarregProd($carreg) {
         
         $update = " UPDATE "
                     . " USINAS.REG_COMPOSTO "
@@ -30,13 +30,13 @@ class CarregDAO extends Conn {
                     . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function verifCarregProd($carreg, $base) {
+    public function verifCarregProd($carreg) {
         
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
@@ -47,7 +47,7 @@ class CarregDAO extends Conn {
                     . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -61,7 +61,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function insCarregProd($carreg, $base) {
+    public function insCarregProd($carreg) {
         
         $select = " SELECT "
                     . " FUNC_ID AS IDFUNC "
@@ -70,7 +70,7 @@ class CarregDAO extends Conn {
                 . " WHERE "
                     . " NRO_CRACHA = " . $carreg->motoCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -104,7 +104,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function cancelCarregComp($carreg, $base) {
+    public function cancelCarregComp($carreg) {
         
         $update = " UPDATE "
                     . " USINAS.REG_COMPOSTO "
@@ -115,13 +115,13 @@ class CarregDAO extends Conn {
                     . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function verifCarregComp($carreg, $base) {
+    public function verifCarregComp($carreg) {
         
         $select = " SELECT "
                     . " COUNT(*) AS QTDE "
@@ -132,7 +132,7 @@ class CarregDAO extends Conn {
                 . " AND "
                     . " EQUIP_ID = " . $carreg->equipCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -146,7 +146,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function updDescarregProd($idApontBD, $carreg, $base) {
+    public function updDescarregProd($idApontBD, $carreg) {
         
         $update = " UPDATE "
                         . " USINAS.REG_COMPOSTO "
@@ -156,13 +156,13 @@ class CarregDAO extends Conn {
                     . " WHERE "
                         . " REGCOMPOST_ID = " . $carreg->idRegCompostoCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function insCarregComp($idApontBD, $carreg, $base) {
+    public function insCarregComp($idApontBD, $carreg) {
 
         $select = " SELECT "
                     . " OA.OSAGRICOLA_ID AS OSAGRICOLA "
@@ -174,7 +174,7 @@ class CarregDAO extends Conn {
                     . " AND "
                     . " OS.OS_ID = " . $carreg->osCarreg;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -230,7 +230,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function updCarregProd($equip, $base) {
+    public function updCarregProd($equip) {
         
         $update = " UPDATE "
                         . " USINAS.REG_COMPOSTO "
@@ -241,13 +241,13 @@ class CarregDAO extends Conn {
                         . " AND"
                         . " EQUIP_ID = " . $equip;
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($update);
         $this->Create->execute();
         
     }
     
-    public function retCarreg($equip, $base) {
+    public function retCarreg($equip) {
         
         $result = null;
         
@@ -271,7 +271,7 @@ class CarregDAO extends Conn {
                         . " AND "
                         . " O.ORDCARREG_ID = C.ORDCARREG_ID ";
             
-            $this->Conn = parent::getConn($base);
+            $this->Conn = parent::getConn();
             $this->Read = $this->Conn->prepare($select);
             $this->Read->setFetchMode(PDO::FETCH_ASSOC);
             $this->Read->execute();

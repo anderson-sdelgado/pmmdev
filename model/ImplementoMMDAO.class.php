@@ -14,7 +14,7 @@ require_once('../dbutil/Conn.class.php');
  */
 class ImplementoMMDAO extends Conn {
 
-    public function verifImplementoMM($idApont, $imp, $base) {
+    public function verifImplementoMM($idApont, $imp) {
 
         $select = " SELECT "
                         . " COUNT(*) AS QTDE "
@@ -25,7 +25,7 @@ class ImplementoMMDAO extends Conn {
                         . " AND "
                         . " ID_CEL = " . $imp->idApontImplMM;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -38,7 +38,7 @@ class ImplementoMMDAO extends Conn {
         return $v;
     }
 
-    public function insImplementoMM($idApont, $imp, $base) {
+    public function insImplementoMM($idApont, $imp) {
 
         $sql = "INSERT INTO PMM_IMPLEMENTO ("
                 . " APONTAMENTO_ID "
@@ -59,7 +59,7 @@ class ImplementoMMDAO extends Conn {
                 . " , " . $imp->idApontImplMM
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

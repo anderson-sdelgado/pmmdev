@@ -19,7 +19,7 @@ class ServicoDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                 . " SERVICO_ID AS \"idServico\" "
@@ -31,7 +31,7 @@ class ServicoDAO extends Conn {
                 . " CD "
                 . " ASC ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

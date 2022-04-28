@@ -13,8 +13,6 @@ require_once('../model/PreCECDAO.class.php');
  */
 class PreCECCTR {
 
-    private $base = 2;
-    
     public function salvarDados($info) {
 
         $dados = $info['dado'];
@@ -24,9 +22,9 @@ class PreCECCTR {
         $idPreCECArray = array();
 
         foreach ($dadosPreCEC as $precec) {
-            $v = $preCECDAO->verifPreCEC($precec, $this->base);
+            $v = $preCECDAO->verifPreCEC($precec);
             if ($v == 0) {
-                $preCECDAO->insPreCEC($precec, $this->base);
+                $preCECDAO->insPreCEC($precec);
             }
             $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
         }

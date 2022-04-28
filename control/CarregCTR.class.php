@@ -12,9 +12,7 @@ require_once('../model/CarregDAO.class.php');
  * @author anderson
  */
 class CarregCTR {
-    
-    private $base = 2;
-    
+
     public function salvarDados($info) {
         $dados = $info['dado'];
         $jsonObjCarreg  = json_decode($dados);
@@ -35,7 +33,7 @@ class CarregCTR {
 
         $carregDAO = new CarregDAO();
 
-        $retorno = array("dados" => $carregDAO->retCarreg($info['dado'], $this->base));
+        $retorno = array("dados" => $carregDAO->retCarreg($info['dado']));
         $ret = json_encode($retorno);
         return $ret;
 
@@ -45,10 +43,10 @@ class CarregCTR {
         $carregDAO = new CarregDAO();
         $idCarregArray = array();
         foreach ($dadosCarreg as $carreg) {
-            $v = $carregDAO->verifCarregProd($carreg, $this->base);
+            $v = $carregDAO->verifCarregProd($carreg);
             if ($v == 0) {
-                $carregDAO->cancelCarregProd($carreg, $this->base);
-                $carregDAO->insCarregProd($carreg, $this->base);
+                $carregDAO->cancelCarregProd($carreg);
+                $carregDAO->insCarregProd($carreg);
             }
             $idCarregArray[] = array("idCarreg" => $carreg->idCarreg);
         }

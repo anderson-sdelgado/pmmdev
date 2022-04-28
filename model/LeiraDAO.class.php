@@ -20,7 +20,7 @@ class LeiraDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function verifMovLeiraMM($idBol, $movLeira, $base) {
+    public function verifMovLeiraMM($idBol, $movLeira) {
 
         $select = " SELECT "
                         . " COUNT(*) AS QTDE "
@@ -31,7 +31,7 @@ class LeiraDAO extends Conn {
                         . " AND "
                         . " ID_CEL = " . $movLeira->idMovLeira;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -45,7 +45,7 @@ class LeiraDAO extends Conn {
     
     }
 
-    public function insMovLeiraMM($idBol, $movLeira, $base) {
+    public function insMovLeiraMM($idBol, $movLeira) {
 
         $sql = "INSERT INTO PMM_MOV_LEIRA ("
                 . " BOLETIM_ID "
@@ -66,13 +66,13 @@ class LeiraDAO extends Conn {
                 . " , " . $movLeira->idMovLeira
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
         
     }
     
-    public function dados($base) {
+    public function dados() {
 
         $select = " SELECT "
                     . " LEIRA_ID AS \"idLeira\" "
@@ -81,7 +81,7 @@ class LeiraDAO extends Conn {
                   . " FROM "
                     . " USINAS.LEIRA";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

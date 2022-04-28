@@ -15,7 +15,7 @@ require_once('../dbutil/Conn.class.php');
 class RecolhimentoFertDAO extends Conn {
 
     //put your code here
-    public function verifRecolhimentoFert($idBol, $recol, $base) {
+    public function verifRecolhimentoFert($idBol, $recol) {
 
         $select = " SELECT "
                         . " COUNT(*) AS QTDE "
@@ -26,7 +26,7 @@ class RecolhimentoFertDAO extends Conn {
                         . " AND "
                         . " ID_CEL = " . $recol->idRecolhFert;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +39,7 @@ class RecolhimentoFertDAO extends Conn {
         return $v;
     }
 
-    public function insRecolhimentoFert($idBol, $recol, $base) {
+    public function insRecolhimentoFert($idBol, $recol) {
 
         $sql = "INSERT INTO PMM_RECOLHIMENTO_FERT ("
                     . " BOLETIM_ID "
@@ -60,7 +60,7 @@ class RecolhimentoFertDAO extends Conn {
                     . " , " . $recol->idRecolhFert
                     . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

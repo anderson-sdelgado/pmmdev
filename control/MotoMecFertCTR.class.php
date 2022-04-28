@@ -24,8 +24,6 @@ require_once('../model/CarregDAO.class.php');
  */
 class MotoMecFertCTR {
     
-    private $base = 2;
-
     public function salvarBolAbertoMMFert($info) {
 
         $dados = $info['dado'];
@@ -95,21 +93,21 @@ class MotoMecFertCTR {
         
         foreach ($dadosBoletim as $bol) {
             if($bol->tipoBolMMFert === 1){
-                $v = $boletimMMFertDAO->verifBoletimMM($bol, $this->base);
+                $v = $boletimMMFertDAO->verifBoletimMM($bol);
                 if ($v == 0) {
-                    $boletimMMFertDAO->insBoletimMMAberto($bol, $this->base);
+                    $boletimMMFertDAO->insBoletimMMAberto($bol);
                 }
-                $idBolBD = $boletimMMFertDAO->idBoletimMM($bol, $this->base);
+                $idBolBD = $boletimMMFertDAO->idBoletimMM($bol);
                 $retApont = $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
                 $retMovLeira = $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $retApontMecan = $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
             }
             else{
-                $v = $boletimMMFertDAO->verifBoletimFert($bol, $this->base);
+                $v = $boletimMMFertDAO->verifBoletimFert($bol);
                 if ($v == 0) {
-                    $boletimMMFertDAO->insBoletimFertAberto($bol, $this->base);
+                    $boletimMMFertDAO->insBoletimFertAberto($bol);
                 }
-                $idBolBD = $boletimMMFertDAO->idBoletimFert($bol, $this->base);
+                $idBolBD = $boletimMMFertDAO->idBoletimFert($bol);
                 $retApont = $this->salvarApontFert($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
                 $retMovLeira = $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $retApontMecan = $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
@@ -130,13 +128,13 @@ class MotoMecFertCTR {
         
         foreach ($dadosBoletim as $bol) {
             if($bol->tipoBolMMFert === 1){
-                $v = $boletimMMFertDAO->verifBoletimMM($bol, $this->base);
+                $v = $boletimMMFertDAO->verifBoletimMM($bol);
                 if ($v == 0) {
-                    $boletimMMFertDAO->insBoletimMMFechado($bol, $this->base);
-                    $idBolBD = $boletimMMFertDAO->idBoletimMM($bol, $this->base);
+                    $boletimMMFertDAO->insBoletimMMFechado($bol);
+                    $idBolBD = $boletimMMFertDAO->idBoletimMM($bol);
                 } else {
-                    $idBolBD = $boletimMMFertDAO->idBoletimMM($bol, $this->base);
-                    $boletimMMFertDAO->updateBoletimMMFechado($idBolBD, $bol, $this->base);
+                    $idBolBD = $boletimMMFertDAO->idBoletimMM($bol);
+                    $boletimMMFertDAO->updateBoletimMMFechado($idBolBD, $bol);
                 }
                 $retApont = $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
                 $retMovLeira = $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
@@ -144,13 +142,13 @@ class MotoMecFertCTR {
                 $this->salvarRendMM($idBolBD, $bol->idBolMMFert, $dadosRendimento);
             }
             else{
-                $v = $boletimMMFertDAO->verifBoletimFert($bol, $this->base);
+                $v = $boletimMMFertDAO->verifBoletimFert($bol);
                 if ($v == 0) {
-                    $boletimMMFertDAO->insBoletimFertFechado($bol, $this->base);
-                    $idBolBD = $boletimMMFertDAO->idBoletimFert($bol, $this->base);
+                    $boletimMMFertDAO->insBoletimFertFechado($bol);
+                    $idBolBD = $boletimMMFertDAO->idBoletimFert($bol);
                 } else {
-                    $idBolBD = $boletimMMFertDAO->idBoletimFert($bol, $this->base);
-                    $boletimMMFertDAO->updateBoletimFertFechado($idBolBD, $bol, $this->base);
+                    $idBolBD = $boletimMMFertDAO->idBoletimFert($bol);
+                    $boletimMMFertDAO->updateBoletimFertFechado($idBolBD, $bol);
                 }
                 $retApont = $this->salvarApontFert($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
                 $retMovLeira = $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
@@ -178,15 +176,15 @@ class MotoMecFertCTR {
         
         foreach ($dadosApont as $apont) {
             if ($idBolCel == $apont->idBolMMFert) {
-                $v = $apontMMFertDAO->verifApontMM($idBolBD, $apont, $this->base);
+                $v = $apontMMFertDAO->verifApontMM($idBolBD, $apont);
                 if ($v == 0) {
-                    $apontMMFertDAO->insApontMM($idBolBD, $apont, $this->base);
+                    $apontMMFertDAO->insApontMM($idBolBD, $apont);
                 }
                 if($apont->osApontMMFert > 0){
-                    $boletimMMFertDAO->updateBoletimMMOSAtiv($idBolBD, $apont, $this->base);
-                    $apontMMFertDAO->updateApontMMOSAtiv($idBolBD, $apont, $this->base);
+                    $boletimMMFertDAO->updateBoletimMMOSAtiv($idBolBD, $apont);
+                    $apontMMFertDAO->updateApontMMOSAtiv($idBolBD, $apont);
                 }
-                $idApontBD = $apontMMFertDAO->idApontMM($idBolBD, $apont, $this->base);
+                $idApontBD = $apontMMFertDAO->idApontMM($idBolBD, $apont);
                 $idApontImplArray = $this->salvarImplMM($idApontBD, $apont->idApontMMFert, $dadosImplemento, $idApontImplArray);
                 $idBolPneuArray = $this->salvarBoletimPneu($idApontBD, $apont->idApontMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 1, $idBolPneuArray);
                 $idCarregArray = $this->salvarCarreg($idApontBD, $apont->idApontMMFert, $dadosCarreg, $idCarregArray);
@@ -220,11 +218,11 @@ class MotoMecFertCTR {
         
         foreach ($dadosApont as $apont) {
             if ($idBolCel == $apont->idBolMMFert) {
-                $v = $apontMMFertDAO->verifApontFert($idBolBD, $apont, $this->base);
+                $v = $apontMMFertDAO->verifApontFert($idBolBD, $apont);
                 if ($v == 0) {
-                    $apontMMFertDAO->insApontFert($idBolBD, $apont, $this->base);
+                    $apontMMFertDAO->insApontFert($idBolBD, $apont);
                 }
-                $idApontBD = $apontMMFertDAO->idApontFert($idBolBD, $apont, $this->base);
+                $idApontBD = $apontMMFertDAO->idApontFert($idBolBD, $apont);
                 $idApontImplArray = $this->salvarImplMM($idApontBD, $apont->idApontMMFert, $dadosImplemento, $idApontImplArray);
                 $idBolPneuArray = $this->salvarBoletimPneu($idApontBD, $apont->idApontMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 2, $idBolPneuArray);
                 $idCarregArray = $this->salvarCarreg($idApontBD, $apont->idApontMMFert, $dadosCarreg, $idCarregArray);
@@ -252,18 +250,18 @@ class MotoMecFertCTR {
         $idApontMecanArray = array();
         foreach ($dadosApontMecan as $apontMecan) {
             if ($idBolCel == $apontMecan->idBolApontMecan) {
-                $v = $apontMecanDAO->verifApontMecan($idBolBD, $apontMecan, $this->base);
+                $v = $apontMecanDAO->verifApontMecan($idBolBD, $apontMecan);
                 if ($v == 0) {
                     if($apontMecan->statusApontMecan == 1){
-                        $apontMecanDAO->insApontMecanAberto($idBolBD, $apontMecan, $this->base);
+                        $apontMecanDAO->insApontMecanAberto($idBolBD, $apontMecan);
                     }
                     else if($apontMecan->statusApontMecan == 3){
-                        $apontMecanDAO->insApontMecanFechado($idBolBD, $apontMecan, $this->base);
+                        $apontMecanDAO->insApontMecanFechado($idBolBD, $apontMecan);
                     }
                 }
                 else{
                     if($apontMecan->statusApontMecan == 3){
-                        $apontMecanDAO->updateApontMecan($idBolBD, $apontMecan, $this->base);
+                        $apontMecanDAO->updateApontMecan($idBolBD, $apontMecan);
                     }
                 }
                 $idApontMecanArray[] = array("idApontMecan" => $apontMecan->idApontMecan);
@@ -278,9 +276,9 @@ class MotoMecFertCTR {
         $implementoMMDAO = new ImplementoMMDAO();
         foreach ($dadosImplemento as $imp) {
             if ($idApontaCel == $imp->idApontMMFert) {
-                $v = $implementoMMDAO->verifImplementoMM($idApontaBD, $imp, $this->base);
+                $v = $implementoMMDAO->verifImplementoMM($idApontaBD, $imp);
                 if ($v == 0) {
-                    $implementoMMDAO->insImplementoMM($idApontaBD, $imp, $this->base);
+                    $implementoMMDAO->insImplementoMM($idApontaBD, $imp);
                 }
                 $idApontImplArray[] = array("idApontImplMM" => $imp->idApontImplMM);
             }
@@ -292,10 +290,10 @@ class MotoMecFertCTR {
         $boletimPneuDAO = new BoletimPneuDAO();
         foreach ($dadosBolPneu as $bolPneu) {
             if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu, $this->base);
+                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu);
                 if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, $tipoAplic, $this->base);
-                    $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu, $this->base);
+                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, $tipoAplic);
+                    $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
                     $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
                 }
                 $idBolPneuArray[] = array("idBolPneu" => $bolPneu->idBolPneu);
@@ -323,12 +321,12 @@ class MotoMecFertCTR {
             if ($idApontCel == $carreg->idApontCarreg) {
                 $tipo = $carreg->tipoCarreg;
                 if ($carreg->tipoCarreg == 1) {
-                    $carregDAO->updDescarregProd($idApontBD, $carreg, $this->base);
+                    $carregDAO->updDescarregProd($idApontBD, $carreg);
                 } else {
-                    $v = $carregDAO->verifCarregComp($carreg, $this->base);
-                    $carregDAO->cancelCarregComp($carreg, $this->base);
+                    $v = $carregDAO->verifCarregComp($carreg);
+                    $carregDAO->cancelCarregComp($carreg);
                     if ($v == 0) {
-                        $carregDAO->insCarregComp($idApontBD, $carreg, $this->base);
+                        $carregDAO->insCarregComp($idApontBD, $carreg);
                     }
                 }
                 $idCarregArray[] = array("idCarreg" => $carreg->idCarreg);
@@ -342,9 +340,9 @@ class MotoMecFertCTR {
         $idMovLeiraArray = array();
         foreach ($dadosMovLeira as $movleira) {
             if ($idBolCel == $movleira->idBolMMFert) {
-                $v = $leiraDAO->verifMovLeiraMM($idBolBD, $movleira, $this->base);
+                $v = $leiraDAO->verifMovLeiraMM($idBolBD, $movleira);
                 if ($v == 0) {
-                    $leiraDAO->insMovLeiraMM($idBolBD, $movleira, $this->base);
+                    $leiraDAO->insMovLeiraMM($idBolBD, $movleira);
                 }
                 $idMovLeiraArray[] = array("idMovLeira" => $movleira->idMovLeira);
             }
@@ -358,9 +356,9 @@ class MotoMecFertCTR {
         $rendimentoMMDAO = new RendimentoMMDAO();
         foreach ($dadosRendimento as $rend) {
             if ($idBolCel == $rend->idBolMMFert) {
-                $v = $rendimentoMMDAO->verifRendimentoMM($idBolBD, $rend, $this->base);
+                $v = $rendimentoMMDAO->verifRendimentoMM($idBolBD, $rend);
                 if ($v == 0) {
-                    $rendimentoMMDAO->insRendimentoMM($idBolBD, $rend, $this->base);
+                    $rendimentoMMDAO->insRendimentoMM($idBolBD, $rend);
                 }
             }
         }
@@ -370,29 +368,23 @@ class MotoMecFertCTR {
         $recolhimentoFertDAO = new RecolhimentoFertDAO();
         foreach ($dadosRecolhimento as $rend) {
             if ($idBolCel == $rend->idBolMMFert) {
-                $v = $recolhimentoFertDAO->verifRecolhimentoFert($idBolBD, $rend, $this->base);
+                $v = $recolhimentoFertDAO->verifRecolhimentoFert($idBolBD, $rend);
                 if ($v == 0) {
-                    $recolhimentoFertDAO->insRecolhimentoFert($idBolBD, $rend, $this->base);
+                    $recolhimentoFertDAO->insRecolhimentoFert($idBolBD, $rend);
                 }
             }
         }
     }
     
-    public function dados($versao) {
+    public function dados() {
 
-        $versao = str_replace("_", ".", $versao);
-        
-        if($versao >= 2.00){
-        
-            $motoMecDAO = new MotoMecDAO();
+        $motoMecDAO = new MotoMecDAO();
 
-            $dados = array("dados" => $motoMecDAO->dados($this->base));
-            $json_str = json_encode($dados);
+        $dados = array("dados" => $motoMecDAO->dados());
+        $json_str = json_encode($dados);
 
-            return $json_str;
-        
-        }
-        
+        return $json_str;
+
     }
     
 }

@@ -20,7 +20,7 @@ class PreCECDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function verifPreCEC($precec, $base) {
+    public function verifPreCEC($precec) {
 
         $select = " SELECT "
                         . " COUNT(*) AS QTDE "
@@ -31,7 +31,7 @@ class PreCECDAO extends Conn {
                         . " AND "
                         . " EQUIP = " . $precec->cam . " ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -44,7 +44,7 @@ class PreCECDAO extends Conn {
         return $v;
     }
     
-    public function insPreCEC($precec, $base) {
+    public function insPreCEC($precec) {
 
         $insert = " INSERT INTO "
                     . " ECM_PRE_CEC_CANA "
@@ -87,7 +87,7 @@ class PreCECDAO extends Conn {
                     . " , " . $this->verifValor($precec->turno)
                     . " ) ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($insert);
         $this->Create->execute();
         

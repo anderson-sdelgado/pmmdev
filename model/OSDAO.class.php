@@ -20,7 +20,7 @@ class OSDAO extends Conn {
     private $Conn;
 
         
-    public function dados($base) {
+    public function dados() {
 
         $select = "SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
@@ -30,7 +30,7 @@ class OSDAO extends Conn {
                     . " FROM "
                         . " USINAS.V_ECM_OS ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +39,7 @@ class OSDAO extends Conn {
         return $result;
     }
     
-    public function pesq($os, $base) {
+    public function pesq($os) {
 
         $select = " SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
@@ -54,7 +54,7 @@ class OSDAO extends Conn {
                         . " OS_ID "
                     . " ASC";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -63,7 +63,7 @@ class OSDAO extends Conn {
         return $result;
     }
 
-    public function pesqMecan($os, $equip, $base) {
+    public function pesqMecan($os, $equip) {
 
         $select = " SELECT "
                     . " OS_ID AS \"idOS\" "
@@ -76,7 +76,7 @@ class OSDAO extends Conn {
                     . " AND "
                     . " EQUIP_ID = " . $equip;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

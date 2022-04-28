@@ -20,7 +20,7 @@ class PlantioDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($matric, $base) {
+    public function dados($matric) {
         
         $select = " SELECT "
                         . " TO_CHAR(VPP.DT_REF, 'DD/MM/YYYY') AS \"dthrPlantio\" "
@@ -62,7 +62,7 @@ class PlantioDAO extends Conn {
                         . " VPP.FRENTE_ID = VRF.FRENTE_ID "
                         . " FETCH FIRST 1 ROWS ONLY ";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

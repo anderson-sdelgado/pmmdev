@@ -15,7 +15,7 @@ class ApontMecanDAO extends Conn {
 
     //put your code here
 
-    public function verifApontMecan($idBol, $apontMecan, $base) {
+    public function verifApontMecan($idBol, $apontMecan) {
 
         $select = " SELECT "
                 . " COUNT(*) AS QTDE "
@@ -26,7 +26,7 @@ class ApontMecanDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -39,7 +39,7 @@ class ApontMecanDAO extends Conn {
         return $v;
     }
 
-    public function insApontMecanAberto($idBol, $apontMecan, $base) {
+    public function insApontMecanAberto($idBol, $apontMecan) {
 
         $sql = "INSERT INTO PMM_APONT_MECAN ("
                 . " BOLETIM_ID "
@@ -66,12 +66,12 @@ class ApontMecanDAO extends Conn {
                 . " , " . $apontMecan->idApontMecan
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function insApontMecanFechado($idBol, $apontMecan, $base) {
+    public function insApontMecanFechado($idBol, $apontMecan) {
 
         $sql = "INSERT INTO PMM_APONT_MECAN ("
                 . " BOLETIM_ID "
@@ -98,12 +98,12 @@ class ApontMecanDAO extends Conn {
                 . " , " . $apontMecan->idApontMecan
                 . " )";
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }
 
-    public function updateApontMecan($idBol, $apontMecan, $base) {
+    public function updateApontMecan($idBol, $apontMecan) {
 
         $sql = "UPDATE PMM_APONT_MECAN "
                 . " SET "
@@ -115,7 +115,7 @@ class ApontMecanDAO extends Conn {
                 . " AND "
                 . " BOLETIM_ID = " . $idBol;
 
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
         $this->Create->execute();
     }

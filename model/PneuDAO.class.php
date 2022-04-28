@@ -19,20 +19,18 @@ class PneuDAO extends Conn {
     /** @var PDO */
     private $Conn;
     
-    public function dados($base) {
+    public function dados() {
         
         $select = " SELECT "
                         . " EQUIPCOMPO_ID AS \"idPneu\" "
                         . " , CD AS \"nroPneu\" "
                     . " FROM "
                         . " VMB_PNEU"
-                    . " WHERE "
-                        . " CD NOT LIKE '12043' "
                     . " ORDER BY "
                         . " EQUIPCOMPO_ID "
                     . " ASC ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -42,7 +40,7 @@ class PneuDAO extends Conn {
         
     }
     
-    public function pesq($valor, $base) {
+    public function pesq($valor) {
         
         $select = " SELECT "
                         . " EQUIPCOMPO_ID AS \"idPneu\" "
@@ -52,7 +50,7 @@ class PneuDAO extends Conn {
                     . " WHERE "
                         . " CD LIKE '" . $valor . "'";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();

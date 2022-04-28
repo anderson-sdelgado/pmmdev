@@ -20,7 +20,7 @@ class REquipAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($equip, $base) {
+    public function dados($equip) {
 
         $select = " SELECT "
                         . " R.EQUIP_ID AS \"idEquip\" "
@@ -36,7 +36,7 @@ class REquipAtivDAO extends Conn {
                         . " R.EQUIP_ID "
                     . " ASC ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
@@ -46,7 +46,7 @@ class REquipAtivDAO extends Conn {
         
     }
     
-    public function verif($equip, $base) {
+    public function verif($equip) {
 
         $select = " SELECT "
                         . " ROWNUM AS \"idEquipAtiv\" "
@@ -68,7 +68,7 @@ class REquipAtivDAO extends Conn {
                         . " ROWNUM "
                     . " ASC ";
         
-        $this->Conn = parent::getConn($base);
+        $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
         $this->Read->execute();
