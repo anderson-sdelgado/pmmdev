@@ -57,11 +57,11 @@ class BaseDadosCTR {
 
         $array = explode("_", $info);
 
-        $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1]));
-        $resEquipAtiv = json_encode($dadosEquipAtiv);
+        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1]));
+        $resREquipAtiv = json_encode($dadosREquipAtiv);
 
-        $dadosOSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0]));
-        $resOSAtiv = json_encode($dadosOSAtiv);
+        $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0]));
+        $resROSAtiv = json_encode($dadosROSAtiv);
 
         $dadosAtividade = array("dados" => $atividadeDAO->dados());
         $resAtividade = json_encode($dadosAtividade);
@@ -69,28 +69,26 @@ class BaseDadosCTR {
         $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
         $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
 
-        return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+        return $resREquipAtiv . "_" . $resROSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
   
     }
 
     public function pesqECMAtiv($info) {
 
         $rEquipAtivDAO = new REquipAtivDAO();
-        $osDAO = new OSDAO();
         $atividadeDAO = new AtividadeDAO();
+        $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-        $array = explode("_", $info);
-
-        $dadosEquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1]));
-        $resEquipAtiv = json_encode($dadosEquipAtiv);
-
-        $dadosOSAtiv = array("dados" => $osDAO->dadosECM($array[0]));
-        $resOSAtiv = json_encode($dadosOSAtiv);
+        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($info));
+        $resREquipAtiv = json_encode($dadosREquipAtiv);
 
         $dadosAtividade = array("dados" => $atividadeDAO->dados());
         $resAtividade = json_encode($dadosAtividade);
 
-        return $resEquipAtiv . "_" . $resOSAtiv . "_" . $resAtividade;
+        $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
+        $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+        
+        return $resREquipAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
 
     }
     

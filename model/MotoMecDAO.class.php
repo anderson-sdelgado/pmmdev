@@ -38,7 +38,7 @@ class MotoMecDAO extends Conn {
                                     . " THEN 2 "
                                     . " ELSE 1 END AS \"funcaoOperMotoMec\" "
                             . " FROM " 
-                                . " OPCAO_MOTOMEC OP " 
+                                . " MENU_OPCAO_MOTOMEC OP " 
                                 . " , MOTIVO_PARADA MP "
                                 . " , DESCR_OPCAO_MOTOMEC DOM "
                             . " WHERE " 
