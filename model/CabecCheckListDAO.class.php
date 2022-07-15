@@ -63,22 +63,30 @@ class CabecCheckListDAO extends Conn {
 
     public function insCabecCheckList($cab) {
 
-        $select = " SELECT "
-                    . " NRO_TURNO "
-                . " FROM "
-                    . " USINAS.TURNO_TRAB "
-                . " WHERE "
-                    . " TURNOTRAB_ID = " . $cab->turnoCabCL;
+		$turno = 'NULL';
 
-        $this->Conn = parent::getConn();
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
+		if (isset($cab->turnoCabCL)) {
+			$select = " SELECT "
+						. " NRO_TURNO "
+					. " FROM "
+						. " USINAS.TURNO_TRAB "
+					. " WHERE "
+						. " TURNOTRAB_ID = " . $cab->turnoCabCL;
 
-        foreach ($result as $item) {
-            $turno = $item['NRO_TURNO'];
-        }
+			$this->Conn = parent::getConn();
+			$this->Read = $this->Conn->prepare($select);
+			$this->Read->setFetchMode(PDO::FETCH_ASSOC);
+			$this->Read->execute();
+			$result = $this->Read->fetchAll();
+
+			foreach ($result as $item) {
+				$turno = $item['NRO_TURNO'];
+			}
+		}
+		
+		if (!isset($cab->funcCabCL)) {
+			$cab->funcCabCL = 'NULL';
+		}
 
         $sql = " INSERT INTO BOLETIM_CHECK ( "
                 . " EQUIP_NRO "

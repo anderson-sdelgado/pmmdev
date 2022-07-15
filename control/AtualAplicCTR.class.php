@@ -65,8 +65,8 @@ class AtualAplicCTR {
                 }
             }
         }
+        $atualAplicDAO->updUltAcesso($equip);
         $dthr = $atualAplicDAO->dataHora();
-
         $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
             , "dthr" => $dthr);
 

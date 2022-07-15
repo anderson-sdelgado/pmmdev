@@ -103,6 +103,19 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
 
+    public function updUltAcesso($equip) {
+
+        $sql = "UPDATE PMM_ATUALIZACAO "
+                . " SET "
+                    . " DTHR_ULT_ACESSO = SYSDATE "
+                . " WHERE "
+                    . " EQUIP_ID = " . $equip;
+
+        $this->Conn = parent::getConn();
+        $this->Create = $this->Conn->prepare($sql);
+        $this->Create->execute();
+    }
+    
     public function verAtualCheckList($equip) {
 
         $select = " SELECT "
