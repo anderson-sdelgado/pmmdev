@@ -55,7 +55,8 @@ class BaseDadosCTR {
         $atividadeDAO = new AtividadeDAO();
         $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-        $array = explode("_", $info);
+        $dado = $info['dado'];
+        $array = explode("_", $dado);
 
         $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1]));
         $resREquipAtiv = json_encode($dadosREquipAtiv);
@@ -79,7 +80,9 @@ class BaseDadosCTR {
         $atividadeDAO = new AtividadeDAO();
         $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
 
-        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($info));
+        $dado = $info['dado'];
+        
+        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($dado));
         $resREquipAtiv = json_encode($dadosREquipAtiv);
 
         $dadosAtividade = array("dados" => $atividadeDAO->dados());
