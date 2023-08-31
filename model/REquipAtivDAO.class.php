@@ -20,7 +20,7 @@ class REquipAtivDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function dados($equip) {
+    public function pesqNroEquip($nroEquip) {
 
         $select = " SELECT "
                         . " R.EQUIP_ID AS \"idEquip\" "
@@ -29,7 +29,33 @@ class REquipAtivDAO extends Conn {
                         . " USINAS.R_EQUIP_ATIVAGR R "
                         . " , USINAS.EQUIP E "
                     . " WHERE "
-                        . " E.NRO_EQUIP = " . $equip
+                        . " E.NRO_EQUIP = " . $nroEquip
+                        . " AND "
+                        . " R.EQUIP_ID = E.EQUIP_ID "
+                    . " ORDER BY "
+                        . " R.EQUIP_ID "
+                    . " ASC ";
+        
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+        
+    }
+    
+    public function pesqIdEquip($idEquip) {
+
+        $select = " SELECT "
+                        . " R.EQUIP_ID AS \"idEquip\" "
+                        . " , R.ATIVAGR_ID AS \"idAtiv\" "
+                    . " FROM "
+                        . " USINAS.R_EQUIP_ATIVAGR R "
+                        . " , USINAS.EQUIP E "
+                    . " WHERE "
+                        . " E.EQUIP_ID = " . $idEquip
                         . " AND "
                         . " R.EQUIP_ID = E.EQUIP_ID "
                     . " ORDER BY "

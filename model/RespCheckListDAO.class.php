@@ -41,7 +41,7 @@ class RespCheckListDAO extends Conn {
 
         $grupo = '';
         $questao = '';
-
+        
         $select = " SELECT "
                         . " VIPC.ITMANPREV_ID AS ID, "
                         . " CARACTER(VIPC.PROC_OPER) AS QUESTAO, "

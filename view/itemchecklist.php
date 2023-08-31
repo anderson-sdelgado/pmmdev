@@ -1,7 +1,12 @@
 <?php
 
+$info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
 require_once('../control/CheckListCTR.class.php');
 
-$checkListCTR = new CheckListCTR();
+if (isset($info)):
 
-echo $checkListCTR->dadosItem();
+    $checkListCTR = new CheckListCTR();
+    echo $checkListCTR->dadosItem($info);
+
+endif;

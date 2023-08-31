@@ -28,7 +28,9 @@ class PressaoBocalDAO extends Conn {
                         . " , PRESSAO_KGF_CM2 AS \"valorPressao\" "
                         . " , VELOC_MH AS \"valorVeloc\" "
                     . " FROM " 
-                        . " USINAS.VMB_BOCAL_BOMBA ";
+                        . " USINAS.VMB_BOCAL_BOMBA "
+					. " WHERE  "
+                        . " BOCALPRESS_ID = 384 ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

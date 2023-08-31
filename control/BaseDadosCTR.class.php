@@ -5,7 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+require_once('../control/AtualAplicCTR.class.php');
 require_once('../model/AtividadeDAO.class.php');
+require_once('../model/AtualAplicDAO.class.php');
 require_once('../model/BocalDAO.class.php');
 require_once('../model/ComponenteDAO.class.php');
 require_once('../model/EquipDAO.class.php');
@@ -37,14 +39,20 @@ require_once('../model/TurnoDAO.class.php');
  */
 class BaseDadosCTR {
 
-    public function dadosAtiv() {
+    public function dadosAtiv($info) {
 
-        $atividadeDAO = new AtividadeDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $atividadeDAO = new AtividadeDAO();
 
-        $dados = array("dados" => $atividadeDAO->dados());
-        $retJson = json_encode($dados);
+            $dados = array("dados" => $atividadeDAO->dados());
+            $retJson = json_encode($dados);
 
-        return $retJson;
+            return $retJson;
+        
+        }
 
     }
     
@@ -54,23 +62,36 @@ class BaseDadosCTR {
         $rOSAtivDAO = new ROSAtivDAO();
         $atividadeDAO = new AtividadeDAO();
         $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
-        $dado = $info['dado'];
-        $array = explode("_", $dado);
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
 
-        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($array[1]));
-        $resREquipAtiv = json_encode($dadosREquipAtiv);
+        foreach ($dados as $d) {
+            $idEquip = $d->idEquip;
+            $nroOS = $d->nroOS;
+            $token = $d->token;
+        }
 
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($array[0]));
-        $resROSAtiv = json_encode($dadosROSAtiv);
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            
+            $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->pesqIdEquip($idEquip));
+            $resREquipAtiv = json_encode($dadosREquipAtiv);
 
-        $dadosAtividade = array("dados" => $atividadeDAO->dados());
-        $resAtividade = json_encode($dadosAtividade);
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($nroOS));
+            $resROSAtiv = json_encode($dadosROSAtiv);
 
-        $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
-        $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+            $dadosAtividade = array("dados" => $atividadeDAO->dados());
+            $resAtividade = json_encode($dadosAtividade);
 
-        return $resREquipAtiv . "_" . $resROSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+            $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
+            $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+
+            return $resREquipAtiv . "_" . $resROSAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+            
+        }
   
     }
 
@@ -79,42 +100,66 @@ class BaseDadosCTR {
         $rEquipAtivDAO = new REquipAtivDAO();
         $atividadeDAO = new AtividadeDAO();
         $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
-        $dado = $info['dado'];
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
+
+        foreach ($dados as $d) {
+            $idEquip = $d->idEquip;
+            $token = $d->token;
+        }
+
+        $v = $atualAplicDAO->verToken($token);
         
-        $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->dados($dado));
-        $resREquipAtiv = json_encode($dadosREquipAtiv);
-
-        $dadosAtividade = array("dados" => $atividadeDAO->dados());
-        $resAtividade = json_encode($dadosAtividade);
-
-        $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
-        $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+        if ($v > 0) {
         
-        return $resREquipAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+            $dadosREquipAtiv = array("dados" => $rEquipAtivDAO->pesqIdEquip($idEquip));
+            $resREquipAtiv = json_encode($dadosREquipAtiv);
+
+            $dadosAtividade = array("dados" => $atividadeDAO->dados());
+            $resAtividade = json_encode($dadosAtividade);
+
+            $dadosRFuncaoAtivPar = array("dados" => $rFuncaoAtivParDAO->dados());
+            $resRFuncaoAtivPar = json_encode($dadosRFuncaoAtivPar);
+
+            return $resREquipAtiv . "_" . $resAtividade . "_" . $resRFuncaoAtivPar;
+        
+        }
 
     }
     
-    public function dadosBocal() {
+    public function dadosBocal($info) {
 
-        $bocalDAO = new BocalDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $bocalDAO = new BocalDAO();
 
-        $dados = array("dados"=>$bocalDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$bocalDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
 
+        }
     }
         
-    public function dadosComponente() {
+    public function dadosComponente($info) {
 
-        $componenteDAO = new ComponenteDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $componenteDAO = new ComponenteDAO();
 
-        $dados = array("dados"=>$componenteDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$componenteDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
-
+            return $json_str;
+                
+        }
+        
     }
     
     public function dadosEquip($info) {
@@ -122,128 +167,146 @@ class BaseDadosCTR {
         $equipDAO = new EquipDAO();
         $rEquipAtivDAO = new REquipAtivDAO();
         $rEquipPneuDAO = new REquipPneuDAO();
+        $atualAplicCTR = new AtualAplicCTR();
 
-        $dado = $info['dado'];
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
 
-        $dadosEquip = array("dados" => $equipDAO->dados($dado));
+        foreach ($dados as $d) {
+            $nroEquip = $d->nroEquip;
+            $versao = $d->versao;
+        }
+        
+        $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
         $resEquip = json_encode($dadosEquip);
 
-        $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->dados($dado));
+        $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->pesqNroEquip($nroEquip));
         $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-        $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->dados($dado));
+        $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->pesqNroEquip($nroEquip));
         $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
 
+        $v = $equipDAO->verifEquipNro($nroEquip);
+        if ($v > 0) {
+            $atualAplicCTR->inserirAtualVersao($equipDAO->retEquipNro($nroEquip), $versao);
+        }
+        
         return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
 
     }
     
-    public function dadosEquipSeg() {
+    public function dadosEquipSeg($info) {
 
-        $equipSegDAO = new EquipSegDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $equipSegDAO = new EquipSegDAO();
 
-        $dados = array("dados" => $equipSegDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados" => $equipSegDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
 
-    }
-    
-    public function dadosECMEquipSeg() {
-
-        $equipSegDAO = new EquipSegDAO();
-
-        $dados = array("dados" => $equipSegDAO->dadosECM());
-        $json_str = json_encode($dados);
-
-        return $json_str;
-
-    }
-    
-    public function dadosFrente() {
-
-        $frenteDAO = new FrenteDAO();
-
-        $dados = array("dados"=>$frenteDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
-
-    }
-    
-    public function dadosFunc() {
-
-        $funcionarioDAO = new FuncionarioDAO();
-
-        $dados = array("dados" => $funcionarioDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
-
-    }
-    
-    public function dadosInfor($info) {
-
-        $dado = $info['dado'];
-
-        $tipoFrenteDAO = new TipoFrenteDAO();
-        $plantioDAO = new PlantioDAO();
-        $perdaDAO = new PerdaDAO();
-
-        $tipoFrente = $tipoFrenteDAO->dados($dado);
-
-        if($tipoFrente == 1) {
-            $dadosPlantio = array("dados" => $plantioDAO->dados($dado));
-            $retorno = json_encode($dadosPlantio);
         }
-        else if($tipoFrente == 3) {
-            $dadosPerda = array("dados" => $perdaDAO->dados($dado));
-            $retorno = json_encode($dadosPerda);
-        }
-        else{
-            $retorno = "";
-        }
+        
+    }
+    
+    public function dadosFrente($info) {
 
-        return $tipoFrente . "_" . $retorno;
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $frenteDAO = new FrenteDAO();
+
+            $dados = array("dados"=>$frenteDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+                
+        }
+        
+    }
+    
+    public function dadosFunc($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $funcionarioDAO = new FuncionarioDAO();
+
+            $dados = array("dados" => $funcionarioDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+    
+    public function dadosItemOSMecan($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $itemOSMecanDAO = new ItemOSMecanDAO();
+
+            $dados = array("dados"=>$itemOSMecanDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+
+        }
 
     }
     
-    public function dadosItemOSMecan() {
+    public function dadosLeira($info) {
 
-        $itemOSMecanDAO = new ItemOSMecanDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $leiraDAO = new LeiraDAO();
 
-        $dados = array("dados"=>$itemOSMecanDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$leiraDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
 
-    }
-    
-    public function dadosLeira() {
-
-        $leiraDAO = new LeiraDAO();
-
-        $dados = array("dados"=>$leiraDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
-
+        }
+        
     }
     
     public function pesqOS($info) {
 
         $osDAO = new OSDAO();
         $rOSAtivDAO = new ROSAtivDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
-        $dado = $info['dado'];
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
 
-        $dadosOS = array("dados" => $osDAO->pesq($dado));
-        $resOS = json_encode($dadosOS);
+        foreach ($dados as $d) {
+            $nroOS = $d->nroOS;
+            $token = $d->token;
+        }
 
-        $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($dado));
-        $resROSAtiv = json_encode($dadosROSAtiv);
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
 
-        return $resOS . "_" . $resROSAtiv;
+            $dadosOS = array("dados" => $osDAO->pesq($nroOS));
+            $resOS = json_encode($dadosOS);
+
+            $dadosROSAtiv = array("dados" => $rOSAtivDAO->pesq($nroOS));
+            $resROSAtiv = json_encode($dadosROSAtiv);
+
+            return $resOS . "_" . $resROSAtiv;
+        
+        }
         
     }
         
@@ -251,180 +314,228 @@ class BaseDadosCTR {
 
         $osDAO = new OSDAO();
         $itemOSMecanDAO = new ItemOSMecanDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
-        $dado = $info['dado'];
-        $array = explode("_", $dado);
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
 
-        $dadosOS = array("dados" => $osDAO->pesqMecan($array[0], $array[1]));
-        $resOS = json_encode($dadosOS);
+        foreach ($dados as $d) {
+            $nroOS = $d->nroOS;
+            $idEquip = $d->idEquip;
+            $token = $d->token;
+        }
 
-        $dadosItemOSMecan = array("dados" => $itemOSMecanDAO->pesq($array[0], $array[1]));
-        $resItemOSMecan = json_encode($dadosItemOSMecan);
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
 
-        return $resOS . "_" . $resItemOSMecan;
+            $dadosOS = array("dados" => $osDAO->pesqMecan($nroOS, $idEquip));
+            $resOS = json_encode($dadosOS);
 
-    }
-    
-    public function dadosOS() {
+            $dadosItemOSMecan = array("dados" => $itemOSMecanDAO->pesq($nroOS, $idEquip));
+            $resItemOSMecan = json_encode($dadosItemOSMecan);
 
-        $osDAO = new OSDAO();
-
-        $dadosOS = array("dados" => $osDAO->dados());
-        $resOS = json_encode($dadosOS);
-
-        return $resOS;
-
-    }
-    
-    public function dadosParada() {
-
-        $paradaDAO = new ParadaDAO();
-
-        $dados = array("dados" => $paradaDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+            return $resOS . "_" . $resItemOSMecan;
+        
+        }
 
     }
     
-    public function atualParada() {
+    public function dadosOS($info) {
 
-        $rAtivParadaDAO = new RAtivParadaDAO();
-        $paradaDAO = new ParadaDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $osDAO = new OSDAO();
 
-        $dadosRAtivParadaDAO = array("dados" => $rAtivParadaDAO->dados());
-        $resRAtivParadaDAO = json_encode($dadosRAtivParadaDAO);
+            $dadosOS = array("dados" => $osDAO->dados());
+            $resOS = json_encode($dadosOS);
 
-        $dadosParada = array("dados" => $paradaDAO->dados());
-        $resParada = json_encode($dadosParada);
-
-        return $resRAtivParadaDAO . "_" . $resParada;
- 
-    }
-    
-    public function dadosPerda($info) {
-
-        $dado = $info['dado'];
-
-        $perdaDAO = new PerdaDAO();
-
-        $dadosPerda = array("dados" => $perdaDAO->dados($dado));
-        $resPerda = json_encode($dadosPerda);
-
-        return $resPerda;
+            return $resOS;
+        
+        }
 
     }
     
-    public function dadosPneu() {
+    public function dadosParada($info) {
 
-        $pneuDAO = new PneuDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $paradaDAO = new ParadaDAO();
 
-        $dados = array("dados" => $pneuDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados" => $paradaDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
-    
+
     public function pesqPneu($info) {
 
         $pneuDAO = new PneuDAO();
+        $atualAplicDAO = new AtualAplicDAO();
 
-        $dado = $info['dado'];
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
 
-        $dadosPneu = array("dados" => $pneuDAO->pesq($dado));
-        $resPneu = json_encode($dadosPneu);
+        foreach ($dados as $d) {
+            $codPneu = $d->codPneu;
+            $token = $d->token;
+        }
 
-        return $resPneu;
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            
+            $dadosPneu = array("dados" => $pneuDAO->pesq($codPneu));
+            $resPneu = json_encode($dadosPneu);
+
+            return $resPneu;
+        
+        }
 
     }
     
-    public function dadosPressaoBocal() {
+    public function dadosPressaoBocal($info) {
 
-        $pressaoBocalDAO = new PressaoBocalDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $pressaoBocalDAO = new PressaoBocalDAO();
 
-        $dados = array("dados" => $pressaoBocalDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados" => $pressaoBocalDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
         
     }
     
-    public function dadosProduto() {
+    public function dadosProduto($info) {
 
-        $produtoDAO = new ProdutoDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $produtoDAO = new ProdutoDAO();
 
-        $dados = array("dados"=>$produtoDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$produtoDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
-
-    }
-    
-    public function dadosPropriedade() {
-
-        $propriedadeDAO = new PropriedadeDAO();
-
-        $dados = array("dados"=> $propriedadeDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
     
-    public function dadosRAtivParada() {
+    public function dadosPropriedade($info) {
 
-        $rAtivParadaDAO = new RAtivParadaDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $propriedadeDAO = new PropriedadeDAO();
 
-        $dados = array("dados"=>$rAtivParadaDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=> $propriedadeDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
     
-    public function dadosRFuncaoAtivPar() {
+    public function dadosRAtivParada($info) {
 
-        $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $rAtivParadaDAO = new RAtivParadaDAO();
 
-        $dados = array("dados"=>$rFuncaoAtivParDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$rAtivParadaDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+                    
+        }
+
+    }
+    
+    public function dadosRFuncaoAtivPar($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $rFuncaoAtivParDAO = new RFuncaoAtivParDAO();
+
+            $dados = array("dados"=>$rFuncaoAtivParDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
 
     }
                 
-    public function dadosROSAtiv() {
+    public function dadosROSAtiv($info) {
 
-        $rOSAtivDAO = new ROSAtivDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $rOSAtivDAO = new ROSAtivDAO();
 
-        $dados = array("dados"=>$rOSAtivDAO->dadosECM());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$rOSAtivDAO->dadosECM());
+            $json_str = json_encode($dados);
 
-        return $json_str;
-
-    }
-    
-    public function dadosServico() {
-
-        $servicoDAO = new ServicoDAO();
-
-        $dados = array("dados"=>$servicoDAO->dados());
-        $json_str = json_encode($dados);
-
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
     
-    public function dadosTurno() {
+    public function dadosServico($info) {
 
-        $turnoDAO = new TurnoDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $servicoDAO = new ServicoDAO();
 
-        $dados = array("dados"=>$turnoDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados"=>$servicoDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
+    
+    public function dadosTurno($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $turnoDAO = new TurnoDAO();
+
+            $dados = array("dados"=>$turnoDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+        
+        }
+        
+    }
+
     
 }

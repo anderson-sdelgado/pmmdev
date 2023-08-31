@@ -37,7 +37,7 @@ class CECDAO extends Conn {
                         . " , NVL(UNID_SORTEADA_2, 0) AS \"unidadeSorteada2CEC\" "
                         . " , NVL(CEC_SORTEADO_3, 0) AS \"cecSorteado3CEC\" "
                         . " , NVL(UNID_SORTEADA_3, 0) AS \"unidadeSorteada3CEC\" "
-                        . " , PESO_LIQUIDO AS \"pesoLiquidoCEC\" "
+                        . " , NVL(REPLACE(PESO_LIQUIDO, ',', '.'), 0) AS \"pesoLiquidoCEC\" "
                     . " FROM "
                         . " INTEGRACAO.ULTIMAVIAGEM "
                     . " WHERE "

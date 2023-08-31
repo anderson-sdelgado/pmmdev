@@ -21,57 +21,67 @@ class AtualAplicCTR {
         $dados = $jsonObj->dados;
 
         foreach ($dados as $d) {
-            $equip = $d->idEquipAtual;
-            $versaoAtual = $d->versaoAtual;
-            $checkList = $d->idCheckList;
-            $checkListBD = $d->idCheckList;
+            $idEquip = $d->idEquip;
+            $idCheckList = $d->idCheckList;
+            $token = $d->token;
         }
+        
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            
+            $retAtualApp = 0;
+            $retAtualCheckList = 0;
 
-        $retAtualApp = 0;
-        $retAtualCheckList = 0;
-
-        $v = $atualAplicDAO->verAtual($equip);
-        if ($v == 0) {
-            $atualAplicDAO->insAtual($equip, $versaoAtual);
-        } else {
-            $result = $atualAplicDAO->retAtual($equip);
+            $result = $atualAplicDAO->verAtualCheckList($idEquip);
             foreach ($result as $item) {
-                $versaoNova = $item['VERSAO_NOVA'];
-                $versaoAtualBD = $item['VERSAO_ATUAL'];
+                $verCheckList = $item['VERIF_CHECKLIST'];
             }
-            if ($versaoAtual != $versaoAtualBD) {
-                $atualAplicDAO->updAtualNova($equip, $versaoAtual);
-            } else {
-                if ($versaoAtual != $versaoNova) {
-                    $retAtualApp = 1;
-                } else {
-                    $result = $atualAplicDAO->verAtualCheckList($equip);
-                    $versaoAtualBD = '';
-                    foreach ($result as $item) {
-                        $versaoAtualBD = $item['VERSAO_ATUAL'];
-                        $verCheckList = $item['VERIF_CHECKLIST'];
-                    }
-                    if (strcmp($versaoAtual, $versaoAtualBD) <> 0) {
-                        $atualAplicDAO->updAtual($equip, $versaoAtual);
-                    } else {
-                        if ($verCheckList == 1) {
-                            $retAtualCheckList = 1;
-                        }
-                    }
-                    $checkListBD = $atualAplicDAO->idCheckList($equip);
-                    if ($checkList != $checkListBD) {
-                        $retAtualCheckList = 1;
-                    }
-                }
+            if ($verCheckList == 1) {
+                $retAtualCheckList = 1;
             }
-        }
-        $atualAplicDAO->updUltAcesso($equip);
-        $dthr = $atualAplicDAO->dataHora();
-        $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
-            , "dthr" => $dthr);
+            $idCheckListBD = $atualAplicDAO->idCheckList($idEquip);
+            if ($idCheckList != $idCheckListBD) {
+                $retAtualCheckList = 1;
+            }
+                
+            $dthr = $atualAplicDAO->dataHora();
+            $dado = array("flagAtualApp" => $retAtualApp, "flagAtualCheckList" => $retAtualCheckList
+                , "dthr" => $dthr);
 
-        return json_encode(array("dados" =>array($dado)));
+            return json_encode(array("dados" =>array($dado)));
+        
+        }
 
     }
+    
+    public function inserirAtualVersao($idEquip, $versao) {
+        $atualAplicDAO = new AtualAplicDAO();
+        $v = $atualAplicDAO->verAtual($idEquip);
+        if ($v == 0) {
+            $atualAplicDAO->insAtual($idEquip, $versao);
+        } else {
+            $atualAplicDAO->updAtual($idEquip, $versao);
+        }
+    }
 
+    public function verifToken($info){
+        
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
+
+        foreach ($dados as $d) {
+            $token = $d->token;
+        }
+        
+        $atualAplicDAO = new AtualAplicDAO();
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 }

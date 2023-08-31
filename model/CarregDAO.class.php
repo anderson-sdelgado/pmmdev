@@ -66,9 +66,9 @@ class CarregDAO extends Conn {
         $select = " SELECT "
                     . " FUNC_ID AS IDFUNC "
                 . " FROM "
-                    . " USINAS.V_SIMOVA_FUNC "
+                    . " USINAS.FUNC "
                 . " WHERE "
-                    . " NRO_CRACHA = " . $carreg->motoCarreg;
+                    . " CD = " . $carreg->motoCarreg;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -247,7 +247,7 @@ class CarregDAO extends Conn {
         
     }
     
-    public function retCarreg($equip) {
+    public function retCarreg($idEquip) {
         
         $result = null;
         
@@ -265,7 +265,7 @@ class CarregDAO extends Conn {
                         . " USINAS.REG_COMPOSTO C "
                         . " , USINAS.ORD_CARREG O "
                     . " WHERE "
-                        . " C.EQUIP_ID = " . $equip
+                        . " C.EQUIP_ID = " . $idEquip
                         . " AND "
                         . " C.CANCEL = 0 "
                         . " AND "

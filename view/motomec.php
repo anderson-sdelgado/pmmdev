@@ -1,7 +1,12 @@
 <?php
 
+$info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
 require_once('../control/MotoMecFertCTR.class.php');
 
-$motoMecFertCTR = new MotoMecFertCTR();
+if (isset($info)):
 
-echo $motoMecFertCTR->dados();
+    $motoMecFertCTR = new MotoMecFertCTR();
+    echo $motoMecFertCTR->dados($info);
+
+endif;

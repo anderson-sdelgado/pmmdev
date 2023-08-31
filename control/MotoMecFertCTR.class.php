@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+require_once('../control/AtualAplicCTR.class.php');
 require_once('../model/BoletimMMFertDAO.class.php');
 require_once('../model/ApontMMFertDAO.class.php');
 require_once('../model/ApontMecanDAO.class.php');
@@ -127,10 +128,10 @@ class MotoMecFertCTR {
                 $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
             }
-            $idBolMMArray[] = array("idBolMMFert" => $bol->idBolMMFert, "idExtBolMMFert" => $idBolBD);
+            $this->idBolMMArray[] = array("idBolMMFert" => $bol->idBolMMFert, "idExtBolMMFert" => $idBolBD);
         }
         
-        $dadoBol = array("boletim"=>$idBolMMArray);
+        $dadoBol = array("boletim"=>$this->idBolMMArray);
         $retBol = json_encode($dadoBol);
                 
         $dadoApont = array("apont"=>$this->idApontArray);
@@ -395,14 +396,20 @@ class MotoMecFertCTR {
         }
     }
     
-    public function dados() {
+    public function dados($info) {
 
-        $motoMecDAO = new MotoMecDAO();
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $motoMecDAO = new MotoMecDAO();
 
-        $dados = array("dados" => $motoMecDAO->dados());
-        $json_str = json_encode($dados);
+            $dados = array("dados" => $motoMecDAO->dados());
+            $json_str = json_encode($dados);
 
-        return $json_str;
+            return $json_str;
+        
+        }
 
     }
     

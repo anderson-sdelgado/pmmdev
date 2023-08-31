@@ -15,26 +15,26 @@ class BoletimMMFertDAO extends Conn {
 
     public function verifBoletimMM($bol) {
 
-		$select = " SELECT "
-				. " COUNT(*) AS QTDE "
-				. " FROM "
-				. " PMM_BOLETIM "
-				. " WHERE "
-				. " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicialBolMMFert . "','DD/MM/YYYY HH24:MI')"
-				. " AND "
-				. " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
+        $select = " SELECT "
+                        . " COUNT(*) AS QTDE "
+                        . " FROM "
+                        . " PMM_BOLETIM "
+                        . " WHERE "
+                        . " DTHR_INICIAL_CEL = TO_DATE('" . $bol->dthrInicialBolMMFert . "','DD/MM/YYYY HH24:MI')"
+                        . " AND "
+                        . " EQUIP_ID = " . $bol->idEquipBolMMFert . " ";
 
-		$this->Conn = parent::getConn();
-		$this->Read = $this->Conn->prepare($select);
-		$this->Read->setFetchMode(PDO::FETCH_ASSOC);
-		$this->Read->execute();
-		$result = $this->Read->fetchAll();
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
 
-		foreach ($result as $item) {
-			$v = $item['QTDE'];
-		}
+        foreach ($result as $item) {
+                $v = $item['QTDE'];
+        }
 
-		return $v;
+        return $v;
 			
     }
 

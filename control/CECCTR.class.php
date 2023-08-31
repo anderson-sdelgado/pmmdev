@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+require_once('../model/AtualAplicDAO.class.php');
 require_once('../model/CECDAO.class.php');
 require_once('../model/PreCECDAO.class.php');
 /**
@@ -15,22 +16,34 @@ require_once('../model/PreCECDAO.class.php');
 class CECCTR {
 
     public function buscarCEC($info) {
+        
+        $atualAplicDAO = new AtualAplicDAO();
 
         $dados = $info['dado'];
-        $pos1 = strpos($dados, "_") + 1;
+        $array = explode("_",$dados);
+        
+        $jsonObjEquip = json_decode($array[0]);
+        $jsonObjPreCEC = json_decode($array[1]);
+        $jsonObjToken = json_decode($array[2]);
+        
+        $dadosToken = $jsonObjToken->dados;
 
-        $equip = substr($dados, 0, ($pos1 - 1));
-        $precec = substr($dados, $pos1);
+        foreach ($dadosToken as $d) {
+            $token = $d->token;
+        }
 
-        $jsonObjEquip = json_decode($equip);
-        $jsonObjPreCEC = json_decode($precec);
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            
+            $dadosEquip = $jsonObjEquip->equip;
+            $dadosPreCEC = $jsonObjPreCEC->precec;
 
-        $dadosEquip = $jsonObjEquip->equip;
-        $dadosPreCEC = $jsonObjPreCEC->precec;
+            $ret = $this->pesquisar($dadosEquip, $dadosPreCEC);
 
-        $ret = $this->pesquisar($dadosEquip, $dadosPreCEC);
-
-        return $ret;
+            return $ret;
+            
+        }
 
     }
 

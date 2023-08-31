@@ -42,7 +42,7 @@ class ItemOSMecanDAO extends Conn {
         return $result;
     }
     
-    public function pesq($os, $equip) {
+    public function pesq($nroOS, $idEquip) {
 
         $select = " SELECT "
                         . " I.ITOSMECAN_ID AS \"idItemOS\" "
@@ -54,9 +54,9 @@ class ItemOSMecanDAO extends Conn {
                         . " USINAS.VMB_OS_AUTO OS "
                         . " , USINAS.VMB_ITEM_OS_AUTO I "
                     . " WHERE "
-                        . " OS.NRO = " . $os
+                        . " OS.NRO = " . $nroOS
                         . " AND "
-                        . " OS.EQUIP_ID = " . $equip
+                        . " OS.EQUIP_ID = " . $idEquip
                         . " AND "
                         . " I.OS_ID = OS.OS_ID ";
 

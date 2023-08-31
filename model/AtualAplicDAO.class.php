@@ -21,14 +21,36 @@ class AtualAplicDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function verAtual($equip) {
+    public function verAtual($idEquip) {
 
         $select = "SELECT "
-                . " COUNT(*) AS QTDE "
+                    . " COUNT(*) AS QTDE "
                 . " FROM "
-                . " PMM_ATUALIZACAO "
+                    . " PMM_ATUAL "
                 . " WHERE "
-                . " EQUIP_ID = " . $equip;
+                    . " EQUIP_ID = " . $idEquip;
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        foreach ($result as $item) {
+            $v = $item['QTDE'];
+        }
+
+        return $v;
+    }
+    
+    public function verToken($token) {
+
+        $select = "SELECT "
+                    . " COUNT(*) AS QTDE "
+                . " FROM "
+                    . " PMM_ATUAL "
+                . " WHERE "
+                    . " TOKEN = '" . $token . "'";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -43,23 +65,19 @@ class AtualAplicDAO extends Conn {
         return $v;
     }
 
-    public function insAtual($equip, $va) {
+    public function insAtual($idEquip, $va) {
 
-        $sql = "INSERT INTO PMM_ATUALIZACAO ("
-                . " EQUIP_ID "
-                . " , VERSAO_ATUAL "
-                . " , VERSAO_NOVA "
-                . " , FLAG_LOG_ENVIO "
-                . " , FLAG_LOG_ERRO "
-                . " , DTHR_ULT_ATUAL "
+        $sql = "INSERT INTO PMM_ATUAL ("
+                    . " EQUIP_ID "
+                    . " , VERSAO "
+                    . " , DTHR_ULT_ACESSO "
+                    . " , TOKEN "
                 . " ) "
                 . " VALUES ("
-                . " " . $equip
-                . " , TRIM(TO_CHAR(" . $va . ", '99999999D99')) "
-                . " , TRIM(TO_CHAR(" . $va . ", '99999999D99')) "
-                . " , 1 "
-                . " , 1 "
-                . " , SYSDATE "
+                    . " " . $idEquip
+                    . " , '" . $va . "'"
+                    . " , SYSDATE "
+                    . " , '" . strtoupper(md5('CMM-VERSAO_' . $va .'-'.$idEquip)) . "'"
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -67,17 +85,14 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function retAtual($equip) {
+    public function retAtual($idEquip) {
 
         $select = " SELECT "
-                . " VERSAO_NOVA "
-                . " , VERSAO_ATUAL "
-                . " , FLAG_LOG_ENVIO "
-                . " , FLAG_LOG_ERRO "
+                    . " VERSAO "
                 . " FROM "
-                . " PMM_ATUALIZACAO "
+                    . " PMM_ATUAL "
                 . " WHERE "
-                . " EQUIP_ID = " . $equip;
+                    . " EQUIP_ID = " . $idEquip;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -88,15 +103,15 @@ class AtualAplicDAO extends Conn {
         return $result;
     }
 
-    public function updAtualNova($equip, $va) {
+    public function updAtual($idEquip, $va) {
 
-        $sql = "UPDATE PMM_ATUALIZACAO "
-                . " SET "
-                . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
-                . " , VERSAO_NOVA = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
-                . " , DTHR_ULT_ATUAL = SYSDATE "
+        $sql = "UPDATE PMM_ATUAL "
+                    . " SET "
+                    . " VERSAO = '" . $va . "'"
+                    . " , DTHR_ULT_ACESSO = SYSDATE "
+                    . " , TOKEN = '" . strtoupper(md5('CMM-VERSAO_' . $va .'-'.$idEquip)) . "'"
                 . " WHERE "
-                . " EQUIP_ID = " . $equip;
+                    . " EQUIP_ID = " . $idEquip;
 
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
@@ -105,7 +120,7 @@ class AtualAplicDAO extends Conn {
 
     public function updUltAcesso($equip) {
 
-        $sql = "UPDATE PMM_ATUALIZACAO "
+        $sql = "UPDATE PMM_ATUAL "
                 . " SET "
                     . " DTHR_ULT_ACESSO = SYSDATE "
                 . " WHERE "
@@ -116,26 +131,30 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
     
-    public function verAtualCheckList($equip) {
+    public function verAtualCheckList($idEquip) {
 
         $select = " SELECT "
-                . " PA.VERSAO_ATUAL"
-                . ", CASE "
-                . " WHEN NVL(ACM.EQUIP_NRO, 0) = 0 "
-                . " THEN 0 "
-                . " ELSE 1 "
-                . " END AS VERIF_CHECKLIST "
+                    . " PA.VERSAO "
+                    . ", CASE "
+                    . " WHEN NVL(ACM.EQUIP_NRO, 0) = 0 "
+                    . " THEN 0 "
+                    . " ELSE 1 "
+                    . " END AS VERIF_CHECKLIST "
                 . " FROM "
-                . " PMM_ATUALIZACAO PA "
-                . " , (SELECT EQUIP_NRO "
-                . " FROM "
-                . " ATUALIZA_CHECKLIST_MOBILE "
+                    . " PMM_ATUAL PA "
+                    . " , EQUIP E "
+                    . " , (SELECT "
+                            . " EQUIP_NRO "
+                        . " FROM "
+                            . " ATUALIZA_CHECKLIST_MOBILE "
+                        . " WHERE "
+                            . " DT_MOBILE IS NULL) ACM "
                 . " WHERE "
-                . " DT_MOBILE IS NULL) ACM "
-                . " WHERE "
-                . " PA.EQUIP_ID = " . $equip
-                . " AND "
-                . " PA.EQUIP_ID = ACM.EQUIP_NRO(+) ";
+                    . " PA.EQUIP_ID = " . $idEquip
+                    . " AND "
+                    . " E.EQUIP_ID = PA.EQUIP_ID "
+                    . " AND "
+                    . " E.NRO_EQUIP = ACM.EQUIP_NRO(+) ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -146,30 +165,17 @@ class AtualAplicDAO extends Conn {
         return $result;
     }
 
-    public function updAtual($equip, $va) {
-
-        $sql = "UPDATE PMM_ATUALIZACAO "
-                . " SET "
-                . " VERSAO_ATUAL = TRIM(TO_CHAR(" . $va . ", '99999999D99'))"
-                . " , DTHR_ULT_ATUAL = SYSDATE "
-                . " WHERE "
-                . " EQUIP_ID = " . $equip;
-
-        $this->Conn = parent::getConn();
-        $this->Create = $this->Conn->prepare($sql);
-        $this->Create->execute();
-    }
-
-    public function idCheckList($equip) {
+    public function idCheckList($idEquip) {
 
         $select = " SELECT "
-                . " NVL(C.PLMANPREV_ID, 0) AS IDCHECKLIST "
+                    . " NVL(C.PLMANPREV_ID, 0) AS IDCHECKLIST "
                 . " FROM "
-                . " USINAS.V_SIMOVA_EQUIP E "
-                . " , USINAS.V_EQUIP_PLANO_CHECK C "
+                    . " USINAS.V_SIMOVA_EQUIP E "
+                    . " , USINAS.V_EQUIP_PLANO_CHECK C "
                 . " WHERE  "
-                . " E.NRO_EQUIP = " . $equip
-                . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) ";
+                    . " E.EQUIP_ID = " . $idEquip
+                    . " AND "
+                    . " E.NRO_EQUIP = C.EQUIP_NRO(+) ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -187,9 +193,9 @@ class AtualAplicDAO extends Conn {
     public function dataHora() {
 
         $select = " SELECT "
-                . " TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS DTHR "
-                . " FROM "
-                . " DUAL ";
+                        . " TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI') AS DTHR "
+                    . " FROM "
+                        . " DUAL ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
