@@ -12,7 +12,7 @@ require_once('../model/AtualAplicDAO.class.php');
  * @author anderson
  */
 class AtualAplicCTR {
-    
+
     public function atualAplic($info) {
 
         $atualAplicDAO = new AtualAplicDAO();
@@ -55,13 +55,13 @@ class AtualAplicCTR {
 
     }
     
-    public function inserirAtualVersao($idEquip, $versao) {
+    public function inserirAtualVersao($idEquip, $versao, $aplic) {
         $atualAplicDAO = new AtualAplicDAO();
         $v = $atualAplicDAO->verAtual($idEquip);
         if ($v == 0) {
-            $atualAplicDAO->insAtual($idEquip, $versao);
+            $atualAplicDAO->insAtual($idEquip, $versao, $aplic);
         } else {
-            $atualAplicDAO->updAtual($idEquip, $versao);
+            $atualAplicDAO->updAtual($idEquip, $versao, $aplic);
         }
     }
 

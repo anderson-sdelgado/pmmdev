@@ -65,19 +65,21 @@ class AtualAplicDAO extends Conn {
         return $v;
     }
 
-    public function insAtual($idEquip, $va) {
+    public function insAtual($idEquip, $versao, $aplic) {
 
         $sql = "INSERT INTO PMM_ATUAL ("
                     . " EQUIP_ID "
                     . " , VERSAO "
+                    . " , APLIC "
                     . " , DTHR_ULT_ACESSO "
                     . " , TOKEN "
                 . " ) "
                 . " VALUES ("
                     . " " . $idEquip
-                    . " , '" . $va . "'"
+                    . " , '" . $versao . "'"
+                    . " , '" . $aplic . "'"
                     . " , SYSDATE "
-                    . " , '" . strtoupper(md5('CMM-VERSAO_' . $va .'-'.$idEquip)) . "'"
+                    . " , '" . strtoupper(md5($aplic . '-VERSAO_' . $versao . '-' . $idEquip)) . "'"
                 . " )";
 
         $this->Conn = parent::getConn();
@@ -103,13 +105,14 @@ class AtualAplicDAO extends Conn {
         return $result;
     }
 
-    public function updAtual($idEquip, $va) {
+    public function updAtual($idEquip, $versao, $aplic) {
 
         $sql = "UPDATE PMM_ATUAL "
                     . " SET "
-                    . " VERSAO = '" . $va . "'"
+                    . " VERSAO = '" . $versao . "'"
+                    . " , APLIC = '" . $aplic . "'"
                     . " , DTHR_ULT_ACESSO = SYSDATE "
-                    . " , TOKEN = '" . strtoupper(md5('CMM-VERSAO_' . $va .'-'.$idEquip)) . "'"
+                    . " , TOKEN = '" . strtoupper(md5($aplic . '-VERSAO_' . $versao . '-' . $idEquip)) . "'"
                 . " WHERE "
                     . " EQUIP_ID = " . $idEquip;
 

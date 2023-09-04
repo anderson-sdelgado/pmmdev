@@ -175,6 +175,7 @@ class BaseDadosCTR {
         foreach ($dados as $d) {
             $nroEquip = $d->nroEquip;
             $versao = $d->versao;
+            $aplic = $d->aplic;
         }
         
         $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
@@ -188,7 +189,7 @@ class BaseDadosCTR {
 
         $v = $equipDAO->verifEquipNro($nroEquip);
         if ($v > 0) {
-            $atualAplicCTR->inserirAtualVersao($equipDAO->retEquipNro($nroEquip), $versao);
+            $atualAplicCTR->inserirAtualVersao($equipDAO->retEquipNro($nroEquip), $versao, $aplic);
         }
         
         return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
