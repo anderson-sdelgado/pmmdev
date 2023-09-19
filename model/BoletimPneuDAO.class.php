@@ -12,16 +12,16 @@ require_once('../dbutil/Conn.class.php');
  */
 class BoletimPneuDAO extends Conn {
 
-    public function verifBoletimPneu($idApont, $bolPneu) {
+    public function verifBoletimPneu($idBol, $bolPneu) {
 
         $select = " SELECT "
-                . " COUNT(*) AS QTDE "
-                . " FROM "
-                . " PMP_BOLETIM "
-                . " WHERE "
-                . " APONTAMENTO_ID = " . $idApont
-                . " AND "
-                . " CEL_ID = " . $bolPneu->idBolPneu;
+                        . " COUNT(*) AS QTDE "
+                    . " FROM "
+                        . " PMP_BOLETIM "
+                    . " WHERE "
+                        . " BOLETIM_ID = " . $idBol
+                        . " AND "
+                        . " CEL_ID = " . $bolPneu->idBolPneu;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -37,16 +37,16 @@ class BoletimPneuDAO extends Conn {
         
     }
 
-    public function idBoletimPneu($idApont, $bolPneu) {
+    public function idBoletimPneu($idBol, $bolPneu) {
 
         $select = " SELECT "
-                . " ID AS ID "
-                . " FROM "
-                . " PMP_BOLETIM "
-                . " WHERE "
-                . " APONTAMENTO_ID = " . $idApont
-                . " AND "
-                . " CEL_ID = " . $bolPneu->idBolPneu;
+                        . " ID AS ID "
+                    . " FROM "
+                        . " PMP_BOLETIM "
+                    . " WHERE "
+                        . " BOLETIM_ID = " . $idBol
+                        . " AND "
+                        . " CEL_ID = " . $bolPneu->idBolPneu;
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -62,7 +62,7 @@ class BoletimPneuDAO extends Conn {
         
     }
 
-    public function insBoletimPneu($idApont, $bolPneu, $tipoAplic) {
+    public function insBoletimPneu($idBol, $bolPneu, $tipoAplic) {
 
         $select = " SELECT "
             . " FUNC_ID "
@@ -81,26 +81,26 @@ class BoletimPneuDAO extends Conn {
             $funcId = $item['FUNC_ID'];
         }
         
-        $sql = "INSERT INTO PMP_BOLETIM ("
-                . " APONTAMENTO_ID "
-                . " , FUNC_ID "
-                . " , EQUIP_ID "
-                . " , TIPO_APLIC "
-                . " , DTHR "
-                . " , DTHR_CEL "
-                . " , DTHR_TRANS "
-                . " , CEL_ID "
+        $sql = " INSERT INTO PMP_BOLETIM ( "
+                    . " BOLETIM_ID "
+                    . " , FUNC_ID "
+                    . " , EQUIP_ID "
+                    . " , TIPO_APLIC "
+                    . " , DTHR "
+                    . " , DTHR_CEL "
+                    . " , DTHR_TRANS "
+                    . " , CEL_ID "
                 . " ) "
-                . " VALUES ("
-                . " " . $idApont
-                . " , " . $funcId
-                . " , " . $bolPneu->idEquipBolPneu
-                . " , " . $tipoAplic
-                . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
-                . " , SYSDATE "
-                . " , " . $bolPneu->idBolPneu
-                . " )";
+                . " VALUES ( "
+                    . " " . $idBol
+                    . " , " . $funcId
+                    . " , " . $bolPneu->idEquipBolPneu
+                    . " , " . $tipoAplic
+                    . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                    . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
+                    . " , SYSDATE "
+                    . " , " . $bolPneu->idBolPneu
+                . " ) ";
 
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);

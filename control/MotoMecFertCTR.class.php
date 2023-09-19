@@ -38,7 +38,14 @@ class MotoMecFertCTR {
 
         $dados = $info['dado'];
         $array = explode("_",$dados);
-
+//{"boletim":[{"ativPrincBolMMFert":618,"dthrInicialBolMMFert":"15/09/2023 10:05","dthrLongFinalBolMMFert":0,"hodometroInicialBolMMFert":154263.0,"idBolMMFert":1,"idEquipBolMMFert":2621,"idExtBolMMFert":742100,"idTurnoBolMMFert":60,"latitudeBolMMFert":-21.8184081,"longitudeBolMMFert":-48.6124837,"matricFuncBolMMFert":11,"osBolMMFert":179109,"statusBolMMFert":1,"statusConBolMMFert":1,"tipoBolMMFert":1}]}_
+//{"apont":[{"ativApontMMFert":618,"bocalApontMMFert":0,"dthrApontLongMMFert":1694783400000,"dthrApontMMFert":"15/09/2023 10:10","idApontMMFert":2,"idBolMMFert":1,"idFrenteApontMMFert":0,"idMotoMec":0,"idProprApontMMFert":0,"latitudeApontMMFert":-21.8184084,"longitudeApontMMFert":-48.6124798,"osApontMMFert":179109,"paradaApontMMFert":0,"pressaoApontMMFert":0.0,"statusApontMMFert":2,"statusConApontMMFert":1,"transbApontMMFert":0,"velocApontMMFert":0}]}_
+//{"implemento":[]}_
+//{"movleira":[]}_
+//{"apontmecan":[]}_
+//{"boletimpneu":[{"dthrBolPneu":"15/09/2023 10:06","dthrLongBolPneu":1694783160000,"idBolMMPneu":1,"idBolPneu":1,"idEquipBolPneu":2621,"matricFuncBolPneu":11,"statusBolPneu":2}]}_
+//{"itemmedpneu":[]}_
+//{"carreg":[]}
         $jsonObjBoletim = json_decode($array[0]);
         $jsonObjApont = json_decode($array[1]);
         $jsonObjImplemento = json_decode($array[2]);
@@ -114,7 +121,8 @@ class MotoMecFertCTR {
                     $boletimMMFertDAO->insBoletimMMAberto($bol);
                 }
                 $idBolBD = $boletimMMFertDAO->idBoletimMM($bol);
-                $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
+                $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosCarreg);
+                $this->salvarBoletimPneu($idBolBD, $bol->idBolMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 1);
                 $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
             }
@@ -179,7 +187,8 @@ class MotoMecFertCTR {
                     $idBolBD = $boletimMMFertDAO->idBoletimMM($bol);
                     $boletimMMFertDAO->updateBoletimMMFechado($idBolBD, $bol);
                 }
-                $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
+                $this->salvarApontMM($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosCarreg);
+                $this->salvarBoletimPneu($idBolBD, $bol->idBolMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 1);
                 $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
                 $this->salvarRendMM($idBolBD, $bol->idBolMMFert, $dadosRendimento);
@@ -193,7 +202,8 @@ class MotoMecFertCTR {
                     $idBolBD = $boletimMMFertDAO->idBoletimFert($bol);
                     $boletimMMFertDAO->updateBoletimFertFechado($idBolBD, $bol);
                 }
-                $this->salvarApontFert($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg);
+                $this->salvarApontFert($idBolBD, $bol->idBolMMFert, $dadosApont, $dadosImplemento, $dadosCarreg);
+                $this->salvarBoletimPneu($idBolBD, $bol->idBolMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 2);
                 $this->salvarMovLeiraMM($idBolBD, $bol->idBolMMFert, $dadosMovLeira);
                 $this->salvarApontMecan($idBolBD, $bol->idBolMMFert, $dadosApontMecan);
                 $this->salvarRecolhFert($idBolBD, $bol->idBolMMFert, $dadosRecolhimento);
@@ -232,7 +242,7 @@ class MotoMecFertCTR {
         
     }
 
-    private function salvarApontMM($idBolBD, $idBolCel, $dadosApont, $dadosImplemento, $dadosBoletimPneu, $dadosItemMedPneu, $dadosCarreg) {
+    private function salvarApontMM($idBolBD, $idBolCel, $dadosApont, $dadosImplemento, $dadosCarreg) {
         $apontMMFertDAO = new ApontMMFertDAO;
         $boletimMMFertDAO = new BoletimMMFertDAO();
         foreach ($dadosApont as $apont) {
@@ -247,7 +257,6 @@ class MotoMecFertCTR {
                 }
                 $idApontBD = $apontMMFertDAO->idApontMM($idBolBD, $apont);
                 $this->salvarImplMM($idApontBD, $apont->idApontMMFert, $dadosImplemento);
-                $this->salvarBoletimPneu($idApontBD, $apont->idApontMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 1);
                 $this->salvarCarreg($idApontBD, $apont->idApontMMFert, $dadosCarreg);
                 $this->idApontArray[] = array("idApontMMFert" => $apont->idApontMMFert);
             }
@@ -265,7 +274,6 @@ class MotoMecFertCTR {
                 }
                 $idApontBD = $apontMMFertDAO->idApontFert($idBolBD, $apont);
                 $this->salvarImplMM($idApontBD, $apont->idApontMMFert, $dadosImplemento);
-                $this->salvarBoletimPneu($idApontBD, $apont->idApontMMFert, $dadosBoletimPneu, $dadosItemMedPneu, 2);
                 $this->salvarCarreg($idApontBD, $apont->idApontMMFert, $dadosCarreg);
                 $this->idApontArray[] = array("idApontMMFert" => $apont->idApontMMFert);
             }
@@ -310,14 +318,14 @@ class MotoMecFertCTR {
         }
     }
 
-    private function salvarBoletimPneu($idApontBD, $idApontCel, $dadosBolPneu, $dadosItemPneu, $tipoAplic) {
+    private function salvarBoletimPneu($idBolBD, $idBolCel, $dadosBolPneu, $dadosItemPneu, $tipoAplic) {
         $boletimPneuDAO = new BoletimPneuDAO();
         foreach ($dadosBolPneu as $bolPneu) {
-            if ($idApontCel == $bolPneu->idApontBolPneu) {
-                $v = $boletimPneuDAO->verifBoletimPneu($idApontBD, $bolPneu);
+            if ($idBolCel == $bolPneu->idBolMMPneu) {
+                $v = $boletimPneuDAO->verifBoletimPneu($idBolBD, $bolPneu);
                 if ($v == 0) {
-                    $boletimPneuDAO->insBoletimPneu($idApontBD, $bolPneu, $tipoAplic);
-                    $idBolPneu = $boletimPneuDAO->idBoletimPneu($idApontBD, $bolPneu);
+                    $boletimPneuDAO->insBoletimPneu($idBolBD, $bolPneu, $tipoAplic);
+                    $idBolPneu = $boletimPneuDAO->idBoletimPneu($idBolBD, $bolPneu);
                     $this->salvarItemMedPneu($idBolPneu, $bolPneu->idBolPneu, $dadosItemPneu);
                 }
                 $this->idBolPneuArray[] = array("idBolPneu" => $bolPneu->idBolPneu);

@@ -84,7 +84,7 @@ class EquipDAO extends Conn {
     public function retEquipNro($nroEquip) {
 
         $select = " SELECT "
-                        . " E.EQUIP_ID AS \"ID\" "
+                        . " E.EQUIP_ID AS ID "
                     . " FROM "
                         . " V_EQUIP E "
                     . " WHERE  "
