@@ -85,6 +85,7 @@ class BoletimPneuDAO extends Conn {
                     . " BOLETIM_ID "
                     . " , FUNC_ID "
                     . " , EQUIP_ID "
+                    . " , TIPO "
                     . " , TIPO_APLIC "
                     . " , DTHR "
                     . " , DTHR_CEL "
@@ -95,6 +96,7 @@ class BoletimPneuDAO extends Conn {
                     . " " . $idBol
                     . " , " . $funcId
                     . " , " . $bolPneu->idEquipBolPneu
+                    . " , " . $bolPneu->tipoBolPneu
                     . " , " . $tipoAplic
                     . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "
                     . " , TO_DATE('" . $bolPneu->dthrBolPneu . "','DD/MM/YYYY HH24:MI') "

@@ -34,8 +34,10 @@ class EquipDAO extends Conn {
                         . " ELSE NVL(R.TP_EQUIP, 0) END AS \"tipoEquipFert\" "
                         //. " , NVL(PBH.HOD_HOR_FINAL, 0) AS \"horimetroEquip\" "
 			. " , NVL(REPLACE(PBH.HOD_HOR_FINAL, ',', '.'), 0) AS \"horimetroEquip\" "
-                        . " , CASE WHEN E.CLASSOPER_CD IN ( 2, 25, 200, 4) THEN 1 "
+                        . " , CASE WHEN E.CLASSOPER_CD IN ( 2, 25, 200, 4 ) THEN 1 "
                         . " ELSE 0 END AS \"flagApontMecan\" "
+                        . " , CASE WHEN E.CLASSOPER_CD IN ( 144, 146 ) THEN 1 "
+                        . " ELSE 0 END AS \"flagApontPneu\" "
                     . " FROM "
                         . " V_EQUIP E "
                         . " , USINAS.V_EQUIP_PLANO_CHECK C "
@@ -102,5 +104,67 @@ class EquipDAO extends Conn {
 
         return $id;
     }
+    
+    
+    public function dadosSeg() {
+
+        $select = " SELECT "
+                        . " E.EQUIP_ID AS \"idEquip\" "
+                        . " , E.NRO_EQUIP AS \"nroEquip\" "
+                        . " , E.CLASSOPER_CD AS \"codClasseEquip\" "
+                        . " , CARACTER(E.CLASSOPER_DESCR) AS \"descrClasseEquip\" "
+                        . " , " 
+                        . " CASE "
+                            . " WHEN R.TP_EQUIP = 1 THEN 1 "
+                            . " WHEN E.CLASSOPER_CD IN (4, 23, 227) THEN 2 "
+                            . " WHEN E.CLASSOPER_CD IN (9, 6, 226) THEN 3 "
+                            . " WHEN E.CLASSOPER_CD = 211 OR R.TP_EQUIP = 2 THEN 4 "
+                            . " WHEN E.CLASSOPER_CD = 35 THEN 5 "
+                            . " WHEN E.CLASSOPER_CD IN (5, 21, 36, 216) THEN 6 "
+                        . " END AS \"tipoEquip\" "
+                    . " FROM "
+                        . " V_EQUIP E "
+                        . " , USINAS.ROLAO R "
+                    . " WHERE "
+                        . " E.EQUIP_ID = R.EQUIP_ID(+) "
+                        . " AND " 
+                        . " (R.TP_EQUIP IN (1, 2) "
+                        . " OR " 
+                        . " E.CLASSOPER_CD IN (4, 5, 9, 6, 21, 23, 35, 36, 211, 216, 226, 227)) ";
+        
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+    }
+    
+    
+    public function dadosPneu() {
+
+        $select = " SELECT " 
+                        . " E.EQUIP_ID AS \"idEquip\" "
+                        . " , E.NRO_EQUIP AS \"nroEquip\""
+                        . " , CARACTER(CO.DESCR) AS \"descrClasseEquip\""
+                    . " FROM "
+                        . " USINAS.EQUIP E"
+                        . " , USINAS.CLASSE_OPER CO "
+                    . " WHERE " 
+                        . " DT_DESAT IS NULL "
+                        . " AND "
+                        . " E.CLASSOPER_ID = CO.CLASSOPER_ID ";
+
+        $this->Conn = parent::getConn();
+        $this->Read = $this->Conn->prepare($select);
+        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
+        $this->Read->execute();
+        $result = $this->Read->fetchAll();
+
+        return $result;
+        
+    }
+    
     
 }

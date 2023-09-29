@@ -11,7 +11,6 @@ require_once('../model/AtualAplicDAO.class.php');
 require_once('../model/BocalDAO.class.php');
 require_once('../model/ComponenteDAO.class.php');
 require_once('../model/EquipDAO.class.php');
-require_once('../model/EquipSegDAO.class.php');
 require_once('../model/FrenteDAO.class.php');
 require_once('../model/FuncionarioDAO.class.php');
 require_once('../model/ItemOSMecanDAO.class.php');
@@ -166,7 +165,6 @@ class BaseDadosCTR {
 
         $equipDAO = new EquipDAO();
         $rEquipAtivDAO = new REquipAtivDAO();
-        $rEquipPneuDAO = new REquipPneuDAO();
         $atualAplicCTR = new AtualAplicCTR();
 
         $jsonObj = json_decode($info['dado']);
@@ -184,15 +182,12 @@ class BaseDadosCTR {
         $dadosREquipAtivDAO = array("dados" => $rEquipAtivDAO->pesqNroEquip($nroEquip));
         $resREquipAtivDAO = json_encode($dadosREquipAtivDAO);
 
-        $dadosREquipPneuDAO = array("dados" => $rEquipPneuDAO->pesqNroEquip($nroEquip));
-        $resREquipPneuDAO = json_encode($dadosREquipPneuDAO);
-
         $v = $equipDAO->verifEquipNro($nroEquip);
         if ($v > 0) {
             $atualAplicCTR->inserirAtualVersao($equipDAO->retEquipNro($nroEquip), $versao, $aplic);
         }
         
-        return $resEquip . "_" . $resREquipAtivDAO . "_" . $resREquipPneuDAO;
+        return $resEquip . "_" . $resREquipAtivDAO;
 
     }
     
@@ -202,9 +197,26 @@ class BaseDadosCTR {
         
         if($atualAplicCTR->verifToken($info)){
         
-            $equipSegDAO = new EquipSegDAO();
+            $equipDAO = new EquipDAO();
 
-            $dados = array("dados" => $equipSegDAO->dados());
+            $dados = array("dados" => $equipDAO->dadosSeg());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+
+        }
+        
+    }
+        
+    public function dadosEquipPneu($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+        
+            $equipDAO = new EquipDAO();
+
+            $dados = array("dados" => $equipDAO->dadosPneu());
             $json_str = json_encode($dados);
 
             return $json_str;
@@ -462,6 +474,23 @@ class BaseDadosCTR {
             $rAtivParadaDAO = new RAtivParadaDAO();
 
             $dados = array("dados"=>$rAtivParadaDAO->dados());
+            $json_str = json_encode($dados);
+
+            return $json_str;
+                    
+        }
+
+    }
+        
+    public function dadosREquipPneu($info) {
+
+        $atualAplicCTR = new AtualAplicCTR();
+        
+        if($atualAplicCTR->verifToken($info)){
+            
+            $rEquipPneuDAO = new REquipPneuDAO();
+
+            $dados = array("dados"=>$rEquipPneuDAO->dados());
             $json_str = json_encode($dados);
 
             return $json_str;

@@ -44,7 +44,7 @@ class PneuDAO extends Conn {
         
         $select = " SELECT "
                         . " EQUIPCOMPO_ID AS \"idPneu\" "
-                        . " , CD AS \"codPneu\" "
+                        . " , CD AS \"nroPneu\" "
                     . " FROM "
                         . " VMB_PNEU "
                     . " WHERE "

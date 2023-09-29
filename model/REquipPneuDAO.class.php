@@ -12,21 +12,16 @@ require_once('../dbutil/Conn.class.php');
  * @author anderson
  */
 class REquipPneuDAO extends Conn {
-    //put your code here
     
-    public function pesqNroEquip($nroEquip) {
+    public function dados() {
 
-        $select = " SELECT " 
-                        . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
+        $select = " SELECT "
+                        . " VEP.EQUIP_ID AS \"idEquip\" "
+                        . " , VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
                         . " , VEP.POS_PNEU AS \"posPneu\" "
-                    . " FROM " 
-                        . " VMB_EQUIP_PNEU VEP "
-                        . " , EQUIP E"
-                    . " WHERE"
-                        . " E.NRO_EQUIP = " . $nroEquip
-                        . " AND "
-                        . " VEP.EQUIP_ID = E.EQUIP_ID ";
-        
+                    . " FROM "
+                        . " VMB_EQUIP_PNEU VEP ";
+
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
         $this->Read->setFetchMode(PDO::FETCH_ASSOC);
@@ -34,31 +29,6 @@ class REquipPneuDAO extends Conn {
         $result = $this->Read->fetchAll();
 
         return $result;
-        
     }
-    
-    public function pesqIdEquip($idEquip) {
-
-        $select = " SELECT " 
-                        . " VEP.POSPNCONF_ID AS \"idPosConfPneu\" "
-                        . " , VEP.POS_PNEU AS \"posPneu\" "
-                    . " FROM " 
-                        . " VMB_EQUIP_PNEU VEP "
-                        . " , EQUIP E"
-                    . " WHERE"
-                        . " E.NRO_EQUIP = " . $idEquip
-                        . " AND "
-                        . " VEP.EQUIP_ID = E.EQUIP_ID ";
-        
-        $this->Conn = parent::getConn();
-        $this->Read = $this->Conn->prepare($select);
-        $this->Read->setFetchMode(PDO::FETCH_ASSOC);
-        $this->Read->execute();
-        $result = $this->Read->fetchAll();
-
-        return $result;
-        
-    }
-    
     
 }
