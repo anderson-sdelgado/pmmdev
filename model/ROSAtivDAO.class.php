@@ -38,7 +38,7 @@ class ROSAtivDAO extends Conn {
         
     }
     
-    public function pesq($os) {
+    public function pesq($nroOS) {
 
         $select = " SELECT DISTINCT "
                         . " OS_ID AS \"idOS\" "
@@ -46,7 +46,7 @@ class ROSAtivDAO extends Conn {
                     . " FROM "
                         . " USINAS.V_PMM_OS "
                     . " WHERE "
-                        . " NRO_OS = " . $os;
+                        . " NRO_OS = " . $nroOS;
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

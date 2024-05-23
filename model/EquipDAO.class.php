@@ -46,10 +46,14 @@ class EquipDAO extends Conn {
                         . " (SELECT MAX(PB2.ID) FROM PMM_BOLETIM PB2 GROUP BY PB2.EQUIP_ID)) PBH "
                     . " WHERE  "
                         . " E.NRO_EQUIP = " . $nroEquip
-                        . " AND E.NRO_EQUIP = C.EQUIP_NRO(+) "
-                        . " AND E.EQUIP_ID = R.EQUIP_ID(+) "
-                        . " AND E.EQUIP_ID = PBH.EQUIP_ID(+)"
-                        . " AND E.TPTUREQUIP_CD IS NOT NULL ";
+                        . " AND "
+                        . " E.NRO_EQUIP = C.EQUIP_NRO(+) "
+                        . " AND "
+                        . " E.EQUIP_ID = R.EQUIP_ID(+) "
+                        . " AND "
+                        . " E.EQUIP_ID = PBH.EQUIP_ID(+)"
+                        . " AND "
+                        . " E.TPTUREQUIP_CD IS NOT NULL ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

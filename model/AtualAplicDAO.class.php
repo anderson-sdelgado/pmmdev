@@ -68,19 +68,19 @@ class AtualAplicDAO extends Conn {
     public function insAtual($idEquip, $versao, $aplic) {
 
         $sql = "INSERT INTO PMM_ATUAL ("
-                    . " EQUIP_ID "
-                    . " , VERSAO "
-                    . " , APLIC "
-                    . " , DTHR_ULT_ACESSO "
-                    . " , TOKEN "
-                . " ) "
-                . " VALUES ("
-                    . " " . $idEquip
-                    . " , '" . $versao . "'"
-                    . " , '" . $aplic . "'"
-                    . " , SYSDATE "
-                    . " , '" . strtoupper(md5($aplic . '-VERSAO_' . $versao . '-' . $idEquip)) . "'"
-                . " )";
+                            . " EQUIP_ID "
+                            . " , VERSAO "
+                            . " , APLIC "
+                            . " , DTHR_ULT_ACESSO "
+                            . " , TOKEN "
+                        . " ) "
+                        . " VALUES ("
+                            . " " . $idEquip
+                            . " , '" . $versao . "'"
+                            . " , '" . $aplic . "'"
+                            . " , SYSDATE "
+                            . " , '" . strtoupper(md5($aplic . '-VERSAO_' . $versao . '-' . $idEquip)) . "'"
+                        . " )";
 
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);
@@ -121,13 +121,13 @@ class AtualAplicDAO extends Conn {
         $this->Create->execute();
     }
 
-    public function updUltAcesso($equip) {
+    public function updUltAcesso($idEquip) {
 
         $sql = "UPDATE PMM_ATUAL "
                 . " SET "
                     . " DTHR_ULT_ACESSO = SYSDATE "
                 . " WHERE "
-                    . " EQUIP_ID = " . $equip;
+                    . " EQUIP_ID = " . $idEquip;
 
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);

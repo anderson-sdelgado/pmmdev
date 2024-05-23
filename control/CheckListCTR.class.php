@@ -19,7 +19,9 @@ require_once('../model/RespCheckListDAO.class.php');
 class CheckListCTR {
 
     public function pesq($info) {
-
+        
+        $equipDAO = new EquipDAO();
+        $itemCheckListDAO = new ItemCheckListDAO();
         $atualAplicDAO = new AtualAplicDAO();
 
         $jsonObj = json_decode($info['dado']);
@@ -33,9 +35,6 @@ class CheckListCTR {
         $v = $atualAplicDAO->verToken($token);
         
         if ($v > 0) {
-
-            $equipDAO = new EquipDAO();
-            $itemCheckListDAO = new ItemCheckListDAO();
 
             $dadosEquip = array("dados" => $equipDAO->dados($nroEquip));
             $resEquip = json_encode($dadosEquip);
