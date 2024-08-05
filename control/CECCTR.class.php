@@ -63,7 +63,7 @@ class CECCTR {
         }
 
         if($ver == true){
-            $idPreCECArray[] = array("idPreCEC" =>0);
+            $idPreCECArray[] = array("idPreCEC" => 0);
         }
         
         $dadoPreCEC = array("precec"=>$idPreCECArray);

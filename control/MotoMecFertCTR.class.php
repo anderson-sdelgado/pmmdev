@@ -18,6 +18,7 @@ require_once('../model/RendimentoMMDAO.class.php');
 require_once('../model/RecolhimentoFertDAO.class.php');
 require_once('../model/MotoMecDAO.class.php');
 require_once('../model/CarregDAO.class.php');
+require_once('../model/CarregCanaDAO.class.php');
 /**
  * Description of MotoMecFert
  *
@@ -39,14 +40,7 @@ class MotoMecFertCTR {
 
         $dados = $info['dado'];
         $array = explode("_",$dados);
-//{"boletim":[{"ativPrincBolMMFert":618,"dthrInicialBolMMFert":"15/09/2023 10:05","dthrLongFinalBolMMFert":0,"hodometroInicialBolMMFert":154263.0,"idBolMMFert":1,"idEquipBolMMFert":2621,"idExtBolMMFert":742100,"idTurnoBolMMFert":60,"latitudeBolMMFert":-21.8184081,"longitudeBolMMFert":-48.6124837,"matricFuncBolMMFert":11,"osBolMMFert":179109,"statusBolMMFert":1,"statusConBolMMFert":1,"tipoBolMMFert":1}]}_
-//{"apont":[{"ativApontMMFert":618,"bocalApontMMFert":0,"dthrApontLongMMFert":1694783400000,"dthrApontMMFert":"15/09/2023 10:10","idApontMMFert":2,"idBolMMFert":1,"idFrenteApontMMFert":0,"idMotoMec":0,"idProprApontMMFert":0,"latitudeApontMMFert":-21.8184084,"longitudeApontMMFert":-48.6124798,"osApontMMFert":179109,"paradaApontMMFert":0,"pressaoApontMMFert":0.0,"statusApontMMFert":2,"statusConApontMMFert":1,"transbApontMMFert":0,"velocApontMMFert":0}]}_
-//{"implemento":[]}_
-//{"movleira":[]}_
-//{"apontmecan":[]}_
-//{"boletimpneu":[{"dthrBolPneu":"15/09/2023 10:06","dthrLongBolPneu":1694783160000,"idBolMMPneu":1,"idBolPneu":1,"idEquipBolPneu":2621,"matricFuncBolPneu":11,"statusBolPneu":2}]}_
-//{"itemmedpneu":[]}_
-//{"carreg":[]}
+        
         $jsonObjBoletim = json_decode($array[0]);
         $jsonObjApont = json_decode($array[1]);
         $jsonObjImplemento = json_decode($array[2]);
@@ -434,6 +428,32 @@ class MotoMecFertCTR {
             $json_str = json_encode($dados);
 
             return $json_str;
+        
+        }
+
+    }
+
+    public function pesqLocalCarreg($info) {
+        
+        $atualAplicDAO = new AtualAplicDAO();
+        $carregCanaDAO = new CarregCanaDAO();
+
+        $jsonObj = json_decode($info['dado']);
+        $dados = $jsonObj->dados;
+
+        foreach ($dados as $d) {
+            $nroEquip = $d->nroEquip;
+            $token = $d->token;
+        }
+        
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+
+            $dadosLocal = array("dados" => $carregCanaDAO->retLocalCarreg($nroEquip));
+            $resLocal = json_encode($dadosLocal);
+            
+            return $resLocal;
         
         }
 
