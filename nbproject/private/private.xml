@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://WNTVMENDPOINT/c$/wamp64/www/pmmdev/model/CarregCanaDAO.class.php</file>
+            <file>file://WNTVMENDPOINT/c$/wamp64/www/pmmdev/model/ApontMMFertDAO.class.php</file>
+            <file>file://WNTVMENDPOINT/c$/wamp64/www/pmmdev/model/BoletimMMFertDAO.class.php</file>
+            <file>file://WNTVMENDPOINT/c$/wamp64/www/pmmdev/control/MotoMecFertCTR.class.php</file>
         </group>
     </open-files>
 </project-private>

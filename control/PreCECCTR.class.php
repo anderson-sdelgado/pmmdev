@@ -13,26 +13,17 @@ require_once('../model/PreCECDAO.class.php');
  */
 class PreCECCTR {
 
-    public function salvarDados($info) {
+    public function salvarDados($body) {
 
-        $dados = $info['dado'];
-        $jsonObjPreCEC = json_decode($dados);
-        $dadosPreCEC = $jsonObjPreCEC->precec;
+        $precec = json_decode($body);
         $preCECDAO = new PreCECDAO();
-        $idPreCECArray = array();
 
-        foreach ($dadosPreCEC as $precec) {
-            $v = $preCECDAO->verifPreCEC($precec);
-            if ($v == 0) {
-                $preCECDAO->insPreCEC($precec);
-            }
-            $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
+        $v = $preCECDAO->verifPreCEC($precec);
+        if ($v == 0) {
+            $preCECDAO->insPreCEC($precec);
         }
 
-        $dadoPreCEC = array("precec"=>$idPreCECArray);
-        $retPreCEC = json_encode($dadoPreCEC);
-
-        return 'PRECEC_' . $retPreCEC;
+        return $body;
         
     }
 

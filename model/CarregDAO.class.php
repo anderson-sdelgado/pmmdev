@@ -80,24 +80,23 @@ class CarregDAO extends Conn {
             $idFunc = $item['IDFUNC'];
         }
         
-        $insert = "INSERT INTO "
-                . " USINAS.REG_COMPOSTO "
-                . " ( "
-                . " TIPO "
-                . " , DT "
-                . " , EQUIP_ID "
-                . " , FUNC_ID "
-                . " , PROD_ID "
-                . " , FLAG_CARREG "
-                . " ) "
-                . " VALUES ("
-                . " 0 "
-                . " , TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
-                . " , " . $carreg->equipCarreg
-                . " , " . $idFunc
-                . " , " . $carreg->prodCarreg
-                . " , 1 "
-                . " )";
+        $insert = "INSERT INTO USINAS.REG_COMPOSTO "
+                    . " ( "
+                        . " TIPO "
+                        . " , DT "
+                        . " , EQUIP_ID "
+                        . " , FUNC_ID "
+                        . " , PROD_ID "
+                        . " , FLAG_CARREG "
+                    . " ) "
+                    . " VALUES ("
+                        . " 0 "
+                        . " , TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
+                        . " , " . $carreg->equipCarreg
+                        . " , " . $idFunc
+                        . " , " . $carreg->prodCarreg
+                        . " , 1 "
+                    . " )";
         
         $this->Create = $this->Conn->prepare($insert);
         $this->Create->execute();
@@ -200,30 +199,29 @@ class CarregDAO extends Conn {
             $idFunc = $item['IDFUNC'];
         }
         
-        $insert = "INSERT INTO "
-                . " USINAS.REG_COMPOSTO "
-                . " ( "
-                . " TIPO "
-                . " , DT "
-                . " , EQUIP_ID "
-                . " , FUNC_ID "
-                . " , LEIRA_ID "
-                . " , OSAGRICOLA_ID "
-                . " , FLAG_CARREG "
-                . " , PROD_ID "
-                . " , APONTAMENTO_ID "
-                . " ) "
-                . " VALUES ("
-                . " 1 "
-                . " , TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
-                . " , " . $carreg->equipCarreg
-                . " , " . $idFunc
-                . " , " . $carreg->idLeiraCarreg
-                . " , " . $os
-                . " , 2 "
-                . " , 76271"
-                . " , " . $idApontBD
-                . " )";
+        $insert = "INSERT INTO USINAS.REG_COMPOSTO "
+                        . " ( "
+                            . " TIPO "
+                            . " , DT "
+                            . " , EQUIP_ID "
+                            . " , FUNC_ID "
+                            . " , LEIRA_ID "
+                            . " , OSAGRICOLA_ID "
+                            . " , FLAG_CARREG "
+                            . " , PROD_ID "
+                            . " , APONTAMENTO_ID "
+                        . " ) "
+                        . " VALUES ("
+                            . " 1 "
+                            . " , TO_DATE('" . $carreg->dthrCarreg . "','DD/MM/YYYY HH24:MI') "
+                            . " , " . $carreg->equipCarreg
+                            . " , " . $idFunc
+                            . " , " . $carreg->idLeiraCarreg
+                            . " , " . $os
+                            . " , 2 "
+                            . " , 76271"
+                            . " , " . $idApontBD
+                        . " )";
         
         $this->Create = $this->Conn->prepare($insert);
         $this->Create->execute();
@@ -269,7 +267,10 @@ class CarregDAO extends Conn {
                         . " AND "
                         . " C.CANCEL = 0 "
                         . " AND "
-                        . " O.ORDCARREG_ID = C.ORDCARREG_ID ";
+                        . " O.ORDCARREG_ID = C.ORDCARREG_ID "
+                    . " ORDER BY " 
+                        . " C.REGCOMPOST_ID "
+                    . " DESC ";
             
             $this->Conn = parent::getConn();
             $this->Read = $this->Conn->prepare($select);

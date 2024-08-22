@@ -226,6 +226,7 @@ class ApontMMFertDAO extends Conn {
                 . " , LONGITUDE "
                 . " , LATITUDE "
                 . " , STATUS_CONEXAO "
+                . " , ID_CEL "
                 . " ) "
                 . " VALUES ("
                 . " " . $idBol
@@ -242,6 +243,7 @@ class ApontMMFertDAO extends Conn {
                 . " , " . $apont->longitudeApontMMFert
                 . " , " . $apont->latitudeApontMMFert
                 . " , " . $apont->statusConApontMMFert
+                . " , " . $apont->idApontMMFert
                 . " )";
 
         $this->Conn = parent::getConn();

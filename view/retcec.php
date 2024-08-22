@@ -1,12 +1,35 @@
 <?php
 
-$info = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
 require_once('../control/CECCTR.class.php');
+require_once('../control/AtualAplicCTR.class.php');
 
-if (isset($info)):
+$headers = getallheaders();;
+header('Content-type: application/json');
+$body = file_get_contents('php://input');
 
-   $cecCTR = new CECCTR();
-   echo $cecCTR->buscarCEC($info);
+if (!array_key_exists('Authorization', $headers)) {
+    echo json_encode(["error" => "Authorization header is missing"]);
+    exit;
+}
 
-endif;
+if(array_key_exists('Authorization', $headers)){
+    $token = $headers['Authorization'];
+}
+
+if(array_key_exists('authorization', $headers)){
+    $token = $headers['authorization'];
+}
+
+$atualAplicCTR = new AtualAplicCTR();
+if (!$atualAplicCTR->verToken($token)){
+    echo json_encode(["error" => "Invalid token"]);
+    exit;
+}
+
+if (!isset($body)){
+    echo json_encode(["error" => "Empty body"]);
+    exit;
+}
+
+$cecCTR = new CECCTR();
+echo $cecCTR->buscarCEC($body);

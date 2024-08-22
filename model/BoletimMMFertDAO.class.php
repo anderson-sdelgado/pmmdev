@@ -258,9 +258,8 @@ class BoletimMMFertDAO extends Conn {
         }
         
         if ($bol->idEquipBolMMFert == $bol->idEquipBombaBolMMFert) {
-            $motoBomba = null;
-        }
-        else{
+            $motoBomba = 'null';
+        } else {
             $motoBomba = $bol->idEquipBombaBolMMFert;
         }
 
@@ -292,6 +291,8 @@ class BoletimMMFertDAO extends Conn {
                 . " , 1 "
                 . " , " . $bol->statusConBolMMFert
                 . " )";
+
+        echo $sql;
 
         $this->Conn = parent::getConn();
         $this->Create = $this->Conn->prepare($sql);

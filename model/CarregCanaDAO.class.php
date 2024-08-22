@@ -23,13 +23,13 @@ class CarregCanaDAO extends ConnApex {
                 . " WHERE "
                     . " AL.CDGEQUIPAMENTO = " . $nroEquip
                     . " AND "
-                    . " MSG.CDGFA = AL.CDGFA "
+                    . " TRIM(MSG.CDGFA(+)) = TRIM(AL.CDGFA) "
                     . " AND "
                     . " PGR.CD = AL.CDGFA "
-                    . " AND " 
-                    . " AL.DTAENCERRAMENTO IS NULL "
                     . " AND "
-                    . " AL.DTAALOCACAO >= TRUNC(SYSDATE)-1 ";
+                    . " AL.CDGFRENTE = MSG.CDGFRENTE(+) " 
+                    . " AND " 
+                    . " AL.DTAENCERRAMENTO IS NULL ";
         
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);
@@ -48,10 +48,12 @@ class CarregCanaDAO extends ConnApex {
     public function retLocalCarreg($nroEquip) {
 
         $select = " SELECT "
-                    . " MSG.CDGFRENTE AS \"codFrente\" "
-                    . " , TRIM(MSG.CDGFA) AS \"codPropriedade\" "
+                    . " AL.CDGFRENTE AS \"codFrente\" "
+                    . " , NVL(MSG.ORDEM_SRV,'NÃO CADASTRADO ') AS \"descrOS\" "
+                    . " , NVL(MSG.DS_LIBERACAO,'NÃO CADASTRADO ') AS \"descrLiberacao\" "
+                    . " , TRIM(AL.CDGFA) AS \"codPropriedade\" "
                     . " , PGR.DESCR AS \"descrPropriedade\" "
-                    . " , CARACTER(MSG.DSCMENSAGEM) AS \"descrCaminho\" "
+                    . " , NVL(CARACTER(MSG.DSCMENSAGEM),'NÃO CADASTRADO, VERIFICAR COM COA') AS \"descrCaminho\" "
                 . " FROM "
                     . " LOGTRAC.SGA_MSG_PAINEL_FRENTE MSG "
                     . " , LOGTRAC.TRA_ALOCACAO AL "
@@ -59,13 +61,13 @@ class CarregCanaDAO extends ConnApex {
                 . " WHERE "
                     . " AL.CDGEQUIPAMENTO = " . $nroEquip
                     . " AND "
-                    . " MSG.CDGFA = AL.CDGFA "
+                    . " TRIM(MSG.CDGFA(+)) = TRIM(AL.CDGFA) "
                     . " AND "
                     . " PGR.CD = AL.CDGFA "
-                    . " AND " 
-                    . " AL.DTAENCERRAMENTO IS NULL "
                     . " AND "
-                    . " AL.DTAALOCACAO >= TRUNC(SYSDATE)-1 ";
+                    . " AL.CDGFRENTE = MSG.CDGFRENTE(+) " 
+                    . " AND " 
+                    . " AL.DTAENCERRAMENTO IS NULL ";
 
         $this->Conn = parent::getConn();
         $this->Read = $this->Conn->prepare($select);

@@ -14,12 +14,11 @@ require_once('../model/CarregDAO.class.php');
  */
 class CarregCTR {
 
-    public function salvarDados($info) {
+    public function salvarDados($body) {
         
-        $dados = $info['dado'];
-        $jsonObjCarreg  = json_decode($dados);
-        $dadosCarreg = $jsonObjCarreg->carreg;
-        $this->salvarDadosCarregInsumo($dadosCarreg);
+        $carreg  = json_decode($body);
+        $this->salvarDadosCarregInsumo($carreg);
+        return $body;
         
     }
 
@@ -48,22 +47,15 @@ class CarregCTR {
 
     }
     
-    private function salvarDadosCarregInsumo($dadosCarreg) {
+    private function salvarDadosCarregInsumo($carreg) {
         
         $carregDAO = new CarregDAO();
-        $idCarregArray = array();
-        foreach ($dadosCarreg as $carreg) {
-            $v = $carregDAO->verifCarregProd($carreg);
-            if ($v == 0) {
-                $carregDAO->cancelCarregProd($carreg);
-                $carregDAO->insCarregProd($carreg);
-            }
-            $idCarregArray[] = array("idCarreg" => $carreg->idCarreg);
-        }
-        $dadoCarreg = array("dados"=>$idCarregArray);
-        $retCarreg = json_encode($dadoCarreg);
 
-        echo 'GRAVOU-CARREGINSUMO_' . $retCarreg;
+        $v = $carregDAO->verifCarregProd($carreg);
+        if ($v == 0) {
+            $carregDAO->cancelCarregProd($carreg);
+            $carregDAO->insCarregProd($carreg);
+        }
         
     }
    

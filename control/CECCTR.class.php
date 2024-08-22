@@ -15,70 +15,21 @@ require_once('../model/PreCECDAO.class.php');
  */
 class CECCTR {
 
-    public function buscarCEC($info) {
+    public function buscarCEC($body) {
         
-        $atualAplicDAO = new AtualAplicDAO();
-
-        $dados = $info['dado'];
-        $array = explode("_",$dados);
-        
-        $jsonObjEquip = json_decode($array[0]);
-        $jsonObjPreCEC = json_decode($array[1]);
-        $jsonObjToken = json_decode($array[2]);
-        
-        $dadosToken = $jsonObjToken->dados;
-
-        foreach ($dadosToken as $d) {
-            $token = $d->token;
-        }
-
-        $v = $atualAplicDAO->verToken($token);
-        
-        if ($v > 0) {
-            
-            $dadosEquip = $jsonObjEquip->equip;
-            $dadosPreCEC = $jsonObjPreCEC->precec;
-
-            $ret = $this->pesquisar($dadosEquip, $dadosPreCEC);
-
-            return $ret;
-            
-        }
+        $config = json_decode($body);
+        return $this->pesquisar($config);
 
     }
 
-    private function pesquisar($dadosEquip, $dadosPreCEC){
-            
-        $preCECDAO = new PreCECDAO();
-        $idPreCECArray = array();
+    private function pesquisar($config){
 
-        $ver = true;
-        foreach ($dadosPreCEC as $precec) {
-            $v = $preCECDAO->verifPreCEC($precec);
-            if ($v == 0) {
-                $preCECDAO->insPreCEC($precec);
-            }
-            $idPreCECArray[] = array("idPreCEC" => $precec->idPreCEC);
-            $ver = false;
-        }
+        $cecDAO = new CECDAO();
+        $dadoCEC = $cecDAO->pesqCEC($config->equipConfig);
+        $cec = $dadoCEC[0];
+        $cecDAO->deleteCEC($cec["caminhaoCEC"]);
 
-        if($ver == true){
-            $idPreCECArray[] = array("idPreCEC" => 0);
-        }
-        
-        $dadoPreCEC = array("precec"=>$idPreCECArray);
-        $retPreCEC = json_encode($dadoPreCEC);
-        
-        foreach ($dadosEquip as $equip) {
-            $cecDAO = new CECDAO();
-            $dadoCEC = $cecDAO->pesqCEC($equip->nroEquip);
-            $cecDAO->deleteCEC($equip->nroEquip);
-        }
-        
-        $dadosCEC = array("cec" => $dadoCEC);
-        $retCEC = json_encode($dadosCEC);
-        
-        return $retPreCEC . '_' . $retCEC;
+        return json_encode($cec, JSON_NUMERIC_CHECK);
         
     }
     

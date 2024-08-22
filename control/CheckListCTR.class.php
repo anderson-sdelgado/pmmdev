@@ -67,35 +67,23 @@ class CheckListCTR {
         
     }
     
-    public function salvarDados($info) {
+    public function salvarDados($body) {
 
-        $dados = $info['dado'];
-        
-        $posicao = strpos($dados, "_") + 1;
-        $cabec = substr($dados, 0, ($posicao - 1));
-        $item = substr($dados, $posicao);
+        $cabecArray = json_decode($body);
+        $this->salvarBoletim($cabecArray);
+        return $body;
 
-        $jsonObjCabec = json_decode($cabec);
-        $jsonObjItem = json_decode($item);
-
-        $dadosCab = $jsonObjCabec->cabecalho;
-        $dadosItem = $jsonObjItem->item;
-
-        $this->salvarBoletim($dadosCab, $dadosItem);
-
-        return 'GRAVOU-CHECKLIST';
-                
     }
     
-    private function salvarBoletim($dadosCab, $dadosItem) {
+    private function salvarBoletim($cabecArray) {
         $cabecCheckListDAO = new CabecCheckListDAO();
-        foreach ($dadosCab as $d) {
-            $v = $cabecCheckListDAO->verifCabecCheckList($d);
+        foreach ($cabecArray as $cabec) {
+            $v = $cabecCheckListDAO->verifCabecCheckList($cabec);
             if ($v == 0) {
-                $cabecCheckListDAO->insCabecCheckList($d);
+                $cabecCheckListDAO->insCabecCheckList($cabec);
             }
-            $idCabec = $cabecCheckListDAO->idCabecCheckList($d);
-            $this->salvarApont($idCabec, $d->idCabCL, $dadosItem);
+            $idCabec = $cabecCheckListDAO->idCabecCheckList($cabec);
+            $this->salvarApont($idCabec, $cabec->idCabCL, $cabec->respItemCheckListList);
         }
     }
     

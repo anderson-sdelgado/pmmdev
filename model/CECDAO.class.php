@@ -19,29 +19,35 @@ class CECDAO extends Conn {
     /** @var PDO */
     private $Conn;
 
-    public function pesqCEC($cam) {
+    public function pesqCEC($idEquip) {
 
         $result = null;
 
         while (empty($result)) {
 
             $select = " SELECT "
-                        . " CAMINHAO AS \"caminhaoCEC\" "
-                        . " , CD_FRENTE AS \"codFrenteCEC\" "
-                        . " , CEC_PAI AS \"cecPaiCEC\" "
-                        . " , TO_CHAR(DT_HR_ENTRADA, 'DD/MM/YYYY HH24:MI') AS \"dthrEntradaCEC\" "
-                        . " , POSSUI_SORTEIO AS \"possuiSorteioCEC\" "
-                        . " , NVL(CEC_SORTEADO_1, 0) AS \"cecSorteado1CEC\" "
-                        . " , NVL(UNID_SORTEADA_1, 0) AS \"unidadeSorteada1CEC\" "
-                        . " , NVL(CEC_SORTEADO_2, 0) AS \"cecSorteado2CEC\" "
-                        . " , NVL(UNID_SORTEADA_2, 0) AS \"unidadeSorteada2CEC\" "
-                        . " , NVL(CEC_SORTEADO_3, 0) AS \"cecSorteado3CEC\" "
-                        . " , NVL(UNID_SORTEADA_3, 0) AS \"unidadeSorteada3CEC\" "
-                        . " , NVL(REPLACE(PESO_LIQUIDO, ',', '.'), 0) AS \"pesoLiquidoCEC\" "
+                        . " UV.CAMINHAO AS \"caminhaoCEC\" "
+                        . " , UV.CD_FRENTE AS \"codFrenteCEC\" "
+                        . " , UV.CEC_PAI AS \"cecPaiCEC\" "
+                        . " , TO_CHAR(UV.DT_HR_ENTRADA, 'DD/MM/YYYY HH24:MI') AS \"dthrEntradaCEC\" "
+                        . " , UV.POSSUI_SORTEIO AS \"possuiSorteioCEC\" "
+                        . " , NVL(UV.CEC_SORTEADO_1, 0) AS \"cecSorteado1CEC\" "
+                        . " , NVL(UV.UNID_SORTEADA_1, 0) AS \"unidadeSorteada1CEC\" "
+                        . " , NVL(UV.CEC_SORTEADO_2, 0) AS \"cecSorteado2CEC\" "
+                        . " , NVL(UV.UNID_SORTEADA_2, 0) AS \"unidadeSorteada2CEC\" "
+                        . " , NVL(UV.CEC_SORTEADO_3, 0) AS \"cecSorteado3CEC\" "
+                        . " , NVL(UV.UNID_SORTEADA_3, 0) AS \"unidadeSorteada3CEC\" "
+                        . " , NVL(REPLACE(UV.PESO_LIQUIDO, ',', '.'), 0) AS \"pesoLiquidoCEC\" "
                     . " FROM "
-                        . " INTEGRACAO.ULTIMAVIAGEM "
-                    . " WHERE "
-                        . " CAMINHAO = " . $cam;
+                        . " INTEGRACAO.ULTIMAVIAGEM UV "
+                        . " , EQUIP E "
+                    . " WHERE " 
+                        . " E.EQUIP_ID = " . $idEquip
+                        . " AND "
+                        . " UV.CAMINHAO = E.NRO_EQUIP "
+                    . " ORDER BY "
+                        . " UV.ULTVIAGEM_ID  "
+                    . " DESC ";
 
             $this->Conn = parent::getConn();
             $this->Read = $this->Conn->prepare($select);
@@ -62,14 +68,6 @@ class CECDAO extends Conn {
         $stmt->bindParam(1, $cam, PDO::PARAM_INT, 32);
 
         $stmt->execute();
-    }
-
-    private function verifValor($inf) {
-        if ($inf == 0) {
-            return 'null';
-        } else {
-            return $inf;
-        }
     }
 
 }

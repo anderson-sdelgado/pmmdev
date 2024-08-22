@@ -84,4 +84,19 @@ class AtualAplicCTR {
         }
         
     }
+
+        
+    public function verToken($token){
+
+        $token = trim(substr($token, 6));
+        $atualAplicDAO = new AtualAplicDAO();
+        $v = $atualAplicDAO->verToken($token);
+        
+        if ($v > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 }
